@@ -16,6 +16,10 @@ struct ContentView: View {
                 ProgressDashboardView()
             case .collections:
                 CollectionsView()
+            case .paints:
+                PaintLibraryView()
+            case .recipes:
+                RecipeLibraryView()
             case .settings:
                 SettingsView()
             case nil:
@@ -33,24 +37,33 @@ struct ContentView: View {
             } catch {
                 print("Failed to bootstrap pipeline: \(error)")
             }
+            do {
+                try PaintLibraryService.seedCatalogue(context: modelContext)
+            } catch {
+                print("Failed to seed paint catalogue: \(error)")
+            }
         }
     }
 }
 
 enum SidebarItem: String, CaseIterable, Identifiable {
-    case kanban = "Kanban"
-    case progress = "Progress"
+    case kanban     = "Kanban"
+    case progress   = "Progress"
     case collections = "Collections"
-    case settings = "Settings"
+    case paints     = "Paints"
+    case recipes    = "Recipes"
+    case settings   = "Settings"
 
     var id: String { rawValue }
 
     var systemImage: String {
         switch self {
-        case .kanban: return "rectangle.3.group"
-        case .progress: return "chart.bar.fill"
-        case .collections: return "folder.fill"
-        case .settings: return "gear"
+        case .kanban:       return "rectangle.3.group"
+        case .progress:     return "chart.bar.fill"
+        case .collections:  return "folder.fill"
+        case .paints:       return "paintpalette.fill"
+        case .recipes:      return "list.bullet.clipboard.fill"
+        case .settings:     return "gear"
         }
     }
 }
