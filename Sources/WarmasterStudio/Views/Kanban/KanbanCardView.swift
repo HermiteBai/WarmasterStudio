@@ -71,6 +71,7 @@ struct KanbanCardView: View {
                     }
                     .buttonStyle(.plain)
                     .disabled(isFirstStage)
+                    .accessibilityLabel(isFirstStage ? "Move back (unavailable)" : "Move one model to previous stage")
 
                     Spacer()
 
@@ -89,6 +90,7 @@ struct KanbanCardView: View {
                     }
                     .buttonStyle(.plain)
                     .disabled(isLastStage)
+                    .accessibilityLabel(isLastStage ? "Move forward (unavailable)" : "Move one model to next stage")
                 }
             }
             .padding(.horizontal, 10)
@@ -107,6 +109,9 @@ struct KanbanCardView: View {
         .contentShape(Rectangle())
         .onTapGesture { onSelect?() }
         .draggable(card.projectId.uuidString)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("\(card.projectName), \(card.modelCount) model\(card.modelCount == 1 ? "" : "s") at \(stages.first(where: { $0.id == card.stageId })?.name ?? "current stage")")
+        .accessibilityHint("Tap to view project details")
     }
 
     private func moveToPreviousStage() {

@@ -34,3 +34,14 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.warmasterstudio.tests
       SWIFT_VERSION: "5.9"
+  WarmasterStudioUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - Tests/WarmasterStudioUITests
+    dependencies:
+      - target: WarmasterStudio
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.warmasterstudio.uitests
+      SWIFT_VERSION: "5.9"
+      GENERATE_INFOPLIST_FILE: YES

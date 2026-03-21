@@ -114,6 +114,7 @@ struct ProgressDashboardView: View {
                 .scaleEffect(1.6)
                 .shadow(color: Color.wmPrimary.opacity(0.4), radius: 8)
                 .frame(width: 80, height: 80)
+                .accessibilityLabel("Overall done: \(donePercentage.formatted(.percent.precision(.fractionLength(1))))")
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 20)
@@ -167,6 +168,8 @@ struct ProgressDashboardView: View {
                     }
                     .padding(.vertical, 4)
                     .listRowBackground(Color.wmBackground)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("\(row.stageName): \(row.count) \(granularity.rawValue.lowercased()), \(row.percentage.formatted(.percent.precision(.fractionLength(0))))")
                 }
                 .listStyle(.plain)
                 .background(Color.wmBackground)
