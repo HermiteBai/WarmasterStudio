@@ -8,4 +8,5 @@ extension Logger {
     static let collection = Logger(subsystem: "com.warmasterstudio", category: "Collection")
     static let modelProgress = Logger(subsystem: "com.warmasterstudio", category: "ModelProgress")
     static let linkGroup = Logger(subsystem: "com.warmasterstudio", category: "LinkGroup")
+    static let image = Logger(subsystem: "com.warmasterstudio", category: "Image")
 }

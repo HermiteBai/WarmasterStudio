@@ -9,6 +9,7 @@ final class Project {
     var collectionId: UUID?
     var linkGroupId: UUID?
     var notes: String?
+    var boxArtImagePath: String?
     var createdAt: Date
 
     @Relationship(deleteRule: .cascade)

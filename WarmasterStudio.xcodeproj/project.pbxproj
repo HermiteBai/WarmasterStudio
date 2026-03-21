@@ -43,6 +43,7 @@
 		E59337A8BDB669891AF9E05C /* CollectionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C23145EA32750962C66F5B /* CollectionServiceTests.swift */; };
 		F1BCB3BC29874E8B11A74A78 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FEC6C4DA0F6C67B659A557 /* Errors.swift */; };
 		F220B79081789AEE782EB910 /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */; };
+		F98CC49E12C4C4AA99C3C788 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B9901F03546805992CC59 /* ImageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectSheet.swift; sourceTree = "<group>"; };
 		AA94D729AE12863605B56EE1 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectServiceTests.swift; sourceTree = "<group>"; };
+		BC8B9901F03546805992CC59 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanCard.swift; sourceTree = "<group>"; };
 		C56CFC9B438A0542B97A0885 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionService.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			children = (
 				C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */,
 				48FEC6C4DA0F6C67B659A557 /* Errors.swift */,
+				BC8B9901F03546805992CC59 /* ImageService.swift */,
 				40FED2327755F51C727F93CD /* LinkGroupService.swift */,
 				5C27706721140C4EB6EA67C4 /* Logging.swift */,
 				5BAFFE932C3DF12E915004CC /* ModelProgressService.swift */,
@@ -393,6 +396,7 @@
 				461149116ADC82D3F4DCAB22 /* EditProjectSheet.swift in Sources */,
 				8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */,
 				F1BCB3BC29874E8B11A74A78 /* Errors.swift in Sources */,
+				F98CC49E12C4C4AA99C3C788 /* ImageService.swift in Sources */,
 				AC6943E67567EF069028B860 /* KanbanBoardView.swift in Sources */,
 				AB167293FE8F635C87D21A1A /* KanbanCard.swift in Sources */,
 				C68F37457C10ECD0F0634FAE /* KanbanCardView.swift in Sources */,
