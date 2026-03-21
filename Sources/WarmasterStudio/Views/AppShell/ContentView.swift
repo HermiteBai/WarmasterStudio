@@ -19,8 +19,11 @@ struct ContentView: View {
             case .settings:
                 SettingsView()
             case nil:
-                Text("Select an item from the sidebar.")
-                    .foregroundStyle(.secondary)
+                EmptyStateView(
+                    title: "Select a Section",
+                    subtitle: "Choose an item from the sidebar to get started.",
+                    systemImage: "sidebar.left"
+                )
             }
         }
         .task {

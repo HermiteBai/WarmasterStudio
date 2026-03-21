@@ -8,6 +8,7 @@ struct SettingsView: View {
                     Label("Pipeline", systemImage: "square.3.layers.3d")
                 }
         }
-        .frame(minWidth: 400, minHeight: 300)
+        .frame(minWidth: 480, minHeight: 380)
+        .navigationTitle("Settings")
     }
 }
