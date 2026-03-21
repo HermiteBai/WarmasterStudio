@@ -6,12 +6,14 @@ struct ProjectDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Stage.position) private var stages: [Stage]
     @Query(sort: \WMCollection.name) private var collections: [WMCollection]
+    @Query(sort: \Project.name) private var allProjects: [Project]
 
     let project: Project
     var onDelete: (() -> Void)?
 
     @State private var showEditSheet = false
     @State private var showDeleteConfirm = false
+    @State private var showLinkSheet = false
 
     var collectionName: String? {
         guard let cid = project.collectionId else { return nil }
@@ -74,14 +76,49 @@ struct ProjectDetailView: View {
                     }
                 }
 
-                if let groupId = project.linkGroupId {
-                    Divider()
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Link Group")
-                            .font(.headline)
-                        Text(groupId.uuidString)
-                            .font(.caption.monospaced())
-                            .foregroundStyle(.secondary)
+                Divider()
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Linked Projects")
+                        .font(.headline)
+
+                    if let groupId = project.linkGroupId {
+                        let linked = allProjects.filter { $0.id != project.id && $0.linkGroupId == groupId }
+                        if linked.isEmpty {
+                            Text("No other projects in this group yet.")
+                                .font(.subheadline)
+                                .foregroundStyle(.tertiary)
+                        } else {
+                            ForEach(linked) { other in
+                                HStack(spacing: 6) {
+                                    Image(systemName: "link")
+                                        .imageScale(.small)
+                                        .foregroundStyle(Color.wmPrimary)
+                                    Text(other.name)
+                                        .font(.subheadline)
+                                    Spacer()
+                                }
+                            }
+                        }
+                        HStack(spacing: 12) {
+                            Button("Add to Group…") { showLinkSheet = true }
+                                .buttonStyle(.borderless)
+                            Button("Unlink from Group") {
+                                do {
+                                    try LinkGroupService.unlinkProject(project, context: modelContext)
+                                } catch {
+                                    Logger.project.error("Unlink failed: \(error.localizedDescription)")
+                                }
+                            }
+                            .buttonStyle(.borderless)
+                            .foregroundStyle(.red)
+                        }
+                        .padding(.top, 2)
+                    } else {
+                        Text("Not linked to any project.")
+                            .font(.subheadline)
+                            .foregroundStyle(.tertiary)
+                        Button("Link to Project…") { showLinkSheet = true }
+                            .buttonStyle(.borderless)
                     }
                 }
             }
@@ -108,6 +145,9 @@ struct ProjectDetailView: View {
         .sheet(isPresented: $showEditSheet) {
             EditProjectSheet(project: project)
         }
+        .sheet(isPresented: $showLinkSheet) {
+            LinkProjectSheet(project: project)
+        }
         .confirmationDialog(
             "Delete \"\(project.name)\"?",
             isPresented: $showDeleteConfirm,
@@ -125,5 +165,78 @@ struct ProjectDetailView: View {
         } message: {
             Text("This will permanently delete the project and all its model records.")
         }
+    }
+}
+
+struct LinkProjectSheet: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @Query(sort: \Project.name) private var allProjects: [Project]
+
+    let project: Project
+    @State private var searchText = ""
+    @State private var errorMessage: String? = nil
+
+    private var candidates: [Project] {
+        allProjects.filter { candidate in
+            guard candidate.id != project.id else { return false }
+            if let myGroup = project.linkGroupId, candidate.linkGroupId == myGroup { return false }
+            return searchText.isEmpty || candidate.name.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if candidates.isEmpty {
+                    ContentUnavailableView(
+                        searchText.isEmpty ? "No Other Projects" : "No Results",
+                        systemImage: "link.badge.plus",
+                        description: Text(searchText.isEmpty
+                            ? "Create more projects to link them together."
+                            : "No projects match \"\(searchText)\".")
+                    )
+                } else {
+                    List(candidates) { candidate in
+                        Button {
+                            do {
+                                try LinkGroupService.linkProjects(project, candidate, context: modelContext)
+                                dismiss()
+                            } catch {
+                                errorMessage = error.localizedDescription
+                                Logger.project.error("Link failed: \(error.localizedDescription)")
+                            }
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(candidate.name)
+                                    .foregroundStyle(.primary)
+                                if candidate.linkGroupId != nil {
+                                    Text("Already in a group — will merge")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .searchable(text: $searchText, prompt: "Search projects")
+            .navigationTitle("Link to Project")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+            }
+            .alert("Link Failed", isPresented: Binding(
+                get: { errorMessage != nil },
+                set: { if !$0 { errorMessage = nil } }
+            )) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(errorMessage ?? "")
+            }
+        }
+        .frame(minWidth: 340, minHeight: 400)
     }
 }

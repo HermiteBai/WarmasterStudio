@@ -23,6 +23,7 @@
 		755EEAF2901B2284DCEF087D /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA6FB1F1D98587A10958D04 /* Stage.swift */; };
 		827C486665C3B990538C82B3 /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */; };
 		832920E6B0D9C996A14A75F0 /* KanbanColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */; };
+		8B48FF80F1849098F70A658C /* KanbanBoardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */; };
 		8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */; };
 		8C616FFEF783155E36D41AEA /* StageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA743F2C074CB77FC994F3 /* StageService.swift */; };
 		8E269AEA9412AED43468276A /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27706721140C4EB6EA67C4 /* Logging.swift */; };
@@ -45,6 +46,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4BCDE424693D4DC7AD273C53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A8871F3D70299CEA6B9D6CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB2FF89CDCE8C7DBE93AD6A9;
+			remoteInfo = WarmasterStudio;
+		};
 		B33A9CB799464CBBBA887354 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A8871F3D70299CEA6B9D6CF /* Project object */;
@@ -79,6 +87,7 @@
 		850F60552F04842D6EB883D4 /* KanbanCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanCardView.swift; sourceTree = "<group>"; };
 		85CE997E1BF97510D1F51C2D /* WarmasterStudio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarmasterStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		878796CF23FF47237129DF59 /* ModelRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelRecord.swift; sourceTree = "<group>"; };
+		8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardUITests.swift; sourceTree = "<group>"; };
 		8FC8A0FEC683B9DD6918B8D6 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		91C23145EA32750962C66F5B /* CollectionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionServiceTests.swift; sourceTree = "<group>"; };
 		9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectSheet.swift; sourceTree = "<group>"; };
@@ -90,6 +99,7 @@
 		CD9BE6641DAEFBB3393D5274 /* PipelineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineService.swift; sourceTree = "<group>"; };
 		D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarmasterStudioApp.swift; sourceTree = "<group>"; };
 		D3A79133BA1249C6A524D092 /* StageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageServiceTests.swift; sourceTree = "<group>"; };
+		DBEEA108930CB729B089D651 /* WarmasterStudioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarmasterStudioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardView.swift; sourceTree = "<group>"; };
 		E1B49AAE86CBC50F0FD1C22B /* EditProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,6 +150,7 @@
 			children = (
 				85CE997E1BF97510D1F51C2D /* WarmasterStudio.app */,
 				2AC7B7787C53CBB4F744FA36 /* WarmasterStudioTests.xctest */,
+				DBEEA108930CB729B089D651 /* WarmasterStudioUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +161,15 @@
 				173AC488951BE2F170228FB7 /* Color+Theme.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		99640306AD22602079F2D4D0 /* WarmasterStudioUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */,
+			);
+			name = WarmasterStudioUITests;
+			path = Tests/WarmasterStudioUITests;
 			sourceTree = "<group>";
 		};
 		A95AFE18B574D8E9A545DFD8 /* WarmasterStudio */ = {
@@ -170,6 +190,7 @@
 			children = (
 				A95AFE18B574D8E9A545DFD8 /* WarmasterStudio */,
 				F1846F5FAACBD597E7970955 /* WarmasterStudioTests */,
+				99640306AD22602079F2D4D0 /* WarmasterStudioUITests */,
 				44962E4E3484A2CC62E3A078 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -265,6 +286,24 @@
 			productReference = 2AC7B7787C53CBB4F744FA36 /* WarmasterStudioTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A806856D13DE099572B7BAF8 /* WarmasterStudioUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00F86C72319DA55A570A5EA4 /* Build configuration list for PBXNativeTarget "WarmasterStudioUITests" */;
+			buildPhases = (
+				0204F1EEA3A619B9FC9806C4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3C0D20946143029BC8CCBAA2 /* PBXTargetDependency */,
+			);
+			name = WarmasterStudioUITests;
+			packageProductDependencies = (
+			);
+			productName = WarmasterStudioUITests;
+			productReference = DBEEA108930CB729B089D651 /* WarmasterStudioUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		FB2FF89CDCE8C7DBE93AD6A9 /* WarmasterStudio */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A5950215F1FCB09564664AE /* Build configuration list for PBXNativeTarget "WarmasterStudio" */;
@@ -291,6 +330,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					A806856D13DE099572B7BAF8 = {
+						TestTargetID = FB2FF89CDCE8C7DBE93AD6A9;
+					};
 					FB2FF89CDCE8C7DBE93AD6A9 = {
 						ProvisioningStyle = Automatic;
 					};
@@ -312,11 +354,20 @@
 			targets = (
 				FB2FF89CDCE8C7DBE93AD6A9 /* WarmasterStudio */,
 				A2687C43736E66009ADBA7BF /* WarmasterStudioTests */,
+				A806856D13DE099572B7BAF8 /* WarmasterStudioUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0204F1EEA3A619B9FC9806C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B48FF80F1849098F70A658C /* KanbanBoardUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		392C7C74394F27B81B26F9DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -374,6 +425,11 @@
 			target = FB2FF89CDCE8C7DBE93AD6A9 /* WarmasterStudio */;
 			targetProxy = B33A9CB799464CBBBA887354 /* PBXContainerItemProxy */;
 		};
+		3C0D20946143029BC8CCBAA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB2FF89CDCE8C7DBE93AD6A9 /* WarmasterStudio */;
+			targetProxy = 4BCDE424693D4DC7AD273C53 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -393,6 +449,24 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WarmasterStudio.app/Contents/MacOS/WarmasterStudio";
 			};
 			name = Debug;
+		};
+		5A73FA60C5EA92C644B47F83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.warmasterstudio.uitests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_TARGET_NAME = WarmasterStudio;
+			};
+			name = Release;
 		};
 		896C752BC08C53B775DE0723 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -564,9 +638,36 @@
 			};
 			name = Debug;
 		};
+		FF8CE4C61D9A985563BDA0D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.warmasterstudio.uitests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_TARGET_NAME = WarmasterStudio;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00F86C72319DA55A570A5EA4 /* Build configuration list for PBXNativeTarget "WarmasterStudioUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF8CE4C61D9A985563BDA0D1 /* Debug */,
+				5A73FA60C5EA92C644B47F83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		303051FA29C366355F833F93 /* Build configuration list for PBXProject "WarmasterStudio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -11,6 +11,7 @@ struct KanbanBoardView: View {
     @State private var showNewProjectSheet = false
     @State private var selectedProject: Project? = nil
     @State private var showDetailPanel = false
+    @State private var searchText = ""
 
     var body: some View {
         HSplitView {
@@ -24,6 +25,7 @@ struct KanbanBoardView: View {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: showDetailPanel)
+        .searchable(text: $searchText, prompt: "Filter projects")
         .sheet(isPresented: $showNewProjectSheet) {
             NewProjectSheet()
         }
@@ -87,6 +89,8 @@ struct KanbanBoardView: View {
                         .imageScale(.large)
                 }
                 .buttonStyle(.plain)
+                .keyboardShortcut(.escape, modifiers: [])
+                .accessibilityLabel("Close project detail")
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
@@ -115,6 +119,7 @@ struct KanbanBoardView: View {
 
         return grouped.compactMap { (projectId, records) -> KanbanCard? in
             guard let project = projects.first(where: { $0.id == projectId }) else { return nil }
+            guard searchText.isEmpty || project.name.localizedCaseInsensitiveContains(searchText) else { return nil }
             let collectionName = project.collectionId.flatMap { cid in
                 collections.first { $0.id == cid }?.name
             }
@@ -129,7 +134,20 @@ struct KanbanBoardView: View {
                 linkGroupId: project.linkGroupId
             )
         }
-        .sorted { $0.projectName < $1.projectName }
+        .sorted { lhs, rhs in
+            switch (lhs.linkGroupId, rhs.linkGroupId) {
+            case (nil, nil):
+                return lhs.projectName < rhs.projectName
+            case (nil, _):
+                return false
+            case (_, nil):
+                return true
+            case (let a?, let b?) where a == b:
+                return lhs.projectName < rhs.projectName
+            case (let a?, let b?):
+                return a.uuidString < b.uuidString
+            }
+        }
     }
 
     private func selectCard(_ card: KanbanCard) {
