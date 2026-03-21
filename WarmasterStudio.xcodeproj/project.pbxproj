@@ -44,6 +44,17 @@
 		F1BCB3BC29874E8B11A74A78 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FEC6C4DA0F6C67B659A557 /* Errors.swift */; };
 		F220B79081789AEE782EB910 /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */; };
 		F98CC49E12C4C4AA99C3C788 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B9901F03546805992CC59 /* ImageService.swift */; };
+		BA01AB01CD01EF01 /* Paint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01AB01CD01EF01 /* Paint.swift */; };
+		BA02AB02CD02EF02 /* PaintRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02AB02CD02EF02 /* PaintRecipe.swift */; };
+		BA03AB03CD03EF03 /* RecipeStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA03AB03CD03EF03 /* RecipeStep.swift */; };
+		BA04AB04CD04EF04 /* PaintLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA04AB04CD04EF04 /* PaintLibraryService.swift */; };
+		BA05AB05CD05EF05 /* RecipeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA05AB05CD05EF05 /* RecipeService.swift */; };
+		BA06AB06CD06EF06 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA06AB06CD06EF06 /* Color+Hex.swift */; };
+		BA07AB07CD07EF07 /* PaintLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA07AB07CD07EF07 /* PaintLibraryView.swift */; };
+		BA08AB08CD08EF08 /* RecipeLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08AB08CD08EF08 /* RecipeLibraryView.swift */; };
+		BA09AB09CD09EF09 /* NewRecipeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA09AB09CD09EF09 /* NewRecipeSheet.swift */; };
+		BA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift */; };
+		BA0BAB0BCD0BEF0B /* paint_catalogue.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0BAB0BCD0BEF0B /* paint_catalogue.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +115,17 @@
 		DBEEA108930CB729B089D651 /* WarmasterStudioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarmasterStudioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardView.swift; sourceTree = "<group>"; };
 		E1B49AAE86CBC50F0FD1C22B /* EditProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectSheet.swift; sourceTree = "<group>"; };
+		AA01AB01CD01EF01 /* Paint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paint.swift; sourceTree = "<group>"; };
+		AA02AB02CD02EF02 /* PaintRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintRecipe.swift; sourceTree = "<group>"; };
+		AA03AB03CD03EF03 /* RecipeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeStep.swift; sourceTree = "<group>"; };
+		AA04AB04CD04EF04 /* PaintLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintLibraryService.swift; sourceTree = "<group>"; };
+		AA05AB05CD05EF05 /* RecipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeService.swift; sourceTree = "<group>"; };
+		AA06AB06CD06EF06 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		AA07AB07CD07EF07 /* PaintLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintLibraryView.swift; sourceTree = "<group>"; };
+		AA08AB08CD08EF08 /* RecipeLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeLibraryView.swift; sourceTree = "<group>"; };
+		AA09AB09CD09EF09 /* NewRecipeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRecipeSheet.swift; sourceTree = "<group>"; };
+		AA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeStepEditorView.swift; sourceTree = "<group>"; };
+		AA0BAB0BCD0BEF0B /* paint_catalogue.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = paint_catalogue.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -161,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				173AC488951BE2F170228FB7 /* Color+Theme.swift */,
+				AA06AB06CD06EF06 /* Color+Hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -182,6 +205,7 @@
 				C1335C7433F45F86D74F560D /* Models */,
 				F6E78C4C7C6DA025D32ED2EF /* Services */,
 				E71C5C24A5E8BEC761AF962A /* Views */,
+				DD03DD03DD03DD03 /* Resources */,
 			);
 			name = WarmasterStudio;
 			path = Sources/WarmasterStudio;
@@ -205,6 +229,9 @@
 				000A53ADDAC42D66995DA471 /* Pipeline.swift */,
 				AA94D729AE12863605B56EE1 /* Project.swift */,
 				4BA6FB1F1D98587A10958D04 /* Stage.swift */,
+				AA01AB01CD01EF01 /* Paint.swift */,
+				AA02AB02CD02EF02 /* PaintRecipe.swift */,
+				AA03AB03CD03EF03 /* RecipeStep.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -226,6 +253,8 @@
 				ED27C4D7D488D29F33748CC6 /* Progress */,
 				288691F7F1C66F12331FD061 /* Projects */,
 				041B9DE2E6385C2A518D54E4 /* Settings */,
+				DD01DD01DD01DD01 /* Paints */,
+				DD02DD02DD02DD02 /* Recipes */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -264,8 +293,36 @@
 				CD9BE6641DAEFBB3393D5274 /* PipelineService.swift */,
 				144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */,
 				18FA743F2C074CB77FC994F3 /* StageService.swift */,
+				AA04AB04CD04EF04 /* PaintLibraryService.swift */,
+				AA05AB05CD05EF05 /* RecipeService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		DD01DD01DD01DD01 /* Paints */ = {
+			isa = PBXGroup;
+			children = (
+				AA07AB07CD07EF07 /* PaintLibraryView.swift */,
+			);
+			path = Paints;
+			sourceTree = "<group>";
+		};
+		DD02DD02DD02DD02 /* Recipes */ = {
+			isa = PBXGroup;
+			children = (
+				AA08AB08CD08EF08 /* RecipeLibraryView.swift */,
+				AA09AB09CD09EF09 /* NewRecipeSheet.swift */,
+				AA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift */,
+			);
+			path = Recipes;
+			sourceTree = "<group>";
+		};
+		DD03DD03DD03DD03 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA0BAB0BCD0BEF0B /* paint_catalogue.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +368,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A5950215F1FCB09564664AE /* Build configuration list for PBXNativeTarget "WarmasterStudio" */;
 			buildPhases = (
+				CCCCCCCCCCCCCCCC /* Resources */,
 				DBBC6BD8AC0F661E1439505A /* Sources */,
 			);
 			buildRules = (
@@ -361,6 +419,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CCCCCCCCCCCCCCCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA0BAB0BCD0BEF0B /* paint_catalogue.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0204F1EEA3A619B9FC9806C4 /* Sources */ = {
@@ -417,6 +486,16 @@
 				CBEC28FDC01281E92491E437 /* SidebarView.swift in Sources */,
 				755EEAF2901B2284DCEF087D /* Stage.swift in Sources */,
 				8C616FFEF783155E36D41AEA /* StageService.swift in Sources */,
+				BA01AB01CD01EF01 /* Paint.swift in Sources */,
+				BA02AB02CD02EF02 /* PaintRecipe.swift in Sources */,
+				BA03AB03CD03EF03 /* RecipeStep.swift in Sources */,
+				BA04AB04CD04EF04 /* PaintLibraryService.swift in Sources */,
+				BA05AB05CD05EF05 /* RecipeService.swift in Sources */,
+				BA06AB06CD06EF06 /* Color+Hex.swift in Sources */,
+				BA07AB07CD07EF07 /* PaintLibraryView.swift in Sources */,
+				BA08AB08CD08EF08 /* RecipeLibraryView.swift in Sources */,
+				BA09AB09CD09EF09 /* NewRecipeSheet.swift in Sources */,
+				BA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift in Sources */,
 				A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

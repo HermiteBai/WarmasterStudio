@@ -94,6 +94,7 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 | P2-IMG-02 | Image import UI — file picker, Security-scoped bookmark, sandbox copy | Feature: Box Art Images | 3 | Done |
 | P2-IMG-03 | Image display view inside Project detail | Feature: Box Art Images | 2 | Done |
 | P2-IMG-04 | Relative path persistence and bookmark resolution on relaunch | Feature: Box Art Images | 2 | Done |
+| P2-IMG-05 | Shared box art across linked projects (link-group sync) | Feature: Box Art Images | 1 | Done |
 | P2-PIN-01 | `RecipePin` @Model — normalised coordinates & recipe reference | Feature: Recipe Pins | 2 | Todo |
 | P2-PIN-02 | Pin placement UI — click/tap on image to place pin | Feature: Recipe Pins | 3 | Todo |
 | P2-PIN-03 | Pin popover — display linked recipe name and first step | Feature: Recipe Pins | 2 | Todo |
