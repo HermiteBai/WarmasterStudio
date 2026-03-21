@@ -2,9 +2,11 @@
 *.xcuserstate
 DerivedData/
 .build/
-*.xcworkspace/xcuserdata/
+# Track WarmasterStudio.xcodeproj but ignore user-specific data inside it
 *.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
 xcuserdata/
+*.xccheckout
 *.moved-aside
 *.pbxuser
 !default.pbxuser

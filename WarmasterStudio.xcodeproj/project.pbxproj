@@ -1,0 +1,588 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B5A5B3260AAA832D4B50518 /* CollectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FCA341F048E58B4C081ACC /* CollectionsView.swift */; };
+		23745739DA52EB37FA5921E8 /* PipelineServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */; };
+		23B8B6D98FE07834FE3938AB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56CFC9B438A0542B97A0885 /* ContentView.swift */; };
+		245759A40D2C548F6DB4DF92 /* ModelRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878796CF23FF47237129DF59 /* ModelRecord.swift */; };
+		2C901A8263A915C4B46330A4 /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DD57A8385A335B74C8F4B8 /* ProjectDetailView.swift */; };
+		3CE0DE8D4632614D791FC4C9 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA94D729AE12863605B56EE1 /* Project.swift */; };
+		461149116ADC82D3F4DCAB22 /* EditProjectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B49AAE86CBC50F0FD1C22B /* EditProjectSheet.swift */; };
+		4739B12A909903A94A186A4C /* ModelProgressServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC0B2FD9032A37E435F88A2 /* ModelProgressServiceTests.swift */; };
+		4D5AF80AF1AE6E6665483544 /* StageServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A79133BA1249C6A524D092 /* StageServiceTests.swift */; };
+		6590FDFB8DE0EC0A9DD80A67 /* ProgressDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5270BB2BD5D3F99E83EB61 /* ProgressDashboardView.swift */; };
+		7183D9750879C1108468FE68 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC8A0FEC683B9DD6918B8D6 /* Collection.swift */; };
+		7305A43F2CF4C7BB16FE53ED /* NewProjectSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */; };
+		7312E3AB8ABD30BC7A6354C4 /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000A53ADDAC42D66995DA471 /* Pipeline.swift */; };
+		755EEAF2901B2284DCEF087D /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA6FB1F1D98587A10958D04 /* Stage.swift */; };
+		827C486665C3B990538C82B3 /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */; };
+		832920E6B0D9C996A14A75F0 /* KanbanColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */; };
+		8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */; };
+		8C616FFEF783155E36D41AEA /* StageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA743F2C074CB77FC994F3 /* StageService.swift */; };
+		8E269AEA9412AED43468276A /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27706721140C4EB6EA67C4 /* Logging.swift */; };
+		A163402862E389A11D3A9E94 /* LinkGroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FED2327755F51C727F93CD /* LinkGroupService.swift */; };
+		A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */; };
+		A62675B34F4392F76EAA79A7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19366E65285094A56C8D68 /* SettingsView.swift */; };
+		AB167293FE8F635C87D21A1A /* KanbanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */; };
+		AC6943E67567EF069028B860 /* KanbanBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */; };
+		B537A66C6EF6FCB65C66BF92 /* ProjectServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */; };
+		BD560CF2452D462D28DF90EC /* LinkGroupServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CEACA85CE0E6A73D184D6A /* LinkGroupServiceTests.swift */; };
+		C2BF6F8C5CC733B9F5DEC69D /* ModelProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAFFE932C3DF12E915004CC /* ModelProgressService.swift */; };
+		C68F37457C10ECD0F0634FAE /* KanbanCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850F60552F04842D6EB883D4 /* KanbanCardView.swift */; };
+		CBEC28FDC01281E92491E437 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00D27D61A31C645388F527 /* SidebarView.swift */; };
+		D79008844798F51FACB90786 /* PipelineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9BE6641DAEFBB3393D5274 /* PipelineService.swift */; };
+		DFCD589A08509B4ACD90A4F4 /* PipelineSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F3585567367FCB2B393822 /* PipelineSettingsView.swift */; };
+		E59337A8BDB669891AF9E05C /* CollectionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C23145EA32750962C66F5B /* CollectionServiceTests.swift */; };
+		F1BCB3BC29874E8B11A74A78 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FEC6C4DA0F6C67B659A557 /* Errors.swift */; };
+		F220B79081789AEE782EB910 /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B33A9CB799464CBBBA887354 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A8871F3D70299CEA6B9D6CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB2FF89CDCE8C7DBE93AD6A9;
+			remoteInfo = WarmasterStudio;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		000A53ADDAC42D66995DA471 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
+		03CEACA85CE0E6A73D184D6A /* LinkGroupServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkGroupServiceTests.swift; sourceTree = "<group>"; };
+		144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectService.swift; sourceTree = "<group>"; };
+		18FA743F2C074CB77FC994F3 /* StageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageService.swift; sourceTree = "<group>"; };
+		192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineServiceTests.swift; sourceTree = "<group>"; };
+		1C19366E65285094A56C8D68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1D00D27D61A31C645388F527 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		21F3585567367FCB2B393822 /* PipelineSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineSettingsView.swift; sourceTree = "<group>"; };
+		2A5270BB2BD5D3F99E83EB61 /* ProgressDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDashboardView.swift; sourceTree = "<group>"; };
+		2AC7B7787C53CBB4F744FA36 /* WarmasterStudioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarmasterStudioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		30DD57A8385A335B74C8F4B8 /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
+		3FC0B2FD9032A37E435F88A2 /* ModelProgressServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProgressServiceTests.swift; sourceTree = "<group>"; };
+		40FED2327755F51C727F93CD /* LinkGroupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkGroupService.swift; sourceTree = "<group>"; };
+		48FEC6C4DA0F6C67B659A557 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		4BA6FB1F1D98587A10958D04 /* Stage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
+		5BAFFE932C3DF12E915004CC /* ModelProgressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProgressService.swift; sourceTree = "<group>"; };
+		5C27706721140C4EB6EA67C4 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
+		65FCA341F048E58B4C081ACC /* CollectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsView.swift; sourceTree = "<group>"; };
+		6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanColumnView.swift; sourceTree = "<group>"; };
+		850F60552F04842D6EB883D4 /* KanbanCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanCardView.swift; sourceTree = "<group>"; };
+		85CE997E1BF97510D1F51C2D /* WarmasterStudio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarmasterStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		878796CF23FF47237129DF59 /* ModelRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelRecord.swift; sourceTree = "<group>"; };
+		8FC8A0FEC683B9DD6918B8D6 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		91C23145EA32750962C66F5B /* CollectionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionServiceTests.swift; sourceTree = "<group>"; };
+		9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectSheet.swift; sourceTree = "<group>"; };
+		AA94D729AE12863605B56EE1 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectServiceTests.swift; sourceTree = "<group>"; };
+		BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanCard.swift; sourceTree = "<group>"; };
+		C56CFC9B438A0542B97A0885 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionService.swift; sourceTree = "<group>"; };
+		CD9BE6641DAEFBB3393D5274 /* PipelineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineService.swift; sourceTree = "<group>"; };
+		D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarmasterStudioApp.swift; sourceTree = "<group>"; };
+		D3A79133BA1249C6A524D092 /* StageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageServiceTests.swift; sourceTree = "<group>"; };
+		DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardView.swift; sourceTree = "<group>"; };
+		E1B49AAE86CBC50F0FD1C22B /* EditProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectSheet.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		041B9DE2E6385C2A518D54E4 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				21F3585567367FCB2B393822 /* PipelineSettingsView.swift */,
+				1C19366E65285094A56C8D68 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		04BFAFFF7952B41A24F7AC2B /* AppShell */ = {
+			isa = PBXGroup;
+			children = (
+				C56CFC9B438A0542B97A0885 /* ContentView.swift */,
+				1D00D27D61A31C645388F527 /* SidebarView.swift */,
+			);
+			path = AppShell;
+			sourceTree = "<group>";
+		};
+		09387D49642F3A9F2F63DF84 /* Kanban */ = {
+			isa = PBXGroup;
+			children = (
+				DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */,
+				BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */,
+				850F60552F04842D6EB883D4 /* KanbanCardView.swift */,
+				6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */,
+			);
+			path = Kanban;
+			sourceTree = "<group>";
+		};
+		288691F7F1C66F12331FD061 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				E1B49AAE86CBC50F0FD1C22B /* EditProjectSheet.swift */,
+				4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */,
+				9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */,
+				30DD57A8385A335B74C8F4B8 /* ProjectDetailView.swift */,
+			);
+			path = Projects;
+			sourceTree = "<group>";
+		};
+		44962E4E3484A2CC62E3A078 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				85CE997E1BF97510D1F51C2D /* WarmasterStudio.app */,
+				2AC7B7787C53CBB4F744FA36 /* WarmasterStudioTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A95AFE18B574D8E9A545DFD8 /* WarmasterStudio */ = {
+			isa = PBXGroup;
+			children = (
+				D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */,
+				C1335C7433F45F86D74F560D /* Models */,
+				F6E78C4C7C6DA025D32ED2EF /* Services */,
+				E71C5C24A5E8BEC761AF962A /* Views */,
+			);
+			name = WarmasterStudio;
+			path = Sources/WarmasterStudio;
+			sourceTree = "<group>";
+		};
+		AAF2F63BD45302FAD2D83FCA = {
+			isa = PBXGroup;
+			children = (
+				A95AFE18B574D8E9A545DFD8 /* WarmasterStudio */,
+				F1846F5FAACBD597E7970955 /* WarmasterStudioTests */,
+				44962E4E3484A2CC62E3A078 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C1335C7433F45F86D74F560D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8FC8A0FEC683B9DD6918B8D6 /* Collection.swift */,
+				878796CF23FF47237129DF59 /* ModelRecord.swift */,
+				000A53ADDAC42D66995DA471 /* Pipeline.swift */,
+				AA94D729AE12863605B56EE1 /* Project.swift */,
+				4BA6FB1F1D98587A10958D04 /* Stage.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CC0C3F617A9C47F9559C434C /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				65FCA341F048E58B4C081ACC /* CollectionsView.swift */,
+			);
+			path = Collections;
+			sourceTree = "<group>";
+		};
+		E71C5C24A5E8BEC761AF962A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04BFAFFF7952B41A24F7AC2B /* AppShell */,
+				CC0C3F617A9C47F9559C434C /* Collections */,
+				09387D49642F3A9F2F63DF84 /* Kanban */,
+				ED27C4D7D488D29F33748CC6 /* Progress */,
+				288691F7F1C66F12331FD061 /* Projects */,
+				041B9DE2E6385C2A518D54E4 /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ED27C4D7D488D29F33748CC6 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				2A5270BB2BD5D3F99E83EB61 /* ProgressDashboardView.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
+		F1846F5FAACBD597E7970955 /* WarmasterStudioTests */ = {
+			isa = PBXGroup;
+			children = (
+				91C23145EA32750962C66F5B /* CollectionServiceTests.swift */,
+				03CEACA85CE0E6A73D184D6A /* LinkGroupServiceTests.swift */,
+				3FC0B2FD9032A37E435F88A2 /* ModelProgressServiceTests.swift */,
+				192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */,
+				AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */,
+				D3A79133BA1249C6A524D092 /* StageServiceTests.swift */,
+			);
+			name = WarmasterStudioTests;
+			path = Tests/WarmasterStudioTests;
+			sourceTree = "<group>";
+		};
+		F6E78C4C7C6DA025D32ED2EF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */,
+				48FEC6C4DA0F6C67B659A557 /* Errors.swift */,
+				40FED2327755F51C727F93CD /* LinkGroupService.swift */,
+				5C27706721140C4EB6EA67C4 /* Logging.swift */,
+				5BAFFE932C3DF12E915004CC /* ModelProgressService.swift */,
+				CD9BE6641DAEFBB3393D5274 /* PipelineService.swift */,
+				144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */,
+				18FA743F2C074CB77FC994F3 /* StageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A2687C43736E66009ADBA7BF /* WarmasterStudioTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87899044553C52CB38C09D01 /* Build configuration list for PBXNativeTarget "WarmasterStudioTests" */;
+			buildPhases = (
+				392C7C74394F27B81B26F9DA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				25D8B731A42CE4573797E056 /* PBXTargetDependency */,
+			);
+			name = WarmasterStudioTests;
+			packageProductDependencies = (
+			);
+			productName = WarmasterStudioTests;
+			productReference = 2AC7B7787C53CBB4F744FA36 /* WarmasterStudioTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FB2FF89CDCE8C7DBE93AD6A9 /* WarmasterStudio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A5950215F1FCB09564664AE /* Build configuration list for PBXNativeTarget "WarmasterStudio" */;
+			buildPhases = (
+				DBBC6BD8AC0F661E1439505A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WarmasterStudio;
+			packageProductDependencies = (
+			);
+			productName = WarmasterStudio;
+			productReference = 85CE997E1BF97510D1F51C2D /* WarmasterStudio.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A8871F3D70299CEA6B9D6CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					FB2FF89CDCE8C7DBE93AD6A9 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 303051FA29C366355F833F93 /* Build configuration list for PBXProject "WarmasterStudio" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = AAF2F63BD45302FAD2D83FCA;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 44962E4E3484A2CC62E3A078 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FB2FF89CDCE8C7DBE93AD6A9 /* WarmasterStudio */,
+				A2687C43736E66009ADBA7BF /* WarmasterStudioTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		392C7C74394F27B81B26F9DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E59337A8BDB669891AF9E05C /* CollectionServiceTests.swift in Sources */,
+				BD560CF2452D462D28DF90EC /* LinkGroupServiceTests.swift in Sources */,
+				4739B12A909903A94A186A4C /* ModelProgressServiceTests.swift in Sources */,
+				23745739DA52EB37FA5921E8 /* PipelineServiceTests.swift in Sources */,
+				B537A66C6EF6FCB65C66BF92 /* ProjectServiceTests.swift in Sources */,
+				4D5AF80AF1AE6E6665483544 /* StageServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DBBC6BD8AC0F661E1439505A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7183D9750879C1108468FE68 /* Collection.swift in Sources */,
+				827C486665C3B990538C82B3 /* CollectionService.swift in Sources */,
+				0B5A5B3260AAA832D4B50518 /* CollectionsView.swift in Sources */,
+				23B8B6D98FE07834FE3938AB /* ContentView.swift in Sources */,
+				461149116ADC82D3F4DCAB22 /* EditProjectSheet.swift in Sources */,
+				8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */,
+				F1BCB3BC29874E8B11A74A78 /* Errors.swift in Sources */,
+				AC6943E67567EF069028B860 /* KanbanBoardView.swift in Sources */,
+				AB167293FE8F635C87D21A1A /* KanbanCard.swift in Sources */,
+				C68F37457C10ECD0F0634FAE /* KanbanCardView.swift in Sources */,
+				832920E6B0D9C996A14A75F0 /* KanbanColumnView.swift in Sources */,
+				A163402862E389A11D3A9E94 /* LinkGroupService.swift in Sources */,
+				8E269AEA9412AED43468276A /* Logging.swift in Sources */,
+				C2BF6F8C5CC733B9F5DEC69D /* ModelProgressService.swift in Sources */,
+				245759A40D2C548F6DB4DF92 /* ModelRecord.swift in Sources */,
+				7305A43F2CF4C7BB16FE53ED /* NewProjectSheet.swift in Sources */,
+				7312E3AB8ABD30BC7A6354C4 /* Pipeline.swift in Sources */,
+				D79008844798F51FACB90786 /* PipelineService.swift in Sources */,
+				DFCD589A08509B4ACD90A4F4 /* PipelineSettingsView.swift in Sources */,
+				6590FDFB8DE0EC0A9DD80A67 /* ProgressDashboardView.swift in Sources */,
+				3CE0DE8D4632614D791FC4C9 /* Project.swift in Sources */,
+				2C901A8263A915C4B46330A4 /* ProjectDetailView.swift in Sources */,
+				F220B79081789AEE782EB910 /* ProjectService.swift in Sources */,
+				A62675B34F4392F76EAA79A7 /* SettingsView.swift in Sources */,
+				CBEC28FDC01281E92491E437 /* SidebarView.swift in Sources */,
+				755EEAF2901B2284DCEF087D /* Stage.swift in Sources */,
+				8C616FFEF783155E36D41AEA /* StageService.swift in Sources */,
+				A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		25D8B731A42CE4573797E056 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB2FF89CDCE8C7DBE93AD6A9 /* WarmasterStudio */;
+			targetProxy = B33A9CB799464CBBBA887354 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		54D49D76F039D8A3B13719AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.warmasterstudio.tests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WarmasterStudio.app/Contents/MacOS/WarmasterStudio";
+			};
+			name = Debug;
+		};
+		896C752BC08C53B775DE0723 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		9329DA6AC2984FAFCAF2ECDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sources/WarmasterStudio/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.warmasterstudio.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		CEC5D7EEC09E433864DEB25F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Sources/WarmasterStudio/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.warmasterstudio.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		E1221FE429002CB212F88BE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.warmasterstudio.tests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WarmasterStudio.app/Contents/MacOS/WarmasterStudio";
+			};
+			name = Release;
+		};
+		F940EBD494421CD8D4D0F149 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		303051FA29C366355F833F93 /* Build configuration list for PBXProject "WarmasterStudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F940EBD494421CD8D4D0F149 /* Debug */,
+				896C752BC08C53B775DE0723 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3A5950215F1FCB09564664AE /* Build configuration list for PBXNativeTarget "WarmasterStudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9329DA6AC2984FAFCAF2ECDF /* Debug */,
+				CEC5D7EEC09E433864DEB25F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		87899044553C52CB38C09D01 /* Build configuration list for PBXNativeTarget "WarmasterStudioTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54D49D76F039D8A3B13719AA /* Debug */,
+				E1221FE429002CB212F88BE6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A8871F3D70299CEA6B9D6CF /* Project object */;
+}
