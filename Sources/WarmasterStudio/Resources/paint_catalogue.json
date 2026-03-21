@@ -1,32 +1,2612 @@
 [
-  { "name": "Abaddon Black",        "brand": "Citadel", "hex": "231F20" },
-  { "name": "Ceramite White",       "brand": "Citadel", "hex": "F5F5F5" },
-  { "name": "Macragge Blue",        "brand": "Citadel", "hex": "1B458A" },
-  { "name": "Mephiston Red",        "brand": "Citadel", "hex": "9E1713" },
-  { "name": "Averland Sunset",      "brand": "Citadel", "hex": "F5A623" },
-  { "name": "Caliban Green",        "brand": "Citadel", "hex": "1A5C38" },
-  { "name": "Naggaroth Night",      "brand": "Citadel", "hex": "3B2D5E" },
-  { "name": "Zandri Dust",          "brand": "Citadel", "hex": "B8A96A" },
-  { "name": "Rhinox Hide",          "brand": "Citadel", "hex": "5C3827" },
-  { "name": "Dryad Bark",           "brand": "Citadel", "hex": "3E2B1E" },
-  { "name": "Leadbelcher",          "brand": "Citadel", "hex": "7B7B7B" },
-  { "name": "Retributor Armour",    "brand": "Citadel", "hex": "A8742A" },
-  { "name": "Liberator Gold",       "brand": "Citadel", "hex": "C8943A" },
-  { "name": "Balthasar Gold",       "brand": "Citadel", "hex": "7C5B35" },
-  { "name": "Nuln Oil",             "brand": "Citadel", "hex": "2A2A2A" },
-  { "name": "Agrax Earthshade",     "brand": "Citadel", "hex": "6B4A28" },
-  { "name": "Reikland Fleshshade",  "brand": "Citadel", "hex": "B07050" },
-  { "name": "Druchii Violet",       "brand": "Citadel", "hex": "4E2D6B" },
-  { "name": "Coelia Greenshade",    "brand": "Citadel", "hex": "1A5C4A" },
-  { "name": "Ulthuan Grey",         "brand": "Citadel", "hex": "C8D4D4" },
-  { "name": "Wraithbone",           "brand": "Citadel", "hex": "E8DEC0" },
-  { "name": "Skeleton Horde",       "brand": "Citadel", "hex": "D4C090" },
-  { "name": "Flesh Tearers Red",    "brand": "Citadel", "hex": "8B1A1A" },
-  { "name": "Talassar Blue",        "brand": "Citadel", "hex": "1A3A6B" },
-  { "name": "Ironjawz Yellow",      "brand": "Citadel", "hex": "D4A017" },
-  { "name": "Orruk Flesh",          "brand": "Citadel", "hex": "8FBF6F" },
-  { "name": "Mechanicus Standard Grey", "brand": "Citadel", "hex": "5E6363" },
-  { "name": "Dawnstone",            "brand": "Citadel", "hex": "888888" },
-  { "name": "Administratum Grey",   "brand": "Citadel", "hex": "B0B0B0" },
-  { "name": "White Scar",           "brand": "Citadel", "hex": "F0F0F0" }
+  {
+    "name": "Abaddon Black",
+    "brand": "Citadel",
+    "hex": "231F20"
+  },
+  {
+    "name": "Ceramite White",
+    "brand": "Citadel",
+    "hex": "F5F5F5"
+  },
+  {
+    "name": "White Scar",
+    "brand": "Citadel",
+    "hex": "F0F0F0"
+  },
+  {
+    "name": "Macragge Blue",
+    "brand": "Citadel",
+    "hex": "1B458A"
+  },
+  {
+    "name": "Kantor Blue",
+    "brand": "Citadel",
+    "hex": "1B3A6B"
+  },
+  {
+    "name": "Altdorf Guard Blue",
+    "brand": "Citadel",
+    "hex": "1A5A9A"
+  },
+  {
+    "name": "Mephiston Red",
+    "brand": "Citadel",
+    "hex": "9E1713"
+  },
+  {
+    "name": "Khorne Red",
+    "brand": "Citadel",
+    "hex": "7A1515"
+  },
+  {
+    "name": "Jokaero Orange",
+    "brand": "Citadel",
+    "hex": "E95D27"
+  },
+  {
+    "name": "Averland Sunset",
+    "brand": "Citadel",
+    "hex": "F5A623"
+  },
+  {
+    "name": "Caliban Green",
+    "brand": "Citadel",
+    "hex": "1A5C38"
+  },
+  {
+    "name": "Death Guard Green",
+    "brand": "Citadel",
+    "hex": "7A8A5A"
+  },
+  {
+    "name": "Deathworld Forest",
+    "brand": "Citadel",
+    "hex": "4A6040"
+  },
+  {
+    "name": "Castellan Green",
+    "brand": "Citadel",
+    "hex": "2D5C3A"
+  },
+  {
+    "name": "Sons of Horus Green",
+    "brand": "Citadel",
+    "hex": "4A8A6A"
+  },
+  {
+    "name": "Naggaroth Night",
+    "brand": "Citadel",
+    "hex": "3B2D5E"
+  },
+  {
+    "name": "Screamer Pink",
+    "brand": "Citadel",
+    "hex": "B52060"
+  },
+  {
+    "name": "Incubi Darkness",
+    "brand": "Citadel",
+    "hex": "1A4A4A"
+  },
+  {
+    "name": "Zandri Dust",
+    "brand": "Citadel",
+    "hex": "B8A96A"
+  },
+  {
+    "name": "XV-88",
+    "brand": "Citadel",
+    "hex": "8B6F3A"
+  },
+  {
+    "name": "Steel Legion Drab",
+    "brand": "Citadel",
+    "hex": "7A6540"
+  },
+  {
+    "name": "Rhinox Hide",
+    "brand": "Citadel",
+    "hex": "5C3827"
+  },
+  {
+    "name": "Dryad Bark",
+    "brand": "Citadel",
+    "hex": "3E2B1E"
+  },
+  {
+    "name": "Gal Vorbak Red",
+    "brand": "Citadel",
+    "hex": "6B2020"
+  },
+  {
+    "name": "Bugman's Glow",
+    "brand": "Citadel",
+    "hex": "9A5545"
+  },
+  {
+    "name": "Tau Light Ochre",
+    "brand": "Citadel",
+    "hex": "C8922A"
+  },
+  {
+    "name": "Mechanicus Standard Grey",
+    "brand": "Citadel",
+    "hex": "5E6363"
+  },
+  {
+    "name": "Celestra Grey",
+    "brand": "Citadel",
+    "hex": "B8C4C4"
+  },
+  {
+    "name": "Wraithbone",
+    "brand": "Citadel",
+    "hex": "E8DEC0"
+  },
+  {
+    "name": "Leadbelcher",
+    "brand": "Citadel",
+    "hex": "7B7B7B"
+  },
+  {
+    "name": "Retributor Armour",
+    "brand": "Citadel",
+    "hex": "A8742A"
+  },
+  {
+    "name": "Balthasar Gold",
+    "brand": "Citadel",
+    "hex": "7C5B35"
+  },
+  {
+    "name": "Warplock Bronze",
+    "brand": "Citadel",
+    "hex": "6A4A30"
+  },
+  {
+    "name": "Evil Sunz Scarlet",
+    "brand": "Citadel",
+    "hex": "C42028"
+  },
+  {
+    "name": "Wild Rider Red",
+    "brand": "Citadel",
+    "hex": "D44020"
+  },
+  {
+    "name": "Wazdakka Red",
+    "brand": "Citadel",
+    "hex": "A82028"
+  },
+  {
+    "name": "Trollslayer Orange",
+    "brand": "Citadel",
+    "hex": "E07030"
+  },
+  {
+    "name": "Lugganath Orange",
+    "brand": "Citadel",
+    "hex": "E8905A"
+  },
+  {
+    "name": "Flash Gitz Yellow",
+    "brand": "Citadel",
+    "hex": "F5D020"
+  },
+  {
+    "name": "Yriel Yellow",
+    "brand": "Citadel",
+    "hex": "F0C020"
+  },
+  {
+    "name": "Dorn Yellow",
+    "brand": "Citadel",
+    "hex": "F5E050"
+  },
+  {
+    "name": "Warboss Green",
+    "brand": "Citadel",
+    "hex": "4A9040"
+  },
+  {
+    "name": "Skarsnik Green",
+    "brand": "Citadel",
+    "hex": "78B050"
+  },
+  {
+    "name": "Moot Green",
+    "brand": "Citadel",
+    "hex": "50C050"
+  },
+  {
+    "name": "Elysian Green",
+    "brand": "Citadel",
+    "hex": "5A9050"
+  },
+  {
+    "name": "Nurgling Green",
+    "brand": "Citadel",
+    "hex": "A0B860"
+  },
+  {
+    "name": "Loren Forest",
+    "brand": "Citadel",
+    "hex": "3A7040"
+  },
+  {
+    "name": "Straken Green",
+    "brand": "Citadel",
+    "hex": "3A8A40"
+  },
+  {
+    "name": "Sotek Green",
+    "brand": "Citadel",
+    "hex": "1A8A7A"
+  },
+  {
+    "name": "Temple Guard Blue",
+    "brand": "Citadel",
+    "hex": "2AB0A0"
+  },
+  {
+    "name": "Kabalite Green",
+    "brand": "Citadel",
+    "hex": "208A6A"
+  },
+  {
+    "name": "Calgar Blue",
+    "brand": "Citadel",
+    "hex": "3A70B0"
+  },
+  {
+    "name": "Alaitoc Blue",
+    "brand": "Citadel",
+    "hex": "4A6EA0"
+  },
+  {
+    "name": "Fenrisian Grey",
+    "brand": "Citadel",
+    "hex": "7A9AB8"
+  },
+  {
+    "name": "Russ Grey",
+    "brand": "Citadel",
+    "hex": "6A8AA0"
+  },
+  {
+    "name": "Thunderhawk Blue",
+    "brand": "Citadel",
+    "hex": "4A7080"
+  },
+  {
+    "name": "Hoeth Blue",
+    "brand": "Citadel",
+    "hex": "5A82B8"
+  },
+  {
+    "name": "Xereus Purple",
+    "brand": "Citadel",
+    "hex": "5A2880"
+  },
+  {
+    "name": "Genestealer Purple",
+    "brand": "Citadel",
+    "hex": "7850A0"
+  },
+  {
+    "name": "Daemonette Hide",
+    "brand": "Citadel",
+    "hex": "7A6090"
+  },
+  {
+    "name": "Pink Horror",
+    "brand": "Citadel",
+    "hex": "C05080"
+  },
+  {
+    "name": "Emperor's Children",
+    "brand": "Citadel",
+    "hex": "E060A0"
+  },
+  {
+    "name": "Kislev Flesh",
+    "brand": "Citadel",
+    "hex": "D4A882"
+  },
+  {
+    "name": "Cadian Fleshtone",
+    "brand": "Citadel",
+    "hex": "C8846A"
+  },
+  {
+    "name": "Bestigor Flesh",
+    "brand": "Citadel",
+    "hex": "C49068"
+  },
+  {
+    "name": "Pallid Wych Flesh",
+    "brand": "Citadel",
+    "hex": "D8CCC0"
+  },
+  {
+    "name": "Screaming Skull",
+    "brand": "Citadel",
+    "hex": "D8CC90"
+  },
+  {
+    "name": "Ushabti Bone",
+    "brand": "Citadel",
+    "hex": "C4B870"
+  },
+  {
+    "name": "Baneblade Brown",
+    "brand": "Citadel",
+    "hex": "A88A70"
+  },
+  {
+    "name": "Karak Stone",
+    "brand": "Citadel",
+    "hex": "C0A870"
+  },
+  {
+    "name": "Zamesi Desert",
+    "brand": "Citadel",
+    "hex": "D4A840"
+  },
+  {
+    "name": "Tallarn Sand",
+    "brand": "Citadel",
+    "hex": "C4A060"
+  },
+  {
+    "name": "Deathclaw Brown",
+    "brand": "Citadel",
+    "hex": "A07050"
+  },
+  {
+    "name": "Stormvermin Fur",
+    "brand": "Citadel",
+    "hex": "8A8070"
+  },
+  {
+    "name": "Skavenblight Dinge",
+    "brand": "Citadel",
+    "hex": "6A6050"
+  },
+  {
+    "name": "Eshin Grey",
+    "brand": "Citadel",
+    "hex": "5A5A60"
+  },
+  {
+    "name": "Dawnstone",
+    "brand": "Citadel",
+    "hex": "888888"
+  },
+  {
+    "name": "Administratum Grey",
+    "brand": "Citadel",
+    "hex": "B0B0B0"
+  },
+  {
+    "name": "Ulthuan Grey",
+    "brand": "Citadel",
+    "hex": "C8D4D4"
+  },
+  {
+    "name": "Slaanesh Grey",
+    "brand": "Citadel",
+    "hex": "A8A8B8"
+  },
+  {
+    "name": "Liberator Gold",
+    "brand": "Citadel",
+    "hex": "C8943A"
+  },
+  {
+    "name": "Skullcrusher Brass",
+    "brand": "Citadel",
+    "hex": "A07840"
+  },
+  {
+    "name": "Auric Armour Gold",
+    "brand": "Citadel",
+    "hex": "C8A850"
+  },
+  {
+    "name": "Ironbreaker",
+    "brand": "Citadel",
+    "hex": "909898"
+  },
+  {
+    "name": "Runefang Steel",
+    "brand": "Citadel",
+    "hex": "C0C8C8"
+  },
+  {
+    "name": "Nuln Oil",
+    "brand": "Citadel",
+    "hex": "2A2A2A"
+  },
+  {
+    "name": "Agrax Earthshade",
+    "brand": "Citadel",
+    "hex": "6B4A28"
+  },
+  {
+    "name": "Reikland Fleshshade",
+    "brand": "Citadel",
+    "hex": "B07050"
+  },
+  {
+    "name": "Druchii Violet",
+    "brand": "Citadel",
+    "hex": "4E2D6B"
+  },
+  {
+    "name": "Coelia Greenshade",
+    "brand": "Citadel",
+    "hex": "1A5C4A"
+  },
+  {
+    "name": "Biel-Tan Green",
+    "brand": "Citadel",
+    "hex": "2A6A3A"
+  },
+  {
+    "name": "Drakenhof Nightshade",
+    "brand": "Citadel",
+    "hex": "1A2A5A"
+  },
+  {
+    "name": "Carroburg Crimson",
+    "brand": "Citadel",
+    "hex": "8B1A3A"
+  },
+  {
+    "name": "Casandora Yellow",
+    "brand": "Citadel",
+    "hex": "D4A820"
+  },
+  {
+    "name": "Fuegan Orange",
+    "brand": "Citadel",
+    "hex": "C45020"
+  },
+  {
+    "name": "Seraphim Sepia",
+    "brand": "Citadel",
+    "hex": "9A7040"
+  },
+  {
+    "name": "Athonian Camoshade",
+    "brand": "Citadel",
+    "hex": "4A5030"
+  },
+  {
+    "name": "Praxeti White",
+    "brand": "Citadel",
+    "hex": "F0F0EE"
+  },
+  {
+    "name": "Longbeard Grey",
+    "brand": "Citadel",
+    "hex": "C8C8C0"
+  },
+  {
+    "name": "Underhive Ash",
+    "brand": "Citadel",
+    "hex": "C0B898"
+  },
+  {
+    "name": "Terminatus Stone",
+    "brand": "Citadel",
+    "hex": "C8BEA0"
+  },
+  {
+    "name": "Tyrant Skull",
+    "brand": "Citadel",
+    "hex": "D4CC90"
+  },
+  {
+    "name": "Necron Compound",
+    "brand": "Citadel",
+    "hex": "A0A898"
+  },
+  {
+    "name": "Stormfang",
+    "brand": "Citadel",
+    "hex": "8090A0"
+  },
+  {
+    "name": "Skeleton Horde",
+    "brand": "Citadel",
+    "hex": "D4C090"
+  },
+  {
+    "name": "Flesh Tearers Red",
+    "brand": "Citadel",
+    "hex": "8B1A1A"
+  },
+  {
+    "name": "Talassar Blue",
+    "brand": "Citadel",
+    "hex": "1A3A6B"
+  },
+  {
+    "name": "Ironjawz Yellow",
+    "brand": "Citadel",
+    "hex": "D4A017"
+  },
+  {
+    "name": "Orruk Flesh",
+    "brand": "Citadel",
+    "hex": "8FBF6F"
+  },
+  {
+    "name": "Blood Angels Red",
+    "brand": "Citadel",
+    "hex": "9E2020"
+  },
+  {
+    "name": "Dark Angels Green",
+    "brand": "Citadel",
+    "hex": "1A5030"
+  },
+  {
+    "name": "Ultramarines Blue",
+    "brand": "Citadel",
+    "hex": "1A3A80"
+  },
+  {
+    "name": "Space Wolves Grey",
+    "brand": "Citadel",
+    "hex": "7898B8"
+  },
+  {
+    "name": "Black Templars",
+    "brand": "Citadel",
+    "hex": "282830"
+  },
+  {
+    "name": "Wyldwood",
+    "brand": "Citadel",
+    "hex": "5A4028"
+  },
+  {
+    "name": "Snakebite Leather",
+    "brand": "Citadel",
+    "hex": "9A6A30"
+  },
+  {
+    "name": "Dead White",
+    "brand": "Vallejo",
+    "hex": "F7F7F7"
+  },
+  {
+    "name": "Ivory",
+    "brand": "Vallejo",
+    "hex": "F0E8C8"
+  },
+  {
+    "name": "Pale Sand",
+    "brand": "Vallejo",
+    "hex": "E8D898"
+  },
+  {
+    "name": "Buff",
+    "brand": "Vallejo",
+    "hex": "D4B870"
+  },
+  {
+    "name": "Flat Yellow",
+    "brand": "Vallejo",
+    "hex": "F0D020"
+  },
+  {
+    "name": "Golden Yellow",
+    "brand": "Vallejo",
+    "hex": "E8B820"
+  },
+  {
+    "name": "Yellow Ochre",
+    "brand": "Vallejo",
+    "hex": "C8922A"
+  },
+  {
+    "name": "Flat Orange",
+    "brand": "Vallejo",
+    "hex": "E87030"
+  },
+  {
+    "name": "Orange Red",
+    "brand": "Vallejo",
+    "hex": "D84020"
+  },
+  {
+    "name": "Scarlet",
+    "brand": "Vallejo",
+    "hex": "C02020"
+  },
+  {
+    "name": "Flat Red",
+    "brand": "Vallejo",
+    "hex": "B01A1A"
+  },
+  {
+    "name": "Carmine",
+    "brand": "Vallejo",
+    "hex": "A01A2A"
+  },
+  {
+    "name": "Hull Red",
+    "brand": "Vallejo",
+    "hex": "6A2018"
+  },
+  {
+    "name": "Cavalry Brown",
+    "brand": "Vallejo",
+    "hex": "8A4030"
+  },
+  {
+    "name": "Flat Brown",
+    "brand": "Vallejo",
+    "hex": "7A4A28"
+  },
+  {
+    "name": "Burnt Umber",
+    "brand": "Vallejo",
+    "hex": "6A3C20"
+  },
+  {
+    "name": "Chocolate Brown",
+    "brand": "Vallejo",
+    "hex": "5A2E18"
+  },
+  {
+    "name": "Beige Brown",
+    "brand": "Vallejo",
+    "hex": "C09870"
+  },
+  {
+    "name": "Brown Sand",
+    "brand": "Vallejo",
+    "hex": "C09860"
+  },
+  {
+    "name": "English Uniform",
+    "brand": "Vallejo",
+    "hex": "8A7A50"
+  },
+  {
+    "name": "Desert Yellow",
+    "brand": "Vallejo",
+    "hex": "C8AA60"
+  },
+  {
+    "name": "US Field Drab",
+    "brand": "Vallejo",
+    "hex": "8A7440"
+  },
+  {
+    "name": "Khaki Grey",
+    "brand": "Vallejo",
+    "hex": "A8A080"
+  },
+  {
+    "name": "Khaki",
+    "brand": "Vallejo",
+    "hex": "9A9060"
+  },
+  {
+    "name": "German Field Grey WWII",
+    "brand": "Vallejo",
+    "hex": "6A7058"
+  },
+  {
+    "name": "Russian Uniform WWII",
+    "brand": "Vallejo",
+    "hex": "687850"
+  },
+  {
+    "name": "Flat Green",
+    "brand": "Vallejo",
+    "hex": "3A7830"
+  },
+  {
+    "name": "Dark Green",
+    "brand": "Vallejo",
+    "hex": "2A5E28"
+  },
+  {
+    "name": "Pastel Green",
+    "brand": "Vallejo",
+    "hex": "88C878"
+  },
+  {
+    "name": "Flat Blue",
+    "brand": "Vallejo",
+    "hex": "4070A8"
+  },
+  {
+    "name": "Blue",
+    "brand": "Vallejo",
+    "hex": "3060A0"
+  },
+  {
+    "name": "Intermediate Blue",
+    "brand": "Vallejo",
+    "hex": "4878B0"
+  },
+  {
+    "name": "Turquoise",
+    "brand": "Vallejo",
+    "hex": "3090A0"
+  },
+  {
+    "name": "Dark Sea Green",
+    "brand": "Vallejo",
+    "hex": "507870"
+  },
+  {
+    "name": "Medium Sea Grey",
+    "brand": "Vallejo",
+    "hex": "7898A0"
+  },
+  {
+    "name": "Medium Grey",
+    "brand": "Vallejo",
+    "hex": "8898A0"
+  },
+  {
+    "name": "Light Grey",
+    "brand": "Vallejo",
+    "hex": "C0C8C8"
+  },
+  {
+    "name": "German Grey",
+    "brand": "Vallejo",
+    "hex": "484848"
+  },
+  {
+    "name": "Black Grey",
+    "brand": "Vallejo",
+    "hex": "282828"
+  },
+  {
+    "name": "Black",
+    "brand": "Vallejo",
+    "hex": "1A1A1A"
+  },
+  {
+    "name": "Silver",
+    "brand": "Vallejo",
+    "hex": "C0C0C0"
+  },
+  {
+    "name": "Old Gold",
+    "brand": "Vallejo",
+    "hex": "B88830"
+  },
+  {
+    "name": "Gold",
+    "brand": "Vallejo",
+    "hex": "C89A30"
+  },
+  {
+    "name": "Copper",
+    "brand": "Vallejo",
+    "hex": "B06040"
+  },
+  {
+    "name": "Bronze",
+    "brand": "Vallejo",
+    "hex": "9A7040"
+  },
+  {
+    "name": "Stone Grey",
+    "brand": "Vallejo",
+    "hex": "B0A888"
+  },
+  {
+    "name": "Dead White",
+    "brand": "Vallejo Game Color",
+    "hex": "F5F5F5"
+  },
+  {
+    "name": "Cold White",
+    "brand": "Vallejo Game Color",
+    "hex": "E8ECF0"
+  },
+  {
+    "name": "Escorpena Green",
+    "brand": "Vallejo Game Color",
+    "hex": "286038"
+  },
+  {
+    "name": "Goblin Green",
+    "brand": "Vallejo Game Color",
+    "hex": "3A9040"
+  },
+  {
+    "name": "Dark Green",
+    "brand": "Vallejo Game Color",
+    "hex": "226030"
+  },
+  {
+    "name": "Cayman Green",
+    "brand": "Vallejo Game Color",
+    "hex": "3A7848"
+  },
+  {
+    "name": "Jade Green",
+    "brand": "Vallejo Game Color",
+    "hex": "20A070"
+  },
+  {
+    "name": "Foul Green",
+    "brand": "Vallejo Game Color",
+    "hex": "60C840"
+  },
+  {
+    "name": "Dead Flesh",
+    "brand": "Vallejo Game Color",
+    "hex": "C8B890"
+  },
+  {
+    "name": "Bone White",
+    "brand": "Vallejo Game Color",
+    "hex": "F0E8C0"
+  },
+  {
+    "name": "Sun Yellow",
+    "brand": "Vallejo Game Color",
+    "hex": "F0D020"
+  },
+  {
+    "name": "Plague Brown",
+    "brand": "Vallejo Game Color",
+    "hex": "A09040"
+  },
+  {
+    "name": "Orange Fire",
+    "brand": "Vallejo Game Color",
+    "hex": "E06018"
+  },
+  {
+    "name": "Bloody Red",
+    "brand": "Vallejo Game Color",
+    "hex": "C02020"
+  },
+  {
+    "name": "Gory Red",
+    "brand": "Vallejo Game Color",
+    "hex": "A01818"
+  },
+  {
+    "name": "Dark Flesh",
+    "brand": "Vallejo Game Color",
+    "hex": "8A4030"
+  },
+  {
+    "name": "Heavy Warmgrey",
+    "brand": "Vallejo Game Color",
+    "hex": "908878"
+  },
+  {
+    "name": "Cold Grey",
+    "brand": "Vallejo Game Color",
+    "hex": "9098A0"
+  },
+  {
+    "name": "Night Blue",
+    "brand": "Vallejo Game Color",
+    "hex": "1A2A5A"
+  },
+  {
+    "name": "Magic Blue",
+    "brand": "Vallejo Game Color",
+    "hex": "3868C0"
+  },
+  {
+    "name": "Electric Blue",
+    "brand": "Vallejo Game Color",
+    "hex": "3090D0"
+  },
+  {
+    "name": "Wolf Grey",
+    "brand": "Vallejo Game Color",
+    "hex": "7898B0"
+  },
+  {
+    "name": "Glacier Blue",
+    "brand": "Vallejo Game Color",
+    "hex": "A0C0D0"
+  },
+  {
+    "name": "Warlord Purple",
+    "brand": "Vallejo Game Color",
+    "hex": "6A3080"
+  },
+  {
+    "name": "Hexed Lichen",
+    "brand": "Vallejo Game Color",
+    "hex": "5A3070"
+  },
+  {
+    "name": "Royal Purple",
+    "brand": "Vallejo Game Color",
+    "hex": "7840A0"
+  },
+  {
+    "name": "Beastly Brown",
+    "brand": "Vallejo Game Color",
+    "hex": "7A4828"
+  },
+  {
+    "name": "Charred Brown",
+    "brand": "Vallejo Game Color",
+    "hex": "4A2E18"
+  },
+  {
+    "name": "Bonewhite",
+    "brand": "Vallejo Game Color",
+    "hex": "E8D8A0"
+  },
+  {
+    "name": "Leather Brown",
+    "brand": "Vallejo Game Color",
+    "hex": "8A5030"
+  },
+  {
+    "name": "Glorious Gold",
+    "brand": "Vallejo Game Color",
+    "hex": "C8983A"
+  },
+  {
+    "name": "Polished Gold",
+    "brand": "Vallejo Game Color",
+    "hex": "D4A840"
+  },
+  {
+    "name": "Hammered Copper",
+    "brand": "Vallejo Game Color",
+    "hex": "B06840"
+  },
+  {
+    "name": "Gunmetal Metal",
+    "brand": "Vallejo Game Color",
+    "hex": "606870"
+  },
+  {
+    "name": "Chainmail Silver",
+    "brand": "Vallejo Game Color",
+    "hex": "B8C0C0"
+  },
+  {
+    "name": "Mithril Silver",
+    "brand": "Vallejo Game Color",
+    "hex": "D0D8D8"
+  },
+  {
+    "name": "Black",
+    "brand": "Vallejo Game Color",
+    "hex": "1E1C1E"
+  },
+  {
+    "name": "Matt White",
+    "brand": "Army Painter",
+    "hex": "F5F5F5"
+  },
+  {
+    "name": "Matte Black",
+    "brand": "Army Painter",
+    "hex": "201E1F"
+  },
+  {
+    "name": "Pure Red",
+    "brand": "Army Painter",
+    "hex": "D02020"
+  },
+  {
+    "name": "Blood Red",
+    "brand": "Army Painter",
+    "hex": "B01A1A"
+  },
+  {
+    "name": "Dragon Red",
+    "brand": "Army Painter",
+    "hex": "C02020"
+  },
+  {
+    "name": "Lava Orange",
+    "brand": "Army Painter",
+    "hex": "E06020"
+  },
+  {
+    "name": "Sun Yellow",
+    "brand": "Army Painter",
+    "hex": "F0D020"
+  },
+  {
+    "name": "Desert Yellow",
+    "brand": "Army Painter",
+    "hex": "D4AA50"
+  },
+  {
+    "name": "Skeleton Bone",
+    "brand": "Army Painter",
+    "hex": "D4C888"
+  },
+  {
+    "name": "Leather Brown",
+    "brand": "Army Painter",
+    "hex": "8A5030"
+  },
+  {
+    "name": "Fur Brown",
+    "brand": "Army Painter",
+    "hex": "7A4020"
+  },
+  {
+    "name": "Oak Brown",
+    "brand": "Army Painter",
+    "hex": "6A4028"
+  },
+  {
+    "name": "Greenskin",
+    "brand": "Army Painter",
+    "hex": "3A8030"
+  },
+  {
+    "name": "Goblin Green",
+    "brand": "Army Painter",
+    "hex": "40A030"
+  },
+  {
+    "name": "Angel Green",
+    "brand": "Army Painter",
+    "hex": "80C050"
+  },
+  {
+    "name": "Toxic Mist",
+    "brand": "Army Painter",
+    "hex": "70C880"
+  },
+  {
+    "name": "Deep Blue",
+    "brand": "Army Painter",
+    "hex": "1A3080"
+  },
+  {
+    "name": "Ultramarine Blue",
+    "brand": "Army Painter",
+    "hex": "2040A0"
+  },
+  {
+    "name": "Electric Blue",
+    "brand": "Army Painter",
+    "hex": "2080C0"
+  },
+  {
+    "name": "Ice Storm",
+    "brand": "Army Painter",
+    "hex": "80B0D0"
+  },
+  {
+    "name": "Alien Purple",
+    "brand": "Army Painter",
+    "hex": "7040A0"
+  },
+  {
+    "name": "Warlock Purple",
+    "brand": "Army Painter",
+    "hex": "5A2878"
+  },
+  {
+    "name": "Crystal Blue",
+    "brand": "Army Painter",
+    "hex": "3888B8"
+  },
+  {
+    "name": "Wolf Grey",
+    "brand": "Army Painter",
+    "hex": "8898A8"
+  },
+  {
+    "name": "Ash Grey",
+    "brand": "Army Painter",
+    "hex": "A0A8A8"
+  },
+  {
+    "name": "Gun Metal",
+    "brand": "Army Painter",
+    "hex": "606870"
+  },
+  {
+    "name": "Enchanted Steel",
+    "brand": "Army Painter",
+    "hex": "909898"
+  },
+  {
+    "name": "Shining Silver",
+    "brand": "Army Painter",
+    "hex": "D0D8D8"
+  },
+  {
+    "name": "Ancient Gold",
+    "brand": "Army Painter",
+    "hex": "B88830"
+  },
+  {
+    "name": "Rough Iron",
+    "brand": "Army Painter",
+    "hex": "707878"
+  },
+  {
+    "name": "Tanned Flesh",
+    "brand": "Army Painter",
+    "hex": "C88868"
+  },
+  {
+    "name": "Barbarian Flesh",
+    "brand": "Army Painter",
+    "hex": "D4A070"
+  },
+  {
+    "name": "Elven Flesh",
+    "brand": "Army Painter",
+    "hex": "E8C8A0"
+  },
+  {
+    "name": "Zombiefied Flesh",
+    "brand": "Army Painter",
+    "hex": "A8A878"
+  },
+  {
+    "name": "Necrotic Flesh",
+    "brand": "Army Painter",
+    "hex": "B8B880"
+  },
+  {
+    "name": "Dirt Spatter",
+    "brand": "Army Painter",
+    "hex": "7A6040"
+  },
+  {
+    "name": "Strong Tone",
+    "brand": "Army Painter",
+    "hex": "6B4A28"
+  },
+  {
+    "name": "Dark Tone",
+    "brand": "Army Painter",
+    "hex": "2A2A2A"
+  },
+  {
+    "name": "Soft Tone",
+    "brand": "Army Painter",
+    "hex": "9A7040"
+  },
+  {
+    "name": "Military Shader",
+    "brand": "Army Painter",
+    "hex": "4A5030"
+  },
+  {
+    "name": "Blue Tone",
+    "brand": "Army Painter",
+    "hex": "1A3A6B"
+  },
+  {
+    "name": "Green Tone",
+    "brand": "Army Painter",
+    "hex": "2A5A3A"
+  },
+  {
+    "name": "Purple Tone",
+    "brand": "Army Painter",
+    "hex": "3A2060"
+  },
+  {
+    "name": "Birch Brown",
+    "brand": "Scale75",
+    "hex": "9A7050"
+  },
+  {
+    "name": "Rawhide",
+    "brand": "Scale75",
+    "hex": "C09060"
+  },
+  {
+    "name": "Iroko",
+    "brand": "Scale75",
+    "hex": "7A5030"
+  },
+  {
+    "name": "Antelope Brown",
+    "brand": "Scale75",
+    "hex": "C09870"
+  },
+  {
+    "name": "Buckskin",
+    "brand": "Scale75",
+    "hex": "D4B080"
+  },
+  {
+    "name": "Plague Brown",
+    "brand": "Scale75",
+    "hex": "9A8840"
+  },
+  {
+    "name": "Blood Red",
+    "brand": "Scale75",
+    "hex": "A82020"
+  },
+  {
+    "name": "Sunset Red",
+    "brand": "Scale75",
+    "hex": "D83020"
+  },
+  {
+    "name": "Neon Red",
+    "brand": "Scale75",
+    "hex": "F04040"
+  },
+  {
+    "name": "Hot Orange",
+    "brand": "Scale75",
+    "hex": "E07030"
+  },
+  {
+    "name": "Canary Yellow",
+    "brand": "Scale75",
+    "hex": "F0E020"
+  },
+  {
+    "name": "Spring Green",
+    "brand": "Scale75",
+    "hex": "60C840"
+  },
+  {
+    "name": "Forest Green",
+    "brand": "Scale75",
+    "hex": "286830"
+  },
+  {
+    "name": "Teal Blue",
+    "brand": "Scale75",
+    "hex": "208878"
+  },
+  {
+    "name": "Sky Blue",
+    "brand": "Scale75",
+    "hex": "4898D8"
+  },
+  {
+    "name": "Deep Blue",
+    "brand": "Scale75",
+    "hex": "1A3888"
+  },
+  {
+    "name": "Omega Blue",
+    "brand": "Scale75",
+    "hex": "2060A8"
+  },
+  {
+    "name": "Abyssal Blue",
+    "brand": "Scale75",
+    "hex": "101830"
+  },
+  {
+    "name": "Violet",
+    "brand": "Scale75",
+    "hex": "7030A0"
+  },
+  {
+    "name": "Wisteria",
+    "brand": "Scale75",
+    "hex": "A870D0"
+  },
+  {
+    "name": "Arctic White",
+    "brand": "Scale75",
+    "hex": "F0F4F8"
+  },
+  {
+    "name": "Carbon Black",
+    "brand": "Scale75",
+    "hex": "201E22"
+  },
+  {
+    "name": "Graphene Grey",
+    "brand": "Scale75",
+    "hex": "6A6870"
+  },
+  {
+    "name": "Speed Metal",
+    "brand": "Scale75",
+    "hex": "B0B8C8"
+  },
+  {
+    "name": "Bright Silver",
+    "brand": "Scale75",
+    "hex": "D8E0E8"
+  },
+  {
+    "name": "Thrash Metal",
+    "brand": "Scale75",
+    "hex": "6A7080"
+  },
+  {
+    "name": "Black Metal",
+    "brand": "Scale75",
+    "hex": "383838"
+  },
+  {
+    "name": "Elven Gold",
+    "brand": "Scale75",
+    "hex": "D4A830"
+  },
+  {
+    "name": "Dwarven Gold",
+    "brand": "Scale75",
+    "hex": "B88420"
+  },
+  {
+    "name": "Necro Gold",
+    "brand": "Scale75",
+    "hex": "C09020"
+  },
+  {
+    "name": "Pure White",
+    "brand": "Reaper",
+    "hex": "F8F8F8"
+  },
+  {
+    "name": "Linen White",
+    "brand": "Reaper",
+    "hex": "F0EAD0"
+  },
+  {
+    "name": "Bone Shadow",
+    "brand": "Reaper",
+    "hex": "D0C890"
+  },
+  {
+    "name": "Cloudy Grey",
+    "brand": "Reaper",
+    "hex": "C0C4C8"
+  },
+  {
+    "name": "Stone Grey",
+    "brand": "Reaper",
+    "hex": "A8A898"
+  },
+  {
+    "name": "Rainy Grey",
+    "brand": "Reaper",
+    "hex": "9098A0"
+  },
+  {
+    "name": "Adamantium Black",
+    "brand": "Reaper",
+    "hex": "1E1E20"
+  },
+  {
+    "name": "Fresh Blood",
+    "brand": "Reaper",
+    "hex": "C01818"
+  },
+  {
+    "name": "Dragon Red",
+    "brand": "Reaper",
+    "hex": "B82020"
+  },
+  {
+    "name": "Carnage Red",
+    "brand": "Reaper",
+    "hex": "8A1010"
+  },
+  {
+    "name": "Fireball Orange",
+    "brand": "Reaper",
+    "hex": "E05818"
+  },
+  {
+    "name": "Harvest Brown",
+    "brand": "Reaper",
+    "hex": "9A6830"
+  },
+  {
+    "name": "Tanned Leather",
+    "brand": "Reaper",
+    "hex": "B87840"
+  },
+  {
+    "name": "Buckskin Pale",
+    "brand": "Reaper",
+    "hex": "D8B880"
+  },
+  {
+    "name": "Earth Brown",
+    "brand": "Reaper",
+    "hex": "7A5028"
+  },
+  {
+    "name": "Muddy Brown",
+    "brand": "Reaper",
+    "hex": "6A4820"
+  },
+  {
+    "name": "Mint Green",
+    "brand": "Reaper",
+    "hex": "80D8A0"
+  },
+  {
+    "name": "Forest Green",
+    "brand": "Reaper",
+    "hex": "388040"
+  },
+  {
+    "name": "Winter Blue",
+    "brand": "Reaper",
+    "hex": "A8C8E8"
+  },
+  {
+    "name": "Marine Teal",
+    "brand": "Reaper",
+    "hex": "2888A0"
+  },
+  {
+    "name": "Ultramarine Blue",
+    "brand": "Reaper",
+    "hex": "2048A8"
+  },
+  {
+    "name": "Midnight Blue",
+    "brand": "Reaper",
+    "hex": "182860"
+  },
+  {
+    "name": "Imperial Purple",
+    "brand": "Reaper",
+    "hex": "6828A0"
+  },
+  {
+    "name": "Dusky Rose",
+    "brand": "Reaper",
+    "hex": "D89090"
+  },
+  {
+    "name": "Violet Red",
+    "brand": "Reaper",
+    "hex": "A82870"
+  },
+  {
+    "name": "Off White",
+    "brand": "AK Interactive",
+    "hex": "FFFFFF"
+  },
+  {
+    "name": "White Grey",
+    "brand": "AK Interactive",
+    "hex": "EEEEE4"
+  },
+  {
+    "name": "Ivory",
+    "brand": "AK Interactive",
+    "hex": "F6F5EF"
+  },
+  {
+    "name": "Greenish White",
+    "brand": "AK Interactive",
+    "hex": "E8EECD"
+  },
+  {
+    "name": "Silver Grey",
+    "brand": "AK Interactive",
+    "hex": "E4E6D6"
+  },
+  {
+    "name": "Rock Grey",
+    "brand": "AK Interactive",
+    "hex": "C0BA98"
+  },
+  {
+    "name": "Warm Grey",
+    "brand": "AK Interactive",
+    "hex": "E0CC9A"
+  },
+  {
+    "name": "Medium Grey",
+    "brand": "AK Interactive",
+    "hex": "B6A989"
+  },
+  {
+    "name": "Blue Grey",
+    "brand": "AK Interactive",
+    "hex": "B5B9A2"
+  },
+  {
+    "name": "Sky Grey",
+    "brand": "AK Interactive",
+    "hex": "C6D2CE"
+  },
+  {
+    "name": "Pale Grey",
+    "brand": "AK Interactive",
+    "hex": "B9BCB5"
+  },
+  {
+    "name": "Medium Sea Grey",
+    "brand": "AK Interactive",
+    "hex": "AEAFB4"
+  },
+  {
+    "name": "Dark Sea Grey",
+    "brand": "AK Interactive",
+    "hex": "A09A80"
+  },
+  {
+    "name": "Grey Green",
+    "brand": "AK Interactive",
+    "hex": "777671"
+  },
+  {
+    "name": "Reddish Grey",
+    "brand": "AK Interactive",
+    "hex": "7C7E66"
+  },
+  {
+    "name": "Neutral Grey",
+    "brand": "AK Interactive",
+    "hex": "766A4F"
+  },
+  {
+    "name": "Graphite",
+    "brand": "AK Interactive",
+    "hex": "6A6D60"
+  },
+  {
+    "name": "English Grey",
+    "brand": "AK Interactive",
+    "hex": "6B6C64"
+  },
+  {
+    "name": "Dark Grey",
+    "brand": "AK Interactive",
+    "hex": "595F59"
+  },
+  {
+    "name": "Lead Grey",
+    "brand": "AK Interactive",
+    "hex": "474840"
+  },
+  {
+    "name": "Ash Grey",
+    "brand": "AK Interactive",
+    "hex": "43443C"
+  },
+  {
+    "name": "German Grey",
+    "brand": "AK Interactive",
+    "hex": "343629"
+  },
+  {
+    "name": "Tenebrous Grey",
+    "brand": "AK Interactive",
+    "hex": "2B2717"
+  },
+  {
+    "name": "Rubber Black",
+    "brand": "AK Interactive",
+    "hex": "1E200B"
+  },
+  {
+    "name": "Duchy Black",
+    "brand": "AK Interactive",
+    "hex": "252817"
+  },
+  {
+    "name": "Black",
+    "brand": "AK Interactive",
+    "hex": "030301"
+  },
+  {
+    "name": "Beige",
+    "brand": "AK Interactive",
+    "hex": "E2BE50"
+  },
+  {
+    "name": "Buff",
+    "brand": "AK Interactive",
+    "hex": "D3B05F"
+  },
+  {
+    "name": "Pale Sand",
+    "brand": "AK Interactive",
+    "hex": "EFD984"
+  },
+  {
+    "name": "Dark Sand",
+    "brand": "AK Interactive",
+    "hex": "E3C05E"
+  },
+  {
+    "name": "Medium Sand",
+    "brand": "AK Interactive",
+    "hex": "CC9C36"
+  },
+  {
+    "name": "Sand Yellow",
+    "brand": "AK Interactive",
+    "hex": "E9C140"
+  },
+  {
+    "name": "Ice Yellow",
+    "brand": "AK Interactive",
+    "hex": "FEF18F"
+  },
+  {
+    "name": "Pastel Yellow",
+    "brand": "AK Interactive",
+    "hex": "FDDD7A"
+  },
+  {
+    "name": "Pale Yellow",
+    "brand": "AK Interactive",
+    "hex": "EBD646"
+  },
+  {
+    "name": "Purulent Yellow",
+    "brand": "AK Interactive",
+    "hex": "B0940D"
+  },
+  {
+    "name": "Golden Ochre",
+    "brand": "AK Interactive",
+    "hex": "C99348"
+  },
+  {
+    "name": "Volcanic Yellow",
+    "brand": "AK Interactive",
+    "hex": "BF7814"
+  },
+  {
+    "name": "Dirty Yellow",
+    "brand": "AK Interactive",
+    "hex": "CB921A"
+  },
+  {
+    "name": "Yellow",
+    "brand": "AK Interactive",
+    "hex": "F8C60C"
+  },
+  {
+    "name": "Deep Yellow",
+    "brand": "AK Interactive",
+    "hex": "CEB114"
+  },
+  {
+    "name": "Radiant Yellow",
+    "brand": "AK Interactive",
+    "hex": "FEE42F"
+  },
+  {
+    "name": "Lemon Yellow",
+    "brand": "AK Interactive",
+    "hex": "F1E948"
+  },
+  {
+    "name": "Laser Yellow",
+    "brand": "AK Interactive",
+    "hex": "F0E636"
+  },
+  {
+    "name": "Fluorescent Yellow",
+    "brand": "AK Interactive",
+    "hex": "FCDFB5"
+  },
+  {
+    "name": "Light Flesh",
+    "brand": "AK Interactive",
+    "hex": "EDC580"
+  },
+  {
+    "name": "Luminous Flesh",
+    "brand": "AK Interactive",
+    "hex": "F6B87F"
+  },
+  {
+    "name": "Basic Skin Tone",
+    "brand": "AK Interactive",
+    "hex": "E4A95A"
+  },
+  {
+    "name": "Radiant Flesh",
+    "brand": "AK Interactive",
+    "hex": "A16C2D"
+  },
+  {
+    "name": "Medium Flesh Tone",
+    "brand": "AK Interactive",
+    "hex": "C88B4B"
+  },
+  {
+    "name": "Sunny Skin Tone",
+    "brand": "AK Interactive",
+    "hex": "B58038"
+  },
+  {
+    "name": "Dark Flesh",
+    "brand": "AK Interactive",
+    "hex": "B1A470"
+  },
+  {
+    "name": "Vampiric Flesh",
+    "brand": "AK Interactive",
+    "hex": "E7B89D"
+  },
+  {
+    "name": "Decomposed Flesh",
+    "brand": "AK Interactive",
+    "hex": "CB977C"
+  },
+  {
+    "name": "Sicky Pink",
+    "brand": "AK Interactive",
+    "hex": "F1A476"
+  },
+  {
+    "name": "Old Rose",
+    "brand": "AK Interactive",
+    "hex": "EF987C"
+  },
+  {
+    "name": "Brown Rose",
+    "brand": "AK Interactive",
+    "hex": "D78863"
+  },
+  {
+    "name": "Beige Red",
+    "brand": "AK Interactive",
+    "hex": "E67F91"
+  },
+  {
+    "name": "Intense Pink",
+    "brand": "AK Interactive",
+    "hex": "65002E"
+  },
+  {
+    "name": "Laser Magenta",
+    "brand": "AK Interactive",
+    "hex": "AD3A65"
+  },
+  {
+    "name": "Magenta",
+    "brand": "AK Interactive",
+    "hex": "E75E70"
+  },
+  {
+    "name": "Fluorescent Magenta",
+    "brand": "AK Interactive",
+    "hex": "FBEBF5"
+  },
+  {
+    "name": "Pastel Violet",
+    "brand": "AK Interactive",
+    "hex": "8773A8"
+  },
+  {
+    "name": "Blue Violet",
+    "brand": "AK Interactive",
+    "hex": "626171"
+  },
+  {
+    "name": "Lilac",
+    "brand": "AK Interactive",
+    "hex": "6D576E"
+  },
+  {
+    "name": "Deep Violet",
+    "brand": "AK Interactive",
+    "hex": "55464D"
+  },
+  {
+    "name": "Purple",
+    "brand": "AK Interactive",
+    "hex": "764E69"
+  },
+  {
+    "name": "Deep Purple",
+    "brand": "AK Interactive",
+    "hex": "513430"
+  },
+  {
+    "name": "Violet Red",
+    "brand": "AK Interactive",
+    "hex": "F2A05C"
+  },
+  {
+    "name": "Pastel Peach",
+    "brand": "AK Interactive",
+    "hex": "EC8444"
+  },
+  {
+    "name": "Light Orange",
+    "brand": "AK Interactive",
+    "hex": "DA6C31"
+  },
+  {
+    "name": "Medium Orange",
+    "brand": "AK Interactive",
+    "hex": "EA6F21"
+  },
+  {
+    "name": "Burnt Orange",
+    "brand": "AK Interactive",
+    "hex": "EB7931"
+  },
+  {
+    "name": "Deep Orange",
+    "brand": "AK Interactive",
+    "hex": "F09025"
+  },
+  {
+    "name": "Reddish Orange",
+    "brand": "AK Interactive",
+    "hex": "E26A57"
+  },
+  {
+    "name": "Luminous Orange",
+    "brand": "AK Interactive",
+    "hex": "DD6A58"
+  },
+  {
+    "name": "Dead Red",
+    "brand": "AK Interactive",
+    "hex": "AE4129"
+  },
+  {
+    "name": "Ruby",
+    "brand": "AK Interactive",
+    "hex": "C54439"
+  },
+  {
+    "name": "Carmine Red",
+    "brand": "AK Interactive",
+    "hex": "DE2F2D"
+  },
+  {
+    "name": "Amaranth Red",
+    "brand": "AK Interactive",
+    "hex": "D25D58"
+  },
+  {
+    "name": "Scarlet Red",
+    "brand": "AK Interactive",
+    "hex": "B16159"
+  },
+  {
+    "name": "Deep Red",
+    "brand": "AK Interactive",
+    "hex": "9D503A"
+  },
+  {
+    "name": "Blood Red",
+    "brand": "AK Interactive",
+    "hex": "9E4230"
+  },
+  {
+    "name": "Vermillion",
+    "brand": "AK Interactive",
+    "hex": "854A35"
+  },
+  {
+    "name": "Carmine",
+    "brand": "AK Interactive",
+    "hex": "904742"
+  },
+  {
+    "name": "Matt Red",
+    "brand": "AK Interactive",
+    "hex": "6C1B13"
+  },
+  {
+    "name": "Brick Red",
+    "brand": "AK Interactive",
+    "hex": "8F3422"
+  },
+  {
+    "name": "Bordeaux Red",
+    "brand": "AK Interactive",
+    "hex": "804B2B"
+  },
+  {
+    "name": "Dirty Red",
+    "brand": "AK Interactive",
+    "hex": "EB9753"
+  },
+  {
+    "name": "Wine Red",
+    "brand": "AK Interactive",
+    "hex": "D77F32"
+  },
+  {
+    "name": "Burnt Red",
+    "brand": "AK Interactive",
+    "hex": "EA6715"
+  },
+  {
+    "name": "Black Red",
+    "brand": "AK Interactive",
+    "hex": "F18D01"
+  },
+  {
+    "name": "Ocher Red",
+    "brand": "AK Interactive",
+    "hex": "E65F53"
+  },
+  {
+    "name": "Light Brown",
+    "brand": "AK Interactive",
+    "hex": "DB6242"
+  },
+  {
+    "name": "Deep Brown",
+    "brand": "AK Interactive",
+    "hex": "D05E27"
+  },
+  {
+    "name": "Medium Rust",
+    "brand": "AK Interactive",
+    "hex": "D04A27"
+  },
+  {
+    "name": "Saddle Brown",
+    "brand": "AK Interactive",
+    "hex": "DB1D11"
+  },
+  {
+    "name": "Light Rust",
+    "brand": "AK Interactive",
+    "hex": "C71F16"
+  },
+  {
+    "name": "Mahogany Brown",
+    "brand": "AK Interactive",
+    "hex": "C65938"
+  },
+  {
+    "name": "Dark Rust",
+    "brand": "AK Interactive",
+    "hex": "B84B22"
+  },
+  {
+    "name": "Hull Red",
+    "brand": "AK Interactive",
+    "hex": "B43A13"
+  },
+  {
+    "name": "Dark Brown",
+    "brand": "AK Interactive",
+    "hex": "9C4D2C"
+  },
+  {
+    "name": "Leather Brown",
+    "brand": "AK Interactive",
+    "hex": "9C4532"
+  },
+  {
+    "name": "Burnt Umber",
+    "brand": "AK Interactive",
+    "hex": "791108"
+  },
+  {
+    "name": "Gray Brown",
+    "brand": "AK Interactive",
+    "hex": "630509"
+  },
+  {
+    "name": "Chocolate Chipper",
+    "brand": "AK Interactive",
+    "hex": "523421"
+  },
+  {
+    "name": "Deck Tan",
+    "brand": "AK Interactive",
+    "hex": "F4AB64"
+  },
+  {
+    "name": "Light Earth",
+    "brand": "AK Interactive",
+    "hex": "CF873B"
+  },
+  {
+    "name": "Tan Yellow",
+    "brand": "AK Interactive",
+    "hex": "AF6119"
+  },
+  {
+    "name": "Golden Brown",
+    "brand": "AK Interactive",
+    "hex": "7F4D2A"
+  },
+  {
+    "name": "Ochre",
+    "brand": "AK Interactive",
+    "hex": "98522E"
+  },
+  {
+    "name": "Cork",
+    "brand": "AK Interactive",
+    "hex": "9F521A"
+  },
+  {
+    "name": "Mud Green",
+    "brand": "AK Interactive",
+    "hex": "673D15"
+  },
+  {
+    "name": "Green Ochre",
+    "brand": "AK Interactive",
+    "hex": "573011"
+  },
+  {
+    "name": "Japanese Brown",
+    "brand": "AK Interactive",
+    "hex": "3B2414"
+  },
+  {
+    "name": "Middle Stone",
+    "brand": "AK Interactive",
+    "hex": "604A23"
+  },
+  {
+    "name": "Grey Brown",
+    "brand": "AK Interactive",
+    "hex": "4A3A21"
+  },
+  {
+    "name": "Green Brown",
+    "brand": "AK Interactive",
+    "hex": "342C19"
+  },
+  {
+    "name": "British Khaki",
+    "brand": "AK Interactive",
+    "hex": "18130A"
+  },
+  {
+    "name": "Luminous Green",
+    "brand": "AK Interactive",
+    "hex": "2E1F0C"
+  },
+  {
+    "name": "Fluorescent Green",
+    "brand": "AK Interactive",
+    "hex": "CFC7B0"
+  },
+  {
+    "name": "Pistachio",
+    "brand": "AK Interactive",
+    "hex": "D3B881"
+  },
+  {
+    "name": "Pastel Green",
+    "brand": "AK Interactive",
+    "hex": "D09A4D"
+  },
+  {
+    "name": "Green Grey",
+    "brand": "AK Interactive",
+    "hex": "AE7E16"
+  },
+  {
+    "name": "Dark Green Grey",
+    "brand": "AK Interactive",
+    "hex": "926D44"
+  },
+  {
+    "name": "Green Sky",
+    "brand": "AK Interactive",
+    "hex": "77613E"
+  },
+  {
+    "name": "Faded Green",
+    "brand": "AK Interactive",
+    "hex": "785B31"
+  },
+  {
+    "name": "Frog Green",
+    "brand": "AK Interactive",
+    "hex": "A4823A"
+  },
+  {
+    "name": "Lime Green",
+    "brand": "AK Interactive",
+    "hex": "916D19"
+  },
+  {
+    "name": "Interior Yellow Green",
+    "brand": "AK Interactive",
+    "hex": "7B6633"
+  },
+  {
+    "name": "Golden Olive",
+    "brand": "AK Interactive",
+    "hex": "6A581C"
+  },
+  {
+    "name": "Grass Green",
+    "brand": "AK Interactive",
+    "hex": "614B19"
+  },
+  {
+    "name": "Earth Green",
+    "brand": "AK Interactive",
+    "hex": "CAD64D"
+  },
+  {
+    "name": "Deep Green",
+    "brand": "AK Interactive",
+    "hex": "9DC017"
+  },
+  {
+    "name": "Mint Green",
+    "brand": "AK Interactive",
+    "hex": "DBD42E"
+  },
+  {
+    "name": "Emerald",
+    "brand": "AK Interactive",
+    "hex": "A8D09A"
+  },
+  {
+    "name": "Lizard Green",
+    "brand": "AK Interactive",
+    "hex": "E0E4BE"
+  },
+  {
+    "name": "Dark Olive",
+    "brand": "AK Interactive",
+    "hex": "364B38"
+  },
+  {
+    "name": "Olive Green",
+    "brand": "AK Interactive",
+    "hex": "8DB286"
+  },
+  {
+    "name": "Medium Olive Green",
+    "brand": "AK Interactive",
+    "hex": "7C8872"
+  },
+  {
+    "name": "Intermediate Green",
+    "brand": "AK Interactive",
+    "hex": "9AB916"
+  },
+  {
+    "name": "Gunship Green",
+    "brand": "AK Interactive",
+    "hex": "8BA122"
+  },
+  {
+    "name": "Brownish Green",
+    "brand": "AK Interactive",
+    "hex": "707A1E"
+  },
+  {
+    "name": "Alga Green",
+    "brand": "AK Interactive",
+    "hex": "66831F"
+  },
+  {
+    "name": "Extra Dark Green",
+    "brand": "AK Interactive",
+    "hex": "5E9425"
+  },
+  {
+    "name": "German Field Grey",
+    "brand": "AK Interactive",
+    "hex": "136221"
+  },
+  {
+    "name": "Command Green",
+    "brand": "AK Interactive",
+    "hex": "1F8E63"
+  },
+  {
+    "name": "Camouflage Green",
+    "brand": "AK Interactive",
+    "hex": "0A5F39"
+  },
+  {
+    "name": "US Dark Green",
+    "brand": "AK Interactive",
+    "hex": "1E430C"
+  },
+  {
+    "name": "Reflective Green",
+    "brand": "AK Interactive",
+    "hex": "485F19"
+  },
+  {
+    "name": "Russian Green",
+    "brand": "AK Interactive",
+    "hex": "3D5114"
+  },
+  {
+    "name": "Black Green",
+    "brand": "AK Interactive",
+    "hex": "506D2D"
+  },
+  {
+    "name": "Blue",
+    "brand": "AK Interactive",
+    "hex": "44522F"
+  },
+  {
+    "name": "Spectrum Blue",
+    "brand": "AK Interactive",
+    "hex": "534602"
+  },
+  {
+    "name": "Intermediate Blue",
+    "brand": "AK Interactive",
+    "hex": "525C15"
+  },
+  {
+    "name": "Dark Blue Grey",
+    "brand": "AK Interactive",
+    "hex": "1F2D20"
+  },
+  {
+    "name": "Grey Blue",
+    "brand": "AK Interactive",
+    "hex": "3F3C1D"
+  },
+  {
+    "name": "French Blue",
+    "brand": "AK Interactive",
+    "hex": "292809"
+  },
+  {
+    "name": "Anthracite Grey",
+    "brand": "AK Interactive",
+    "hex": "4B3E12"
+  },
+  {
+    "name": "Pastel Blue",
+    "brand": "AK Interactive",
+    "hex": "3F3B0E"
+  },
+  {
+    "name": "Blue Green",
+    "brand": "AK Interactive",
+    "hex": "202407"
+  },
+  {
+    "name": "Aquatic Turquoise",
+    "brand": "AK Interactive",
+    "hex": "0C1405"
+  },
+  {
+    "name": "Turquoise",
+    "brand": "AK Interactive",
+    "hex": "8E9A90"
+  },
+  {
+    "name": "Archaic Turquoise",
+    "brand": "AK Interactive",
+    "hex": "8F999A"
+  },
+  {
+    "name": "Ocean Blue",
+    "brand": "AK Interactive",
+    "hex": "939592"
+  },
+  {
+    "name": "Snow Blue",
+    "brand": "AK Interactive",
+    "hex": "546361"
+  },
+  {
+    "name": "Sky Blue",
+    "brand": "AK Interactive",
+    "hex": "7A7D78"
+  },
+  {
+    "name": "Deep Sky Blue",
+    "brand": "AK Interactive",
+    "hex": "2B393A"
+  },
+  {
+    "name": "Light Blue",
+    "brand": "AK Interactive",
+    "hex": "BDDBB9"
+  },
+  {
+    "name": "Fluorescent Blue",
+    "brand": "AK Interactive",
+    "hex": "3F8676"
+  },
+  {
+    "name": "Ultramarine",
+    "brand": "AK Interactive",
+    "hex": "026457"
+  },
+  {
+    "name": "Imperial Blue",
+    "brand": "AK Interactive",
+    "hex": "114747"
+  },
+  {
+    "name": "Cobalt Blue",
+    "brand": "AK Interactive",
+    "hex": "053131"
+  },
+  {
+    "name": "Deep Blue",
+    "brand": "AK Interactive",
+    "hex": "445754"
+  },
+  {
+    "name": "Amethyst Blue",
+    "brand": "AK Interactive",
+    "hex": "97AAA9"
+  },
+  {
+    "name": "Medium Blue",
+    "brand": "AK Interactive",
+    "hex": "7DACB5"
+  },
+  {
+    "name": "Star Blue",
+    "brand": "AK Interactive",
+    "hex": "6194A3"
+  },
+  {
+    "name": "Light Prussian Blue",
+    "brand": "AK Interactive",
+    "hex": "427F96"
+  },
+  {
+    "name": "Strong Dark Blue",
+    "brand": "AK Interactive",
+    "hex": "164C85"
+  },
+  {
+    "name": "Oxford",
+    "brand": "AK Interactive",
+    "hex": "465C7B"
+  },
+  {
+    "name": "Dark Prussian Blue",
+    "brand": "AK Interactive",
+    "hex": "022948"
+  },
+  {
+    "name": "Dark Sea Blue",
+    "brand": "AK Interactive",
+    "hex": "024266"
+  },
+  {
+    "name": "Gold",
+    "brand": "AK Interactive",
+    "hex": "262645"
+  },
+  {
+    "name": "Old Gold",
+    "brand": "AK Interactive",
+    "hex": "083F51"
+  },
+  {
+    "name": "Rusty Gold",
+    "brand": "AK Interactive",
+    "hex": "032433"
+  },
+  {
+    "name": "Brass",
+    "brand": "AK Interactive",
+    "hex": "000312"
+  },
+  {
+    "name": "Rusty Brass",
+    "brand": "AK Interactive",
+    "hex": "2F373A"
+  },
+  {
+    "name": "Bronze",
+    "brand": "AK Interactive",
+    "hex": "00000A"
+  },
+  {
+    "name": "Copper",
+    "brand": "AK Interactive",
+    "hex": "000904"
+  },
+  {
+    "name": "Burnt Tin",
+    "brand": "AK Interactive",
+    "hex": "A87B20"
+  },
+  {
+    "name": "Metallic Blue",
+    "brand": "AK Interactive",
+    "hex": "BB9A15"
+  },
+  {
+    "name": "Astral Beta Blue",
+    "brand": "AK Interactive",
+    "hex": "755615"
+  },
+  {
+    "name": "Night Blue",
+    "brand": "AK Interactive",
+    "hex": "BF7C2E"
+  },
+  {
+    "name": "Lavender",
+    "brand": "AK Interactive",
+    "hex": "BC6C30"
+  },
+  {
+    "name": "Carmine Flesh",
+    "brand": "AK Interactive",
+    "hex": "9C7D26"
+  },
+  {
+    "name": "Forest Green",
+    "brand": "AK Interactive",
+    "hex": "C87B2D"
+  },
+  {
+    "name": "Light Stone",
+    "brand": "AK Interactive",
+    "hex": "869C99"
+  },
+  {
+    "name": "Silver",
+    "brand": "AK Interactive",
+    "hex": "7EA08F"
+  },
+  {
+    "name": "Steel",
+    "brand": "AK Interactive",
+    "hex": "000121"
+  },
+  {
+    "name": "Aluminium",
+    "brand": "AK Interactive",
+    "hex": "BAA5AE"
+  },
+  {
+    "name": "Pale Steel",
+    "brand": "AK Interactive",
+    "hex": "C95140"
+  },
+  {
+    "name": "Pale Warm Grey",
+    "brand": "AK Interactive",
+    "hex": "528953"
+  },
+  {
+    "name": "Dark Steel",
+    "brand": "AK Interactive",
+    "hex": "F8F5DA"
+  },
+  {
+    "name": "Bright Red",
+    "brand": "AK Interactive",
+    "hex": "B0AEAF"
+  },
+  {
+    "name": "Navy Blue",
+    "brand": "AK Interactive",
+    "hex": "777978"
+  },
+  {
+    "name": "Tan",
+    "brand": "AK Interactive",
+    "hex": "ADB5B8"
+  },
+  {
+    "name": "Vivid Green",
+    "brand": "AK Interactive",
+    "hex": "B3B2AD"
+  },
+  {
+    "name": "Golden Yellow",
+    "brand": "AK Interactive",
+    "hex": "B8B29E"
+  },
+  {
+    "name": "Dark Purple",
+    "brand": "AK Interactive",
+    "hex": "5D5F59"
+  },
+  {
+    "name": "Vivid Scarlet",
+    "brand": "AK Interactive",
+    "hex": "C6050E"
+  },
+  {
+    "name": "Dark Tan",
+    "brand": "AK Interactive",
+    "hex": "6E4E1F"
+  },
+  {
+    "name": "Green Leaf",
+    "brand": "AK Interactive",
+    "hex": "189930"
+  },
+  {
+    "name": "Warm Orange",
+    "brand": "AK Interactive",
+    "hex": "F09505"
+  },
+  {
+    "name": "Midnight Blue",
+    "brand": "AK Interactive",
+    "hex": "080221"
+  },
+  {
+    "name": "Dark Night Blue",
+    "brand": "AK Interactive",
+    "hex": "001830"
+  },
+  {
+    "name": "Mauve",
+    "brand": "AK Interactive",
+    "hex": "998495"
+  },
+  {
+    "name": "Warm Red",
+    "brand": "AK Interactive",
+    "hex": "C24236"
+  },
+  {
+    "name": "Medium Green",
+    "brand": "AK Interactive",
+    "hex": "56975A"
+  },
+  {
+    "name": "Stone",
+    "brand": "AK Interactive",
+    "hex": "CAC390"
+  },
+  {
+    "name": "Light Grey",
+    "brand": "AK Interactive",
+    "hex": "E5E5E5"
+  },
+  {
+    "name": "Mid Grey",
+    "brand": "AK Interactive",
+    "hex": "A5A3A4"
+  },
+  {
+    "name": "Light Steel",
+    "brand": "AK Interactive",
+    "hex": "BAC2C5"
+  },
+  {
+    "name": "Natural Steel",
+    "brand": "AK Interactive",
+    "hex": "AAA9A4"
+  },
+  {
+    "name": "Warm Stone",
+    "brand": "AK Interactive",
+    "hex": "A8A38F"
+  },
+  {
+    "name": "Royal Blue",
+    "brand": "AK Interactive",
+    "hex": "002C56"
+  }
 ]

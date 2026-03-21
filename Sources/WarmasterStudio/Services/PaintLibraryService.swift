@@ -10,17 +10,11 @@ struct PaintLibraryService {
         let hex: String
     }
 
-    /// Imports catalogue paints from JSON if no catalogue paints exist yet.
+    /// Syncs catalogue paints with the JSON:
+    /// - Inserts entries not yet in the database (matched by brand + name).
+    /// - Deletes catalogue entries that are no longer present in the JSON.
+    /// - Updates the hex value if it changed for an existing entry.
     static func seedCatalogue(context: ModelContext) throws {
-        let descriptor = FetchDescriptor<Paint>(
-            predicate: #Predicate { !$0.isUserAdded }
-        )
-        let existing = try context.fetch(descriptor)
-        guard existing.isEmpty else {
-            Logger.paint.debug("Paint catalogue already seeded (\(existing.count) entries).")
-            return
-        }
-
         guard let url = Bundle.main.url(forResource: "paint_catalogue", withExtension: "json") else {
             Logger.paint.error("paint_catalogue.json not found in bundle.")
             return
@@ -28,14 +22,46 @@ struct PaintLibraryService {
 
         let data = try Data(contentsOf: url)
         let catalogue = try JSONDecoder().decode([CataloguePaint].self, from: data)
+        let catalogueKeys = Set(catalogue.map { "\($0.brand)|\($0.name)" })
 
-        for entry in catalogue {
-            let paint = Paint(name: entry.name, brand: entry.brand, hex: entry.hex, isUserAdded: false)
-            context.insert(paint)
+        let existing = try context.fetch(FetchDescriptor<Paint>(predicate: #Predicate { !$0.isUserAdded }))
+
+        // Build a lookup of existing DB entries by brand|name key.
+        var existingByKey: [String: Paint] = [:]
+        for paint in existing {
+            existingByKey["\(paint.brand)|\(paint.name)"] = paint
         }
 
-        try context.save()
-        Logger.paint.info("Seeded \(catalogue.count) catalogue paints.")
+        // Delete stale entries no longer in the JSON.
+        var deleted = 0
+        for paint in existing where !catalogueKeys.contains("\(paint.brand)|\(paint.name)") {
+            context.delete(paint)
+            deleted += 1
+        }
+
+        // Insert new entries; update hex if it changed.
+        var inserted = 0
+        var updated = 0
+        for entry in catalogue {
+            let key = "\(entry.brand)|\(entry.name)"
+            if let existing = existingByKey[key] {
+                if existing.hex != entry.hex.uppercased() {
+                    existing.hex = entry.hex.uppercased()
+                    updated += 1
+                }
+            } else {
+                context.insert(Paint(name: entry.name, brand: entry.brand, hex: entry.hex, isUserAdded: false))
+                inserted += 1
+            }
+        }
+
+        let dirty = inserted > 0 || deleted > 0 || updated > 0
+        if dirty {
+            try context.save()
+            Logger.paint.info("Paint catalogue synced — inserted: \(inserted), deleted: \(deleted), updated: \(updated) (JSON total: \(catalogue.count)).")
+        } else {
+            Logger.paint.debug("Paint catalogue up to date — no changes.")
+        }
     }
 
     /// Adds a new user-defined paint.
