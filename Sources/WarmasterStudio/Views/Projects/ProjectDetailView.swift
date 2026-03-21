@@ -68,8 +68,11 @@ struct ProjectDetailView: View {
             case .success(let urls):
                 guard let url = urls.first else { return }
                 do {
-                    if let old = project.boxArtImagePath { ImageService.deleteImage(relativePath: old) }
-                    project.boxArtImagePath = try ImageService.importImage(from: url)
+                    // Delete any previous images in the group (deduplicated by path)
+                    let oldPaths = Set(linkGroupMembers.compactMap(\.boxArtImagePath))
+                    oldPaths.forEach { ImageService.deleteImage(relativePath: $0) }
+                    let newPath = try ImageService.importImage(from: url)
+                    for member in linkGroupMembers { member.boxArtImagePath = newPath }
                     try modelContext.save()
                 } catch {
                     imageErrorMessage = error.localizedDescription
@@ -197,9 +200,24 @@ extension ProjectDetailView {
         }
     }
 
+    /// The box art path for this project, or — if it has none — the first linked project's path.
+    private var resolvedBoxArtPath: String? {
+        if let path = project.boxArtImagePath { return path }
+        guard let groupId = project.linkGroupId else { return nil }
+        return allProjects.first {
+            $0.id != project.id && $0.linkGroupId == groupId && $0.boxArtImagePath != nil
+        }?.boxArtImagePath
+    }
+
+    /// All projects in the same link group (including this one).
+    private var linkGroupMembers: [Project] {
+        guard let groupId = project.linkGroupId else { return [project] }
+        return allProjects.filter { $0.linkGroupId == groupId }
+    }
+
     @ViewBuilder
     var boxArtSection: some View {
-        if let path = project.boxArtImagePath, let url = ImageService.resolveImageURL(relativePath: path) {
+        if let path = resolvedBoxArtPath, let url = ImageService.resolveImageURL(relativePath: path) {
             VStack(alignment: .leading, spacing: 8) {
                 if let nsImage = NSImage(contentsOf: url) {
                     Image(nsImage: nsImage)
@@ -213,8 +231,10 @@ extension ProjectDetailView {
                     Button("Change Image") { showImagePicker = true }
                         .buttonStyle(.borderless)
                     Button("Remove Image") {
+                        for member in linkGroupMembers where member.boxArtImagePath == path {
+                            member.boxArtImagePath = nil
+                        }
                         ImageService.deleteImage(relativePath: path)
-                        project.boxArtImagePath = nil
                         try? modelContext.save()
                     }
                     .buttonStyle(.borderless)
