@@ -34,10 +34,10 @@ struct CollectionsView: View {
     }
 
     var body: some View {
-        NavigationSplitView {
+        HSplitView {
+            // Left: collapsible collection + project list
             List(selection: $selectedProject) {
                 ForEach(collections) { collection in
-                    let isExpanded = expandedCollections.contains(collection.id)
                     DisclosureGroup(
                         isExpanded: Binding(
                             get: { expandedCollections.contains(collection.id) },
@@ -84,6 +84,8 @@ struct CollectionsView: View {
                     }
                 }
             }
+            .listStyle(.sidebar)
+            .frame(minWidth: 220)
             .navigationTitle("Collections")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -92,11 +94,14 @@ struct CollectionsView: View {
                     }
                 }
             }
-        } detail: {
+
+            // Right: project detail
             Group {
                 if let project = selectedProject {
-                    ProjectDetailView(project: project) {
-                        selectedProject = nil
+                    ScrollView {
+                        ProjectDetailView(project: project) {
+                            selectedProject = nil
+                        }
                     }
                 } else {
                     EmptyStateView(
@@ -106,7 +111,8 @@ struct CollectionsView: View {
                     )
                 }
             }
-            .navigationSplitViewColumnWidth(min: 260, ideal: 300, max: 380)
+            .frame(minWidth: 260, idealWidth: 300, maxWidth: 380)
+            .background(Color.wmSurface)
         }
         .sheet(isPresented: $showCreateSheet) {
             CreateCollectionSheet(isPresented: $showCreateSheet)
