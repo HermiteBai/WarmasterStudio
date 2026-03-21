@@ -123,6 +123,15 @@ struct KanbanBoardView: View {
             let collectionName = project.collectionId.flatMap { cid in
                 collections.first { $0.id == cid }?.name
             }
+            // Resolve box-art: own image first, then any linked-group member's image.
+            let boxArtPath: String? = project.boxArtImagePath ?? {
+                guard let groupId = project.linkGroupId else { return nil }
+                return projects.first {
+                    $0.id != project.id &&
+                    $0.linkGroupId == groupId &&
+                    $0.boxArtImagePath != nil
+                }?.boxArtImagePath
+            }()
             return KanbanCard(
                 id: project.id,
                 projectId: project.id,
@@ -131,7 +140,8 @@ struct KanbanBoardView: View {
                 collectionName: collectionName,
                 collectionId: project.collectionId,
                 modelCount: records.count,
-                linkGroupId: project.linkGroupId
+                linkGroupId: project.linkGroupId,
+                boxArtImagePath: boxArtPath
             )
         }
         .sorted { lhs, rhs in

@@ -25,76 +25,103 @@ struct KanbanCardView: View {
         return Color(hue: hue, saturation: 0.8, brightness: 0.9)
     }
 
+    @ViewBuilder
+    private var thumbnailStrip: some View {
+        if let path = card.boxArtImagePath,
+           let url = ImageService.resolveImageURL(relativePath: path),
+           let nsImage = NSImage(contentsOf: url) {
+            Image(nsImage: nsImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 80)
+                .clipped()
+                .overlay(alignment: .topLeading) {
+                    // Keep the link-group accent as a left edge stripe on the thumbnail
+                    if let accent = linkAccentColor {
+                        accent.frame(width: 4)
+                    }
+                }
+                .accessibilityHidden(true)
+        }
+    }
+
     var body: some View {
-        HStack(spacing: 0) {
-            // Link group accent bar (3pt left border)
-            if let accent = linkAccentColor {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(accent)
-                    .frame(width: 3)
-                    .padding(.vertical, 8)
-                    .padding(.leading, 6)
-            } else {
-                Color.clear.frame(width: 9)
-            }
+        VStack(spacing: 0) {
+            // Thumbnail strip — shown when box art is available
+            thumbnailStrip
 
-            VStack(alignment: .leading, spacing: 8) {
-                // Title + model count badge
-                HStack(alignment: .top) {
-                    Text(card.projectName)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                        .lineLimit(2)
-                    Spacer()
-                    Text("\(card.modelCount)")
-                        .font(.caption.monospacedDigit().bold())
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 3)
-                        .background(Color.wmAccent.opacity(0.2))
-                        .foregroundStyle(Color.wmAccent)
-                        .clipShape(Capsule())
-                }
-
-                if let col = card.collectionName {
-                    Label(col, systemImage: "folder.fill")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                }
-
-                // Stage navigation
-                HStack(spacing: 6) {
-                    Button { moveToPreviousStage() } label: {
-                        Image(systemName: "chevron.left.circle.fill")
-                            .font(.title3)
-                            .foregroundStyle(isFirstStage ? Color.wmAccent.opacity(0.3) : Color.wmAccent)
+            HStack(spacing: 0) {
+                // Link group accent bar (only shown when no thumbnail present)
+                if card.boxArtImagePath == nil {
+                    if let accent = linkAccentColor {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(accent)
+                            .frame(width: 3)
+                            .padding(.vertical, 8)
+                            .padding(.leading, 6)
+                    } else {
+                        Color.clear.frame(width: 9)
                     }
-                    .buttonStyle(.plain)
-                    .disabled(isFirstStage)
-                    .accessibilityLabel(isFirstStage ? "Move back (unavailable)" : "Move one model to previous stage")
+                }
 
-                    Spacer()
+                VStack(alignment: .leading, spacing: 8) {
+                    // Title + model count badge
+                    HStack(alignment: .top) {
+                        Text(card.projectName)
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                            .lineLimit(2)
+                        Spacer()
+                        Text("\(card.modelCount)")
+                            .font(.caption.monospacedDigit().bold())
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Color.wmAccent.opacity(0.2))
+                            .foregroundStyle(Color.wmAccent)
+                            .clipShape(Capsule())
+                    }
 
-                    if let idx = currentStageIndex {
-                        Text(stages[idx].name)
-                            .font(.caption2)
+                    if let col = card.collectionName {
+                        Label(col, systemImage: "folder.fill")
+                            .font(.caption)
                             .foregroundStyle(.secondary)
+                            .lineLimit(1)
                     }
 
-                    Spacer()
+                    // Stage navigation
+                    HStack(spacing: 6) {
+                        Button { moveToPreviousStage() } label: {
+                            Image(systemName: "chevron.left.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(isFirstStage ? Color.wmAccent.opacity(0.3) : Color.wmAccent)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(isFirstStage)
+                        .accessibilityLabel(isFirstStage ? "Move back (unavailable)" : "Move one model to previous stage")
 
-                    Button { moveToNextStage() } label: {
-                        Image(systemName: "chevron.right.circle.fill")
-                            .font(.title3)
-                            .foregroundStyle(isLastStage ? Color.wmAccent.opacity(0.3) : Color.wmAccent)
+                        Spacer()
+
+                        if let idx = currentStageIndex {
+                            Text(stages[idx].name)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Spacer()
+
+                        Button { moveToNextStage() } label: {
+                            Image(systemName: "chevron.right.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(isLastStage ? Color.wmAccent.opacity(0.3) : Color.wmAccent)
+                        }
+                        .buttonStyle(.plain)
+                        .disabled(isLastStage)
+                        .accessibilityLabel(isLastStage ? "Move forward (unavailable)" : "Move one model to next stage")
                     }
-                    .buttonStyle(.plain)
-                    .disabled(isLastStage)
-                    .accessibilityLabel(isLastStage ? "Move forward (unavailable)" : "Move one model to next stage")
                 }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 10)
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 10)
         }
         .frame(width: 240)
         .background(

@@ -9,4 +9,6 @@ struct KanbanCard: Identifiable, Equatable {
     let collectionId: UUID?
     let modelCount: Int
     let linkGroupId: UUID?
+    /// Resolved box-art path (own image or inherited from a linked-group member).
+    let boxArtImagePath: String?
 }
