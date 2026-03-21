@@ -220,12 +220,7 @@ extension ProjectDetailView {
         if let path = resolvedBoxArtPath, let url = ImageService.resolveImageURL(relativePath: path) {
             VStack(alignment: .leading, spacing: 8) {
                 if let nsImage = NSImage(contentsOf: url) {
-                    Image(nsImage: nsImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(8)
-                        .frame(maxHeight: 260)
-                        .accessibilityLabel("Box art for \(project.name)")
+                    BoxArtPinCanvas(image: nsImage, projectId: project.id)
                 }
                 HStack(spacing: 12) {
                     Button("Change Image") { showImagePicker = true }
