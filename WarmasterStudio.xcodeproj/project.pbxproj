@@ -26,6 +26,7 @@
 		8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */; };
 		8C616FFEF783155E36D41AEA /* StageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA743F2C074CB77FC994F3 /* StageService.swift */; };
 		8E269AEA9412AED43468276A /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27706721140C4EB6EA67C4 /* Logging.swift */; };
+		9E1871D55268BFDB8D2D4D04 /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173AC488951BE2F170228FB7 /* Color+Theme.swift */; };
 		A163402862E389A11D3A9E94 /* LinkGroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FED2327755F51C727F93CD /* LinkGroupService.swift */; };
 		A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */; };
 		A62675B34F4392F76EAA79A7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19366E65285094A56C8D68 /* SettingsView.swift */; };
@@ -57,6 +58,7 @@
 		000A53ADDAC42D66995DA471 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
 		03CEACA85CE0E6A73D184D6A /* LinkGroupServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkGroupServiceTests.swift; sourceTree = "<group>"; };
 		144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectService.swift; sourceTree = "<group>"; };
+		173AC488951BE2F170228FB7 /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
 		18FA743F2C074CB77FC994F3 /* StageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageService.swift; sourceTree = "<group>"; };
 		192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineServiceTests.swift; sourceTree = "<group>"; };
 		1C19366E65285094A56C8D68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -142,10 +144,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		83F2C938D243658152712DD6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				173AC488951BE2F170228FB7 /* Color+Theme.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		A95AFE18B574D8E9A545DFD8 /* WarmasterStudio */ = {
 			isa = PBXGroup;
 			children = (
 				D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */,
+				83F2C938D243658152712DD6 /* Extensions */,
 				C1335C7433F45F86D74F560D /* Models */,
 				F6E78C4C7C6DA025D32ED2EF /* Services */,
 				E71C5C24A5E8BEC761AF962A /* Views */,
@@ -326,6 +337,7 @@
 				7183D9750879C1108468FE68 /* Collection.swift in Sources */,
 				827C486665C3B990538C82B3 /* CollectionService.swift in Sources */,
 				0B5A5B3260AAA832D4B50518 /* CollectionsView.swift in Sources */,
+				9E1871D55268BFDB8D2D4D04 /* Color+Theme.swift in Sources */,
 				23B8B6D98FE07834FE3938AB /* ContentView.swift in Sources */,
 				461149116ADC82D3F4DCAB22 /* EditProjectSheet.swift in Sources */,
 				8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */,

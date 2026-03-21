@@ -5,7 +5,6 @@ import os
 struct KanbanCardView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Stage.position) private var stages: [Stage]
-    @Query(sort: \WMCollection.name) private var collections: [WMCollection]
 
     let card: KanbanCard
     var onSelect: (() -> Void)?
@@ -23,97 +22,106 @@ struct KanbanCardView: View {
         guard let groupId = card.linkGroupId else { return nil }
         let bytes = withUnsafeBytes(of: groupId.uuid) { Array($0) }
         let hue = Double(bytes[0]) / 255.0
-        return Color(hue: hue, saturation: 0.7, brightness: 0.85)
+        return Color(hue: hue, saturation: 0.8, brightness: 0.9)
     }
 
     var body: some View {
         HStack(spacing: 0) {
-            // Link group accent
+            // Link group accent bar (3pt left border)
             if let accent = linkAccentColor {
-                Rectangle()
+                RoundedRectangle(cornerRadius: 2)
                     .fill(accent)
-                    .frame(width: 4)
+                    .frame(width: 3)
+                    .padding(.vertical, 8)
+                    .padding(.leading, 6)
+            } else {
+                Color.clear.frame(width: 9)
             }
 
-            VStack(alignment: .leading, spacing: 6) {
-                // Card header row
-                HStack {
+            VStack(alignment: .leading, spacing: 8) {
+                // Title + model count badge
+                HStack(alignment: .top) {
                     Text(card.projectName)
                         .font(.headline)
+                        .foregroundStyle(.primary)
                         .lineLimit(2)
                     Spacer()
                     Text("\(card.modelCount)")
                         .font(.caption.monospacedDigit().bold())
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.accentColor.opacity(0.15))
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Color.wmAccent.opacity(0.2))
+                        .foregroundStyle(Color.wmAccent)
                         .clipShape(Capsule())
                 }
 
                 if let col = card.collectionName {
-                    Label(col, systemImage: "folder")
+                    Label(col, systemImage: "folder.fill")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
 
-                // Navigation buttons
-                HStack(spacing: 8) {
-                    Button {
-                        moveToPreviousStage()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .frame(width: 28, height: 28)
+                // Stage navigation
+                HStack(spacing: 6) {
+                    Button { moveToPreviousStage() } label: {
+                        Image(systemName: "chevron.left.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(isFirstStage ? Color.wmAccent.opacity(0.3) : Color.wmAccent)
                     }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
+                    .buttonStyle(.plain)
                     .disabled(isFirstStage)
 
                     Spacer()
 
-                    Button {
-                        moveToNextStage()
-                    } label: {
-                        Image(systemName: "chevron.right")
-                            .frame(width: 28, height: 28)
+                    if let idx = currentStageIndex {
+                        Text(stages[idx].name)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
                     }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
+
+                    Spacer()
+
+                    Button { moveToNextStage() } label: {
+                        Image(systemName: "chevron.right.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(isLastStage ? Color.wmAccent.opacity(0.3) : Color.wmAccent)
+                    }
+                    .buttonStyle(.plain)
                     .disabled(isLastStage)
                 }
             }
-            .padding(10)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 10)
         }
-        .background(Color(nsColor: .controlBackgroundColor))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
+        .frame(width: 240)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.wmSurface)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(Color.wmBorder, lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.3), radius: 4, y: 2)
         .contentShape(Rectangle())
-        .onTapGesture {
-            onSelect?()
-        }
+        .onTapGesture { onSelect?() }
         .draggable(card.projectId.uuidString)
     }
 
     private func moveToPreviousStage() {
         guard let idx = currentStageIndex, idx > 0 else { return }
-        let prevStage = stages[idx - 1]
-        moveCard(to: prevStage)
+        moveCard(to: stages[idx - 1])
     }
 
     private func moveToNextStage() {
         guard let idx = currentStageIndex, idx < stages.count - 1 else { return }
-        let nextStage = stages[idx + 1]
-        moveCard(to: nextStage)
+        moveCard(to: stages[idx + 1])
     }
 
     private func moveCard(to targetStage: Stage) {
         let projectId = card.projectId
-        let descriptor = FetchDescriptor<Project>(
-            predicate: #Predicate { $0.id == projectId }
-        )
+        let descriptor = FetchDescriptor<Project>(predicate: #Predicate { $0.id == projectId })
         guard let project = try? modelContext.fetch(descriptor).first else {
             Logger.kanban.error("Project not found for card move")
             return

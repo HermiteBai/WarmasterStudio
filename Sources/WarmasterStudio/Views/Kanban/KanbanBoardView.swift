@@ -16,19 +16,8 @@ struct KanbanBoardView: View {
             boardContent
                 .frame(minWidth: 400)
 
-            if let project = selectedProject {
-                ProjectDetailView(project: project) {
-                    selectedProject = nil
-                }
-                .frame(minWidth: 300)
-            } else {
-                EmptyStateView(
-                    title: "Select a Project",
-                    subtitle: "Tap any card to view project details.",
-                    systemImage: "sidebar.right"
-                )
-                .frame(minWidth: 300)
-            }
+            detailPanel
+                .frame(minWidth: 260, idealWidth: 300, maxWidth: 380)
         }
         .sheet(isPresented: $showNewProjectSheet) {
             NewProjectSheet()
@@ -43,6 +32,7 @@ struct KanbanBoardView: View {
                 .keyboardShortcut("n", modifiers: .command)
             }
         }
+        .background(Color.wmBackground)
     }
 
     @ViewBuilder
@@ -53,6 +43,7 @@ struct KanbanBoardView: View {
                 subtitle: "Configure your pipeline stages in Settings.",
                 systemImage: "square.3.layers.3d"
             )
+            .background(Color.wmBackground)
         } else {
             ScrollView(.horizontal, showsIndicators: true) {
                 LazyHStack(alignment: .top, spacing: 16) {
@@ -67,8 +58,27 @@ struct KanbanBoardView: View {
                 }
                 .padding(16)
             }
+            .background(Color.wmBackground)
             .animation(.default, value: modelRecords.count)
         }
+    }
+
+    @ViewBuilder
+    private var detailPanel: some View {
+        ScrollView {
+            if let project = selectedProject {
+                ProjectDetailView(project: project) {
+                    selectedProject = nil
+                }
+            } else {
+                EmptyStateView(
+                    title: "Select a Project",
+                    subtitle: "Tap any card to view project details.",
+                    systemImage: "sidebar.right"
+                )
+            }
+        }
+        .background(Color.wmSurface)
     }
 
     private func cards(for stage: Stage) -> [KanbanCard] {

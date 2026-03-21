@@ -13,82 +13,99 @@ struct KanbanColumnView: View {
 
     var totalModels: Int { cards.reduce(0) { $0 + $1.modelCount } }
 
+    private var stageHue: Double {
+        let hues: [Double] = [0.70, 0.55, 0.10, 0.45, 0.33, 0.02, 0.60, 0.80]
+        return hues[min(stage.position, 7)]
+    }
+    private var stageAccent: Color { Color(hue: stageHue, saturation: 0.7, brightness: 0.85) }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Column header
-            HStack {
+            HStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(stageAccent)
+                    .frame(width: 3, height: 18)
+
                 Text(stage.name)
-                    .font(.headline)
+                    .font(.title3.bold())
+                    .foregroundStyle(.primary)
+
                 Spacer()
+
                 Text("\(totalModels)")
-                    .font(.caption.monospacedDigit())
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color.secondary.opacity(0.15))
+                    .font(.caption.monospacedDigit().bold())
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(Color.wmPrimary.opacity(0.2))
+                    .foregroundStyle(Color.wmPrimary)
                     .clipShape(Capsule())
             }
             .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .background(Color(nsColor: .windowBackgroundColor))
+            .padding(.vertical, 12)
+            .background(Color.wmSurface.opacity(0.6))
 
             Divider()
+                .overlay(Color.wmBorder)
 
             // Cards
-            ScrollView(.vertical) {
+            ScrollView(.vertical, showsIndicators: false) {
                 LazyVStack(spacing: 8) {
                     ForEach(cards) { card in
                         KanbanCardView(card: card) {
                             onSelectCard?(card)
                         }
                     }
+                    .animation(.default, value: cards)
 
                     if cards.isEmpty {
                         VStack(spacing: 8) {
                             Image(systemName: "tray")
-                                .foregroundStyle(.tertiary)
                                 .font(.title2)
-                            Text("Empty")
+                                .foregroundStyle(Color.wmBorder)
+                            Text("Drop here")
                                 .font(.caption)
-                                .foregroundStyle(.tertiary)
+                                .foregroundStyle(Color.wmBorder)
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 24)
+                        .padding(.vertical, 28)
                     }
                 }
-                .padding(8)
+                .padding(10)
             }
             .frame(maxHeight: .infinity)
         }
         .frame(width: 260)
-        .background(Color(nsColor: .controlBackgroundColor).opacity(isDropTargeted ? 0.8 : 1.0))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.wmSurface)
+        )
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 12)
                 .strokeBorder(
-                    isDropTargeted ? Color.accentColor : Color(nsColor: .separatorColor),
+                    isDropTargeted ? Color.wmPrimary : Color.wmBorder,
                     lineWidth: isDropTargeted ? 2 : 1
                 )
         )
-        .dropDestination(for: String.self) { droppedStrings, _ in
-            let projectIds = droppedStrings.compactMap { UUID(uuidString: $0) }
-            handleDrop(projectIds: projectIds)
+        .shadow(
+            color: isDropTargeted ? Color.wmPrimary.opacity(0.25) : Color.black.opacity(0.15),
+            radius: isDropTargeted ? 8 : 4, x: 0, y: 2
+        )
+        .dropDestination(for: String.self) { strings, _ in
+            handleDrop(projectIdStrings: strings)
             return true
         } isTargeted: { targeted in
-            isDropTargeted = targeted
+            withAnimation(.easeInOut(duration: 0.15)) { isDropTargeted = targeted }
         }
     }
 
-    private func handleDrop(projectIds: [UUID]) {
-        for projectId in projectIds {
-            let descriptor = FetchDescriptor<Project>(
-                predicate: #Predicate { $0.id == projectId }
-            )
+    private func handleDrop(projectIdStrings: [String]) {
+        for idString in projectIdStrings {
+            guard let projectId = UUID(uuidString: idString) else { continue }
+            let descriptor = FetchDescriptor<Project>(predicate: #Predicate { $0.id == projectId })
             guard let project = try? modelContext.fetch(descriptor).first else { continue }
 
-            // Find models NOT already in this stage
             let modelsNotInStage = project.modelRecords.filter { $0.currentStageId != stage.id }
-
-            // Group by source stage and move
             let grouped = Dictionary(grouping: modelsNotInStage, by: \.currentStageId)
             for (sourceStageId, records) in grouped {
                 do {

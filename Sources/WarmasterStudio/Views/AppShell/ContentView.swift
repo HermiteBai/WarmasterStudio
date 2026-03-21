@@ -26,6 +26,7 @@ struct ContentView: View {
                 )
             }
         }
+        .preferredColorScheme(.dark)
         .task {
             do {
                 try PipelineService.bootstrap(context: modelContext)
@@ -46,10 +47,10 @@ enum SidebarItem: String, CaseIterable, Identifiable {
 
     var systemImage: String {
         switch self {
-        case .kanban: return "square.3.layers.3d"
+        case .kanban: return "rectangle.3.group"
         case .progress: return "chart.bar.fill"
         case .collections: return "folder.fill"
-        case .settings: return "gearshape.fill"
+        case .settings: return "gear"
         }
     }
 }

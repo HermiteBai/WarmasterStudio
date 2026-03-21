@@ -6,49 +6,107 @@ struct CollectionsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \WMCollection.name) private var collections: [WMCollection]
     @Query private var projects: [Project]
+    @Query(sort: \Stage.position) private var stages: [Stage]
 
     @State private var showCreateSheet = false
-    @State private var newCollectionName = ""
-    @State private var newCollectionNotes = ""
     @State private var renamingCollection: WMCollection? = nil
-    @State private var renameText = ""
     @State private var deleteConfirmCollection: WMCollection? = nil
+    @State private var selectedProject: Project? = nil
+    @State private var expandedCollections: Set<UUID> = []
+
+    private func projectsFor(_ collection: WMCollection) -> [Project] {
+        projects.filter { $0.collectionId == collection.id }
+            .sorted { $0.name < $1.name }
+    }
+
+    private var uncollectedProjects: [Project] {
+        projects.filter { $0.collectionId == nil }
+            .sorted { $0.name < $1.name }
+    }
+
+    private func stageSummary(_ project: Project) -> String {
+        let total = project.modelRecords.count
+        guard total > 0 else { return "No models" }
+        let grouped = Dictionary(grouping: project.modelRecords, by: \.currentStageId)
+        let dominant = grouped.max { $0.value.count < $1.value.count }
+        let stageName = stages.first { $0.id == dominant?.key }?.name ?? "Unknown"
+        return "\(total) model\(total == 1 ? "" : "s") · \(stageName)"
+    }
 
     var body: some View {
-        List {
-            ForEach(collections) { collection in
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(collection.name)
-                            .font(.headline)
-                        let count = projects.filter { $0.collectionId == collection.id }.count
-                        Text("\(count) project\(count == 1 ? "" : "s")")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+        NavigationSplitView {
+            List(selection: $selectedProject) {
+                ForEach(collections) { collection in
+                    let isExpanded = expandedCollections.contains(collection.id)
+                    DisclosureGroup(
+                        isExpanded: Binding(
+                            get: { expandedCollections.contains(collection.id) },
+                            set: { expanded in
+                                if expanded { expandedCollections.insert(collection.id) }
+                                else { expandedCollections.remove(collection.id) }
+                            }
+                        )
+                    ) {
+                        ForEach(projectsFor(collection)) { project in
+                            ProjectRowView(project: project, distribution: stageSummary(project))
+                                .tag(project)
+                                .padding(.leading, 8)
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "folder.fill")
+                                .foregroundStyle(Color.wmPrimary)
+                            Text(collection.name)
+                                .font(.headline)
+                            Spacer()
+                            Text("\(projectsFor(collection).count)")
+                                .font(.caption.monospacedDigit())
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.wmPrimary.opacity(0.15))
+                                .clipShape(Capsule())
+                        }
+                        .contentShape(Rectangle())
+                        .contextMenu {
+                            Button("Rename") { renamingCollection = collection }
+                            Divider()
+                            Button("Delete", role: .destructive) { deleteConfirmCollection = collection }
+                        }
                     }
-                    Spacer()
                 }
-                .contextMenu {
-                    Button("Rename") {
-                        renamingCollection = collection
-                        renameText = collection.name
-                    }
-                    Divider()
-                    Button("Delete", role: .destructive) {
-                        deleteConfirmCollection = collection
+
+                if !uncollectedProjects.isEmpty {
+                    DisclosureGroup("Uncollected") {
+                        ForEach(uncollectedProjects) { project in
+                            ProjectRowView(project: project, distribution: stageSummary(project))
+                                .tag(project)
+                        }
                     }
                 }
             }
-        }
-        .navigationTitle("Collections")
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    showCreateSheet = true
-                } label: {
-                    Image(systemName: "plus")
+            .navigationTitle("Collections")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button { showCreateSheet = true } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
+        } detail: {
+            Group {
+                if let project = selectedProject {
+                    ProjectDetailView(project: project) {
+                        selectedProject = nil
+                    }
+                } else {
+                    EmptyStateView(
+                        title: "Select a Project",
+                        subtitle: "Choose a project from the list to view details.",
+                        systemImage: "folder"
+                    )
+                }
+            }
+            .navigationSplitViewColumnWidth(min: 260, ideal: 300, max: 380)
         }
         .sheet(isPresented: $showCreateSheet) {
             CreateCollectionSheet(isPresented: $showCreateSheet)
@@ -81,6 +139,23 @@ struct CollectionsView: View {
         } message: {
             Text("Projects in this collection will not be deleted, but will be unlinked.")
         }
+    }
+}
+
+struct ProjectRowView: View {
+    let project: Project
+    let distribution: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(project.name)
+                .font(.subheadline)
+                .fontWeight(.medium)
+            Text(distribution)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.vertical, 2)
     }
 }
 

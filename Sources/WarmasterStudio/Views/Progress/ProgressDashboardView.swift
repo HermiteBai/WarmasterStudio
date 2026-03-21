@@ -51,39 +51,22 @@ struct ProgressDashboardView: View {
             if granularity == .models {
                 count = filteredRecords.filter { $0.currentStageId == stage.id }.count
             } else {
-                // Count projects that have at least one model in this stage
                 let projectsInStage = Set(
-                    filteredRecords
-                        .filter { $0.currentStageId == stage.id }
-                        .map(\.projectId)
+                    filteredRecords.filter { $0.currentStageId == stage.id }.map(\.projectId)
                 )
                 count = projectsInStage.count
             }
-            return StageProgressRow(
-                id: stage.id,
-                stageName: stage.name,
-                position: stage.position,
-                count: count,
-                total: total
-            )
+            return StageProgressRow(id: stage.id, stageName: stage.name, position: stage.position, count: count, total: total)
         }
     }
 
-    private var doneRow: StageProgressRow? {
-        rows.last
-    }
-
-    private var donePercentage: Double {
-        doneRow?.percentage ?? 0
-    }
-
-    private var totalCount: Int {
-        rows.reduce(0) { $0 + $1.count }
-    }
+    private var doneRow: StageProgressRow? { rows.last }
+    private var donePercentage: Double { doneRow?.percentage ?? 0 }
+    private var totalCount: Int { rows.reduce(0) { $0 + $1.count } }
 
     var body: some View {
         VStack(spacing: 0) {
-            // Header controls
+            // Filter controls
             HStack(spacing: 16) {
                 Picker("Collection", selection: $selectedCollectionId) {
                     Text("All Collections").tag(UUID?.none)
@@ -105,33 +88,40 @@ struct ProgressDashboardView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
+            .background(Color.wmSurface)
 
-            Divider()
+            Divider().overlay(Color.wmBorder)
 
-            // Done percentage hero
-            HStack {
+            // Done hero
+            HStack(spacing: 20) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Done")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .textCase(.uppercase)
+                    Text("DONE")
+                        .font(.caption.bold())
+                        .foregroundStyle(Color.wmPrimary)
+                        .kerning(1.5)
                     Text(donePercentage.formatted(.percent.precision(.fractionLength(1))))
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .font(.system(size: 42, weight: .bold, design: .rounded))
+                        .foregroundStyle(.primary)
                 }
+
                 Spacer()
+
                 Gauge(value: donePercentage, in: 0...1) {
                     EmptyView()
                 }
                 .gaugeStyle(.accessoryCircular)
-                .tint(.green)
-                .frame(width: 60)
+                .tint(Color.wmPrimary)
+                .scaleEffect(1.6)
+                .shadow(color: Color.wmPrimary.opacity(0.4), radius: 8)
+                .frame(width: 80, height: 80)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 16)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 20)
+            .background(Color.wmBackground)
 
-            Divider()
+            Divider().overlay(Color.wmBorder)
 
-            // Stage table
+            // Stage rows
             if rows.isEmpty {
                 EmptyStateView(
                     title: "No Data",
@@ -143,14 +133,32 @@ struct ProgressDashboardView: View {
                     HStack(spacing: 12) {
                         Text(row.stageName)
                             .font(.subheadline)
-                            .frame(width: 120, alignment: .leading)
+                            .frame(width: 110, alignment: .leading)
+                            .foregroundStyle(.primary)
 
-                        ProgressView(value: row.percentage)
-                            .tint(row.stageName.lowercased().contains("done") ? .green : .accentColor)
+                        // Gradient progress bar
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(Color.wmBorder.opacity(0.4))
+                                    .frame(height: 8)
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.wmPrimary, Color.wmAccent],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                                    .frame(width: max(0, geo.size.width * row.percentage), height: 8)
+                            }
+                        }
+                        .frame(height: 8)
 
                         Text("\(row.count)")
                             .font(.subheadline.monospacedDigit())
-                            .frame(width: 40, alignment: .trailing)
+                            .frame(width: 36, alignment: .trailing)
+                            .foregroundStyle(.primary)
 
                         Text(row.percentage.formatted(.percent.precision(.fractionLength(0))))
                             .font(.caption)
@@ -158,21 +166,26 @@ struct ProgressDashboardView: View {
                             .frame(width: 44, alignment: .trailing)
                     }
                     .padding(.vertical, 4)
+                    .listRowBackground(Color.wmBackground)
                 }
-                .listStyle(.inset)
+                .listStyle(.plain)
+                .background(Color.wmBackground)
 
-                Divider()
+                Divider().overlay(Color.wmBorder)
                 HStack {
                     Text("Total")
                         .font(.subheadline.bold())
+                        .foregroundStyle(.secondary)
                     Spacer()
                     Text("\(totalCount)")
                         .font(.subheadline.monospacedDigit().bold())
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
+                .background(Color.wmSurface)
             }
         }
         .navigationTitle("Progress")
+        .background(Color.wmBackground)
     }
 }
