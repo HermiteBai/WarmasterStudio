@@ -57,6 +57,9 @@
 		BA0BAB0BCD0BEF0B /* paint_catalogue.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0BAB0BCD0BEF0B /* paint_catalogue.json */; };
 		BA0CAB0CCD0CEF0C /* RecipePin.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0CAB0CCD0CEF0C /* RecipePin.swift */; };
 		BA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift */; };
+		CB01BB01CC01DD01 /* RecipeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01BB01CC01DD01 /* RecipeServiceTests.swift */; };
+		CB02BB02CC02DD02 /* PaintLibraryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */; };
+		CB03BB03CC03DD03 /* RecipePinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB03BB03CC03DD03 /* RecipePinTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +133,9 @@
 		AA0BAB0BCD0BEF0B /* paint_catalogue.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = paint_catalogue.json; sourceTree = "<group>"; };
 		AA0CAB0CCD0CEF0C /* RecipePin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePin.swift; sourceTree = "<group>"; };
 		AA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxArtPinCanvas.swift; sourceTree = "<group>"; };
+		BB01BB01CC01DD01 /* RecipeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeServiceTests.swift; sourceTree = "<group>"; };
+		BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintLibraryServiceTests.swift; sourceTree = "<group>"; };
+		BB03BB03CC03DD03 /* RecipePinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePinTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -281,6 +287,9 @@
 				3FC0B2FD9032A37E435F88A2 /* ModelProgressServiceTests.swift */,
 				192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */,
 				AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */,
+				BB01BB01CC01DD01 /* RecipeServiceTests.swift */,
+				BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */,
+				BB03BB03CC03DD03 /* RecipePinTests.swift */,
 				D3A79133BA1249C6A524D092 /* StageServiceTests.swift */,
 			);
 			name = WarmasterStudioTests;
@@ -463,6 +472,9 @@
 				4739B12A909903A94A186A4C /* ModelProgressServiceTests.swift in Sources */,
 				23745739DA52EB37FA5921E8 /* PipelineServiceTests.swift in Sources */,
 				B537A66C6EF6FCB65C66BF92 /* ProjectServiceTests.swift in Sources */,
+				CB01BB01CC01DD01 /* RecipeServiceTests.swift in Sources */,
+				CB02BB02CC02DD02 /* PaintLibraryServiceTests.swift in Sources */,
+				CB03BB03CC03DD03 /* RecipePinTests.swift in Sources */,
 				4D5AF80AF1AE6E6665483544 /* StageServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
