@@ -100,18 +100,18 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 | P2-PIN-03 | Pin popover — display linked recipe name and first step | Feature: Recipe Pins | 2 | Todo |
 | P2-PIN-04 | Pin drag to reposition on image | Feature: Recipe Pins | 2 | Todo |
 | P2-PIN-05 | Pin delete | Feature: Recipe Pins | 1 | Todo |
-| P2-REC-01 | `PaintRecipe` @Model — name, ordered steps, project relationship | Feature: Paint Recipes | 2 | Todo |
-| P2-REC-02 | `RecipeStep` @Model & `Technique` enum | Feature: Paint Recipes | 2 | Todo |
-| P2-REC-03 | Recipe library list view | Feature: Paint Recipes | 2 | Todo |
-| P2-REC-04 | Recipe creation form (name, add steps) | Feature: Paint Recipes | 2 | Todo |
-| P2-REC-05 | Step editor (paint picker, technique selector, notes) | Feature: Paint Recipes | 3 | Todo |
-| P2-REC-06 | Step reordering within recipe | Feature: Paint Recipes | 2 | Todo |
-| P2-REC-07 | Recipe edit & delete | Feature: Paint Recipes | 1 | Todo |
-| P2-PLT-01 | `Paint` @Model — fields (name, brand, hex, isUserAdded) | Feature: Paint Library | 2 | Todo |
-| P2-PLT-02 | JSON catalogue seed file and on-launch import (read-only paints) | Feature: Paint Library | 3 | Todo |
-| P2-PLT-03 | My Paints CRUD (add, edit, delete user-defined paints) | Feature: Paint Library | 2 | Todo |
-| P2-PLT-04 | Colour swatch rendering from hex string (`Color(hex:)` extension) | Feature: Paint Library | 1 | Todo |
-| P2-PLT-05 | Unified paint search view (catalogue + My Paints, filterable by brand) | Feature: Paint Library | 3 | Todo |
+| P2-REC-01 | `PaintRecipe` @Model — name, ordered steps, project relationship | Feature: Paint Recipes | 2 | Done |
+| P2-REC-02 | `RecipeStep` @Model & `Technique` enum | Feature: Paint Recipes | 2 | Done |
+| P2-REC-03 | Recipe library list view | Feature: Paint Recipes | 2 | Done |
+| P2-REC-04 | Recipe creation form (name, add steps) | Feature: Paint Recipes | 2 | Done |
+| P2-REC-05 | Step editor (paint picker, technique selector, notes) | Feature: Paint Recipes | 3 | Done |
+| P2-REC-06 | Step reordering within recipe | Feature: Paint Recipes | 2 | Done |
+| P2-REC-07 | Recipe edit & delete | Feature: Paint Recipes | 1 | Done |
+| P2-PLT-01 | `Paint` @Model — fields (name, brand, hex, isUserAdded) | Feature: Paint Library | 2 | Done |
+| P2-PLT-02 | JSON catalogue seed file and on-launch import (read-only paints) | Feature: Paint Library | 3 | Done |
+| P2-PLT-03 | My Paints CRUD (add, edit, delete user-defined paints) | Feature: Paint Library | 2 | Done |
+| P2-PLT-04 | Colour swatch rendering from hex string (`Color(hex:)` extension) | Feature: Paint Library | 1 | Done |
+| P2-PLT-05 | Unified paint search view (catalogue + My Paints, filterable by brand) | Feature: Paint Library | 3 | Done |
 | P2-TEST-01 | Unit tests — recipe step ordering and technique enum coverage | Testing | 2 | Todo |
 | P2-TEST-02 | Unit tests — paint catalogue seeding (no duplicates, correct count) | Testing | 2 | Todo |
 | P2-TEST-03 | Unit tests — pin coordinate clamping and normalisation | Testing | 2 | Todo |

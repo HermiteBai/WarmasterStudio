@@ -7,6 +7,8 @@ struct ProjectDetailView: View {
     @Query(sort: \Stage.position) private var stages: [Stage]
     @Query(sort: \WMCollection.name) private var collections: [WMCollection]
     @Query(sort: \Project.name) private var allProjects: [Project]
+    @Query private var allPins: [RecipePin]
+    @Query(sort: \PaintRecipe.name) private var allRecipes: [PaintRecipe]
 
     let project: Project
     var onDelete: (() -> Void)?
@@ -16,10 +18,17 @@ struct ProjectDetailView: View {
     @State private var showLinkSheet = false
     @State private var showImagePicker = false
     @State private var imageErrorMessage: String? = nil
+    @State private var expandedRecipes: Set<UUID> = []
 
     var collectionName: String? {
         guard let cid = project.collectionId else { return nil }
         return collections.first { $0.id == cid }?.name
+    }
+
+    /// Distinct recipes linked to this project via pins, sorted by name.
+    private var projectRecipes: [PaintRecipe] {
+        let pinnedIds = Set(allPins.filter { $0.projectId == project.id }.map(\.recipeId))
+        return allRecipes.filter { pinnedIds.contains($0.id) }
     }
 
     var body: some View {
@@ -30,6 +39,8 @@ struct ProjectDetailView: View {
                 Divider()
                 stageDistributionSection
                 notesSection
+                Divider()
+                recipesSection
                 Divider()
                 linkedProjectsSection
             }
@@ -166,6 +177,115 @@ extension ProjectDetailView {
     }
 
     @ViewBuilder
+    var recipesSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Recipes").font(.headline)
+
+            if projectRecipes.isEmpty {
+                Text("No recipes pinned yet. Add a pin to the box art to link a recipe.")
+                    .font(.subheadline)
+                    .foregroundStyle(.tertiary)
+            } else {
+                ForEach(projectRecipes) { recipe in
+                    let isExpanded = expandedRecipes.contains(recipe.id)
+                    let sortedSteps = recipe.steps.sorted { $0.position < $1.position }
+
+                    VStack(alignment: .leading, spacing: 0) {
+                        // Header row — tap to expand/collapse
+                        Button {
+                            if isExpanded {
+                                expandedRecipes.remove(recipe.id)
+                            } else {
+                                expandedRecipes.insert(recipe.id)
+                            }
+                        } label: {
+                            HStack(spacing: 8) {
+                                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
+                                    .font(.caption.bold())
+                                    .foregroundStyle(.secondary)
+                                    .frame(width: 12)
+
+                                Image(systemName: "list.bullet.clipboard.fill")
+                                    .foregroundStyle(Color.wmPrimary)
+                                    .imageScale(.small)
+
+                                Text(recipe.name)
+                                    .font(.subheadline.weight(.medium))
+                                    .foregroundStyle(.primary)
+
+                                Spacer()
+
+                                Text("\(sortedSteps.count) step\(sortedSteps.count == 1 ? "" : "s")")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 10)
+                            .background(Color.wmSurface)
+                            .cornerRadius(6)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("\(recipe.name), \(sortedSteps.count) steps")
+                        .accessibilityHint(isExpanded ? "Collapse" : "Expand")
+
+                        // Steps — shown when expanded
+                        if isExpanded {
+                            VStack(alignment: .leading, spacing: 4) {
+                                if sortedSteps.isEmpty {
+                                    Text("No steps added yet.")
+                                        .font(.caption)
+                                        .foregroundStyle(.tertiary)
+                                        .padding(.leading, 30)
+                                        .padding(.top, 6)
+                                } else {
+                                    ForEach(sortedSteps) { step in
+                                        HStack(alignment: .top, spacing: 8) {
+                                            // Step number
+                                            Text("\(step.position + 1)")
+                                                .font(.caption2.monospacedDigit())
+                                                .foregroundStyle(.tertiary)
+                                                .frame(width: 16, alignment: .trailing)
+
+                                            // Technique icon
+                                            Image(systemName: step.technique.systemImage)
+                                                .font(.caption)
+                                                .foregroundStyle(Color.wmPrimary)
+                                                .frame(width: 14)
+
+                                            VStack(alignment: .leading, spacing: 2) {
+                                                HStack(spacing: 6) {
+                                                    Text(step.paintName)
+                                                        .font(.caption.bold())
+                                                    Text("·")
+                                                        .foregroundStyle(.tertiary)
+                                                    Text(step.technique.rawValue)
+                                                        .font(.caption)
+                                                        .foregroundStyle(.secondary)
+                                                }
+                                                if !step.notes.isEmpty {
+                                                    Text(step.notes)
+                                                        .font(.caption)
+                                                        .foregroundStyle(.tertiary)
+                                                }
+                                            }
+                                        }
+                                        .padding(.vertical, 3)
+                                    }
+                                }
+                            }
+                            .padding(.leading, 10)
+                            .padding(.vertical, 6)
+                            .padding(.trailing, 4)
+                            .background(Color.wmSurface.opacity(0.5))
+                            .cornerRadius(6)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
     var linkedProjectsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Linked Projects").font(.headline)
@@ -220,12 +340,7 @@ extension ProjectDetailView {
         if let path = resolvedBoxArtPath, let url = ImageService.resolveImageURL(relativePath: path) {
             VStack(alignment: .leading, spacing: 8) {
                 if let nsImage = NSImage(contentsOf: url) {
-                    Image(nsImage: nsImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(8)
-                        .frame(maxHeight: 260)
-                        .accessibilityLabel("Box art for \(project.name)")
+                    BoxArtPinCanvas(image: nsImage, projectId: project.id)
                 }
                 HStack(spacing: 12) {
                     Button("Change Image") { showImagePicker = true }
