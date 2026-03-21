@@ -3,8 +3,8 @@ import SwiftData
 import os
 
 /// Displays a box-art image with interactive recipe pins overlaid.
-/// Supports placing new pins (click in "add pin" mode), popovers,
-/// drag-to-reposition, and deletion.
+/// Supports zoom in/out (buttons + pinch gesture), pan via scroll, and
+/// pin placement, drag, popover, and delete.
 struct BoxArtPinCanvas: View {
     @Environment(\.modelContext) private var modelContext
 
@@ -15,64 +15,101 @@ struct BoxArtPinCanvas: View {
     @Query private var allPins: [RecipePin]
 
     @State private var addPinMode = false
-    @State private var pendingLocation: CGPoint? = nil
+    @State private var pendingNorm: CGPoint = .zero
     @State private var showRecipePicker = false
-    @State private var activePinId: UUID? = nil
+    @State private var zoomScale: CGFloat = 1.0
+    @State private var gestureBaseZoom: CGFloat = 1.0
+
+    private let minZoom: CGFloat = 1.0
+    private let maxZoom: CGFloat = 8.0
+    private let zoomStep: CGFloat = 0.5
+    private let canvasMaxH: CGFloat = 300
 
     private var projectPins: [RecipePin] {
         allPins.filter { $0.projectId == projectId }
     }
 
-    init(image: NSImage, projectId: UUID) {
-        self.image = image
-        self.projectId = projectId
+    private var imageAspect: CGFloat {
+        image.size.width > 0 ? image.size.width / image.size.height : 1
     }
+
+    // MARK: - Body
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Canvas
+            // Canvas: GeometryReader lets us compute the fit-to-frame base size.
             GeometryReader { geo in
-                let size = geo.size
-                ZStack(alignment: .topLeading) {
+                let base = fitSize(in: geo.size)
+                let display = CGSize(width: base.width * zoomScale,
+                                     height: base.height * zoomScale)
+                ScrollView([.horizontal, .vertical],
+                           showsIndicators: zoomScale > 1) {
                     Image(nsImage: image)
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .cornerRadius(8)
-                        .contentShape(Rectangle())
-                        .gesture(addPinMode ? placementGesture(in: size) : nil)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .strokeBorder(addPinMode ? Color.wmPrimary : Color.clear, lineWidth: 2)
-                        )
-
-                    ForEach(projectPins) { pin in
-                        PinView(
-                            pin: pin,
-                            canvasSize: size,
-                            isActive: activePinId == pin.id,
-                            allRecipes: allRecipes,
-                            onDelete: { deletePin(pin) },
-                            onDragEnd: { newNorm in repositionPin(pin, to: newNorm) }
-                        )
-                    }
-
-                    // Ghost pin while tapping
-                    if addPinMode, let loc = pendingLocation {
-                        PinDot(color: .wmPrimary.opacity(0.5))
-                            .position(x: loc.x, y: loc.y)
-                            .allowsHitTesting(false)
-                    }
+                        .frame(width: display.width, height: display.height)
+                        .overlay(pinLayer(displaySize: display))
                 }
-                .frame(width: size.width, height: size.height)
+                .frame(width: geo.size.width, height: geo.size.height)
+                .background(Color.wmSurface)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .strokeBorder(addPinMode ? Color.wmPrimary : Color.clear,
+                                      lineWidth: 2)
+                )
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged { v in
+                            zoomScale = clamp(gestureBaseZoom * v,
+                                              lo: minZoom, hi: maxZoom)
+                        }
+                        .onEnded { _ in gestureBaseZoom = zoomScale }
+                )
+                .accessibilityLabel(
+                    "Box art — \(projectPins.count) pin\(projectPins.count == 1 ? "" : "s")"
+                )
             }
-            .aspectRatio(imageAspect, contentMode: .fit)
-            .frame(maxHeight: 280)
-            .accessibilityLabel("Box art for project with \(projectPins.count) recipe pin\(projectPins.count == 1 ? "" : "s")")
+            .frame(height: canvasMaxH)
 
-            // Toolbar row
-            HStack(spacing: 12) {
+            // Controls row
+            HStack(spacing: 4) {
+                // Zoom out
+                Button { stepZoom(by: -zoomStep) } label: {
+                    Image(systemName: "minus.magnifyingglass")
+                }
+                .buttonStyle(.borderless)
+                .disabled(zoomScale <= minZoom)
+                .help("Zoom out")
+
+                // Zoom percentage
+                Text("\(Int(zoomScale * 100))%")
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(.secondary)
+                    .frame(minWidth: 36, alignment: .center)
+
+                // Zoom in
+                Button { stepZoom(by: zoomStep) } label: {
+                    Image(systemName: "plus.magnifyingglass")
+                }
+                .buttonStyle(.borderless)
+                .disabled(zoomScale >= maxZoom)
+                .help("Zoom in")
+
+                // Reset
+                Button { resetZoom() } label: {
+                    Image(systemName: "arrow.uturn.backward")
+                        .imageScale(.small)
+                }
+                .buttonStyle(.borderless)
+                .disabled(zoomScale == minZoom)
+                .help("Reset zoom")
+
+                Divider().frame(height: 16).padding(.horizontal, 4)
+
+                // Pin mode toggle
                 Toggle(isOn: $addPinMode) {
-                    Label(addPinMode ? "Placing Pin…" : "Add Pin", systemImage: "pin.fill")
+                    Label(addPinMode ? "Placing Pin…" : "Add Pin",
+                          systemImage: "pin.fill")
                         .font(.subheadline)
                 }
                 .toggleStyle(.button)
@@ -82,60 +119,102 @@ struct BoxArtPinCanvas: View {
                     Text("Click the image to place a pin")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .transition(.opacity)
                 }
+
                 Spacer()
             }
         }
         .sheet(isPresented: $showRecipePicker) {
             RecipePickerSheet(recipes: allRecipes) { recipe in
-                if let loc = pendingLocation {
-                    // We stored the raw canvas point; convert back to normalised
-                    // using the rendered image frame stored separately is tricky,
-                    // so we stored normalised coords in pendingNorm below.
-                }
                 commitPin(recipe: recipe)
             }
         }
+    }
+
+    // MARK: - Fit size
+
+    /// Returns the largest size that fits `image` aspect-ratio inside
+    /// `container`, capped at `canvasMaxH`.
+    private func fitSize(in container: CGSize) -> CGSize {
+        let w = max(container.width, 1)
+        let h = max(container.height, 1)
+        let byWidth  = CGSize(width: w, height: w / imageAspect)
+        let byHeight = CGSize(width: h * imageAspect, height: h)
+        return byWidth.height <= h ? byWidth : byHeight
+    }
+
+    // MARK: - Pin layer
+
+    /// The transparent overlay that carries both the tap-to-place gesture
+    /// and the individual pin views. Because it's an overlay on the Image
+    /// itself, `displaySize` is always the exact rendered image size.
+    @ViewBuilder
+    private func pinLayer(displaySize: CGSize) -> some View {
+        ZStack {
+            Color.clear
+                .contentShape(Rectangle())
+                .gesture(addPinMode ? placementGesture(in: displaySize) : nil)
+
+            ForEach(projectPins) { pin in
+                PinView(
+                    pin: pin,
+                    canvasSize: displaySize,
+                    allRecipes: allRecipes,
+                    onDelete: { deletePin(pin) },
+                    onDragEnd: { repositionPin(pin, to: $0) }
+                )
+            }
+        }
+    }
+
+    // MARK: - Zoom helpers
+
+    private func stepZoom(by delta: CGFloat) {
+        withAnimation(.easeOut(duration: 0.15)) {
+            zoomScale = clamp(zoomScale + delta, lo: minZoom, hi: maxZoom)
+        }
+        gestureBaseZoom = zoomScale
+    }
+
+    private func resetZoom() {
+        withAnimation(.easeOut(duration: 0.2)) {
+            zoomScale = minZoom
+        }
+        gestureBaseZoom = minZoom
+    }
+
+    private func clamp(_ v: CGFloat, lo: CGFloat, hi: CGFloat) -> CGFloat {
+        Swift.max(lo, Swift.min(hi, v))
     }
 
     // MARK: - Gesture
 
     private func placementGesture(in size: CGSize) -> some Gesture {
         SpatialTapGesture()
-            .onEnded { value in
-                let norm = normalise(value.location, in: size)
-                pendingLocation = value.location
-                pendingNorm = norm
+            .onEnded { ev in
+                pendingNorm = normalise(ev.location, in: size)
                 showRecipePicker = true
             }
     }
 
-    @State private var pendingNorm: CGPoint = .zero
-
-    // MARK: - Helpers
-
-    private var imageAspect: CGFloat {
-        image.size.width > 0 ? image.size.width / image.size.height : 1
-    }
-
-    private func normalise(_ point: CGPoint, in size: CGSize) -> CGPoint {
+    private func normalise(_ pt: CGPoint, in size: CGSize) -> CGPoint {
         CGPoint(
-            x: max(0, min(1, point.x / size.width)),
-            y: max(0, min(1, point.y / size.height))
+            x: clamp(size.width  > 0 ? pt.x / size.width  : 0, lo: 0, hi: 1),
+            y: clamp(size.height > 0 ? pt.y / size.height : 0, lo: 0, hi: 1)
         )
     }
+
+    // MARK: - Data mutations
 
     private func commitPin(recipe: PaintRecipe) {
-        let pin = RecipePin(
-            x: Double(pendingNorm.x),
-            y: Double(pendingNorm.y),
-            recipeId: recipe.id,
-            recipeName: recipe.name,
-            projectId: projectId
-        )
+        let pin = RecipePin(x: Double(pendingNorm.x),
+                            y: Double(pendingNorm.y),
+                            recipeId: recipe.id,
+                            recipeName: recipe.name,
+                            projectId: projectId)
         modelContext.insert(pin)
         try? modelContext.save()
-        pendingLocation = nil
         addPinMode = false
         Logger.paint.info("Placed pin for recipe '\(recipe.name)'")
     }
@@ -146,8 +225,8 @@ struct BoxArtPinCanvas: View {
     }
 
     private func repositionPin(_ pin: RecipePin, to norm: CGPoint) {
-        pin.x = Double(max(0, min(1, norm.x)))
-        pin.y = Double(max(0, min(1, norm.y)))
+        pin.x = Double(clamp(CGFloat(norm.x), lo: 0, hi: 1))
+        pin.y = Double(clamp(CGFloat(norm.y), lo: 0, hi: 1))
         try? modelContext.save()
     }
 }
@@ -155,28 +234,23 @@ struct BoxArtPinCanvas: View {
 // MARK: - Pin view
 
 private struct PinView: View {
-    @Environment(\.modelContext) private var modelContext
-
     let pin: RecipePin
     let canvasSize: CGSize
-    let isActive: Bool
     let allRecipes: [PaintRecipe]
     let onDelete: () -> Void
     let onDragEnd: (CGPoint) -> Void
 
     @State private var showPopover = false
     @State private var dragOffset: CGSize = .zero
-    @State private var isDragging = false
 
-    private var position: CGPoint {
-        CGPoint(x: pin.x * canvasSize.width, y: pin.y * canvasSize.height)
+    private var base: CGPoint {
+        CGPoint(x: pin.x * canvasSize.width,
+                y: pin.y * canvasSize.height)
     }
 
-    private var displayPosition: CGPoint {
-        CGPoint(
-            x: position.x + dragOffset.width,
-            y: position.y + dragOffset.height
-        )
+    private var display: CGPoint {
+        CGPoint(x: base.x + dragOffset.width,
+                y: base.y + dragOffset.height)
     }
 
     private var linkedRecipe: PaintRecipe? {
@@ -185,14 +259,12 @@ private struct PinView: View {
 
     var body: some View {
         PinDot(color: .wmPrimary)
-            .position(x: displayPosition.x, y: displayPosition.y)
+            .position(x: display.x, y: display.y)
             .gesture(dragGesture)
             .onTapGesture { showPopover.toggle() }
-            .popover(isPresented: $showPopover, arrowEdge: .top) {
-                pinPopover
-            }
+            .popover(isPresented: $showPopover, arrowEdge: .top) { pinPopover }
             .accessibilityLabel("Recipe pin: \(pin.recipeName)")
-            .accessibilityHint("Double tap to view recipe, drag to reposition")
+            .accessibilityHint("Click to view recipe, drag to reposition")
     }
 
     @ViewBuilder
@@ -206,8 +278,7 @@ private struct PinView: View {
                     showPopover = false
                     onDelete()
                 } label: {
-                    Image(systemName: "trash")
-                        .foregroundStyle(.red)
+                    Image(systemName: "trash").foregroundStyle(.red)
                 }
                 .buttonStyle(.borderless)
             }
@@ -215,35 +286,29 @@ private struct PinView: View {
             Divider()
 
             if let recipe = linkedRecipe {
-                let sortedSteps = recipe.steps.sorted { $0.position < $1.position }
-                if sortedSteps.isEmpty {
+                let steps = recipe.steps.sorted { $0.position < $1.position }
+                if steps.isEmpty {
                     Text("No steps yet.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .font(.subheadline).foregroundStyle(.secondary)
                 } else {
-                    let first = sortedSteps[0]
+                    let first = steps[0]
                     VStack(alignment: .leading, spacing: 4) {
-                        Label("Step 1 — \(first.technique.rawValue)", systemImage: first.technique.systemImage)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                        Text(first.paintName)
-                            .font(.subheadline.bold())
+                        Label("Step 1 — \(first.technique.rawValue)",
+                              systemImage: first.technique.systemImage)
+                            .font(.subheadline).foregroundStyle(.secondary)
+                        Text(first.paintName).font(.subheadline.bold())
                         if !first.notes.isEmpty {
-                            Text(first.notes)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+                            Text(first.notes).font(.caption).foregroundStyle(.secondary)
                         }
                     }
-                    if sortedSteps.count > 1 {
-                        Text("+ \(sortedSteps.count - 1) more step\(sortedSteps.count - 1 == 1 ? "" : "s")")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
+                    if steps.count > 1 {
+                        Text("+ \(steps.count - 1) more step\(steps.count - 1 == 1 ? "" : "s")")
+                            .font(.caption).foregroundStyle(.tertiary)
                     }
                 }
             } else {
                 Text("Recipe no longer exists.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(.subheadline).foregroundStyle(.secondary)
             }
         }
         .padding(14)
@@ -252,28 +317,21 @@ private struct PinView: View {
 
     private var dragGesture: some Gesture {
         DragGesture(minimumDistance: 4)
-            .onChanged { value in
-                isDragging = true
-                dragOffset = value.translation
-            }
-            .onEnded { value in
-                isDragging = false
-                let newX = position.x + value.translation.width
-                let newY = position.y + value.translation.height
+            .onChanged { v in dragOffset = v.translation }
+            .onEnded { v in
                 dragOffset = .zero
                 onDragEnd(CGPoint(
-                    x: newX / canvasSize.width,
-                    y: newY / canvasSize.height
+                    x: (base.x + v.translation.width)  / max(1, canvasSize.width),
+                    y: (base.y + v.translation.height) / max(1, canvasSize.height)
                 ))
             }
     }
 }
 
-// MARK: - Pin dot shape
+// MARK: - Pin dot
 
 private struct PinDot: View {
     let color: Color
-
     var body: some View {
         ZStack {
             Circle()
@@ -290,45 +348,73 @@ private struct PinDot: View {
 // MARK: - Recipe picker sheet
 
 struct RecipePickerSheet: View {
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
     let recipes: [PaintRecipe]
     let onSelect: (PaintRecipe) -> Void
 
     @State private var searchText = ""
+    @State private var showNewRecipeForm = false
+    @State private var newRecipeName = ""
+    @State private var newRecipeError: String? = nil
 
     private var filtered: [PaintRecipe] {
-        if searchText.isEmpty { return recipes.sorted { $0.name < $1.name } }
-        return recipes.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-            .sorted { $0.name < $1.name }
+        let sorted = recipes.sorted { $0.name < $1.name }
+        guard !searchText.isEmpty else { return sorted }
+        return sorted.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
     }
 
     var body: some View {
         NavigationStack {
             Group {
-                if recipes.isEmpty {
+                if recipes.isEmpty && !showNewRecipeForm {
                     ContentUnavailableView(
                         "No Recipes Yet",
                         systemImage: "list.bullet.clipboard",
-                        description: Text("Create a recipe in the Recipes tab first.")
+                        description: Text("Use the + button to create your first recipe.")
                     )
-                } else if filtered.isEmpty {
+                } else if filtered.isEmpty && !showNewRecipeForm {
                     ContentUnavailableView.search(text: searchText)
                 } else {
-                    List(filtered) { recipe in
-                        Button {
-                            onSelect(recipe)
-                            dismiss()
-                        } label: {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(recipe.name)
-                                    .foregroundStyle(.primary)
-                                Text("\(recipe.steps.count) step\(recipe.steps.count == 1 ? "" : "s")")
-                                    .font(.caption)
+                    List {
+                        if showNewRecipeForm {
+                            Section("New Recipe") {
+                                HStack(spacing: 8) {
+                                    TextField("Recipe name", text: $newRecipeName)
+                                        .textFieldStyle(.roundedBorder)
+                                        .onSubmit { createAndSelect() }
+                                    Button("Create") { createAndSelect() }
+                                        .disabled(newRecipeName.trimmingCharacters(in: .whitespaces).isEmpty)
+                                    Button("Cancel") {
+                                        showNewRecipeForm = false
+                                        newRecipeName = ""
+                                    }
                                     .foregroundStyle(.secondary)
+                                }
+                                .padding(.vertical, 2)
+                                if let err = newRecipeError {
+                                    Text(err).font(.caption).foregroundStyle(.red)
+                                }
                             }
                         }
-                        .buttonStyle(.plain)
+                        if !filtered.isEmpty {
+                            Section(showNewRecipeForm ? "Existing Recipes" : "") {
+                                ForEach(filtered) { recipe in
+                                    Button {
+                                        onSelect(recipe)
+                                        dismiss()
+                                    } label: {
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(recipe.name).foregroundStyle(.primary)
+                                            Text("\(recipe.steps.count) step\(recipe.steps.count == 1 ? "" : "s")")
+                                                .font(.caption).foregroundStyle(.secondary)
+                                        }
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -338,8 +424,31 @@ struct RecipePickerSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
                 }
+                ToolbarItem(placement: .primaryAction) {
+                    if !showNewRecipeForm {
+                        Button {
+                            showNewRecipeForm = true
+                            newRecipeName = ""
+                        } label: {
+                            Label("New Recipe", systemImage: "plus")
+                        }
+                    }
+                }
             }
         }
         .frame(minWidth: 320, minHeight: 380)
+    }
+
+    private func createAndSelect() {
+        let name = newRecipeName.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else { return }
+        do {
+            let recipe = try RecipeService.createRecipe(name: name, projectId: nil,
+                                                        context: modelContext)
+            onSelect(recipe)
+            dismiss()
+        } catch {
+            newRecipeError = error.localizedDescription
+        }
     }
 }
