@@ -18,45 +18,87 @@ struct NewProjectSheet: View {
     var canCreate: Bool { !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && pipeline != nil }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("Project") {
-                    TextField("Name", text: $name)
-                    Stepper("Models: \(modelCount)", value: $modelCount, in: 1...200)
-                }
+        VStack(spacing: 0) {
+            // ── Header ────────────────────────────────────────────────────
+            HStack {
+                Button("Cancel") { dismiss() }
+                    .keyboardShortcut(.escape, modifiers: [])
+                Spacer()
+                Text("New Project")
+                    .font(.headline)
+                Spacer()
+                Button("Create") { createProject() }
+                    .disabled(!canCreate)
+                    .keyboardShortcut(.return, modifiers: .command)
+                    .buttonStyle(.borderedProminent)
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 16)
 
-                Section("Collection (optional)") {
-                    Picker("Collection", selection: $selectedCollectionId) {
-                        Text("None").tag(UUID?.none)
-                        ForEach(collections) { col in
-                            Text(col.name).tag(Optional(col.id))
+            Divider()
+
+            // ── Fields ────────────────────────────────────────────────────
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+
+                    // Name
+                    SheetField(label: "Project Name") {
+                        TextField("e.g. Space Marine Strike Force", text: $name)
+                            .textFieldStyle(.roundedBorder)
+                    }
+
+                    // Model count
+                    SheetField(label: "Number of Models") {
+                        HStack(spacing: 10) {
+                            TextField("", value: $modelCount, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 70)
+                            Stepper("", value: $modelCount, in: 1...200)
+                                .labelsHidden()
                         }
                     }
-                }
 
-                Section("Notes (optional)") {
-                    TextEditor(text: $notes)
-                        .frame(minHeight: 80)
-                }
+                    Divider()
 
-                if let err = errorMessage {
-                    Section {
-                        Text(err).foregroundStyle(.red)
+                    // Collection
+                    SheetField(label: "Collection") {
+                        Picker("", selection: $selectedCollectionId) {
+                            Text("None").tag(UUID?.none)
+                            ForEach(collections) { col in
+                                Text(col.name).tag(Optional(col.id))
+                            }
+                        }
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+
+                    Divider()
+
+                    // Notes
+                    SheetField(label: "Notes") {
+                        TextEditor(text: $notes)
+                            .frame(minHeight: 80, maxHeight: 160)
+                            .font(.body)
+                            .padding(6)
+                            .background(Color(nsColor: .textBackgroundColor))
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
+                            )
+                    }
+
+                    // Error
+                    if let err = errorMessage {
+                        Label(err, systemImage: "exclamationmark.circle.fill")
+                            .foregroundStyle(.red)
+                            .font(.callout)
                     }
                 }
-            }
-            .navigationTitle("New Project")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Create") { createProject() }
-                        .disabled(!canCreate)
-                }
+                .padding(24)
             }
         }
-        .frame(minWidth: 420, minHeight: 360)
+        .frame(minWidth: 440, idealWidth: 480, minHeight: 380)
     }
 
     private func createProject() {
@@ -71,7 +113,6 @@ struct NewProjectSheet: View {
                 in: pipeline,
                 context: modelContext
             )
-            // Seed initial StageHistoryEntry for each new ModelRecord
             if let firstStage = sortedStages.first {
                 try StageHistoryService.recordCreation(
                     records: project.modelRecords,
@@ -86,6 +127,22 @@ struct NewProjectSheet: View {
         } catch {
             errorMessage = error.localizedDescription
             Logger.project.error("Create project failed: \(error.localizedDescription)")
+        }
+    }
+}
+
+// MARK: - Reusable labelled field wrapper
+
+struct SheetField<Content: View>: View {
+    let label: String
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label)
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(.primary)
+            content()
         }
     }
 }

@@ -17,47 +17,79 @@ struct EditProjectSheet: View {
     var canSave: Bool { !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("Project") {
-                    TextField("Name", text: $name)
-                    HStack {
-                        Text("Models")
-                        Spacer()
+        VStack(spacing: 0) {
+            // ── Header ────────────────────────────────────────────────────
+            HStack {
+                Button("Cancel") { dismiss() }
+                    .keyboardShortcut(.escape, modifiers: [])
+                Spacer()
+                Text("Edit Project")
+                    .font(.headline)
+                Spacer()
+                Button("Save") { saveProject() }
+                    .disabled(!canSave)
+                    .keyboardShortcut(.return, modifiers: .command)
+                    .buttonStyle(.borderedProminent)
+            }
+            .padding(.horizontal, 24)
+            .padding(.vertical, 16)
+
+            Divider()
+
+            // ── Fields ────────────────────────────────────────────────────
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+
+                    // Name
+                    SheetField(label: "Project Name") {
+                        TextField("Project name", text: $name)
+                            .textFieldStyle(.roundedBorder)
+                    }
+
+                    // Model count (read-only)
+                    SheetField(label: "Number of Models") {
                         Text("\(project.modelCount)")
                             .foregroundStyle(.secondary)
                     }
-                }
 
-                Section("Collection") {
-                    Picker("Collection", selection: $selectedCollectionId) {
-                        Text("None").tag(UUID?.none)
-                        ForEach(collections) { col in
-                            Text(col.name).tag(Optional(col.id))
+                    Divider()
+
+                    // Collection
+                    SheetField(label: "Collection") {
+                        Picker("", selection: $selectedCollectionId) {
+                            Text("None").tag(UUID?.none)
+                            ForEach(collections) { col in
+                                Text(col.name).tag(Optional(col.id))
+                            }
                         }
+                        .labelsHidden()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+
+                    Divider()
+
+                    // Notes
+                    SheetField(label: "Notes") {
+                        TextEditor(text: $notes)
+                            .frame(minHeight: 80, maxHeight: 160)
+                            .font(.body)
+                            .padding(6)
+                            .background(Color(nsColor: .textBackgroundColor))
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .strokeBorder(Color(nsColor: .separatorColor), lineWidth: 1)
+                            )
+                    }
+
+                    // Error
+                    if let err = errorMessage {
+                        Label(err, systemImage: "exclamationmark.circle.fill")
+                            .foregroundStyle(.red)
+                            .font(.callout)
                     }
                 }
-
-                Section("Notes") {
-                    TextEditor(text: $notes)
-                        .frame(minHeight: 80)
-                }
-
-                if let err = errorMessage {
-                    Section {
-                        Text(err).foregroundStyle(.red)
-                    }
-                }
-            }
-            .navigationTitle("Edit Project")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { saveProject() }
-                        .disabled(!canSave)
-                }
+                .padding(24)
             }
         }
         .onAppear {
@@ -65,7 +97,7 @@ struct EditProjectSheet: View {
             selectedCollectionId = project.collectionId
             notes = project.notes ?? ""
         }
-        .frame(minWidth: 420, minHeight: 360)
+        .frame(minWidth: 440, idealWidth: 480, minHeight: 360)
     }
 
     private func saveProject() {
