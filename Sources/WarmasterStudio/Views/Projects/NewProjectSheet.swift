@@ -62,7 +62,8 @@ struct NewProjectSheet: View {
     private func createProject() {
         guard let pipeline else { return }
         do {
-            try ProjectService.createProject(
+            let sortedStages = pipeline.stages.sorted { $0.position < $1.position }
+            let project = try ProjectService.createProject(
                 name: name.trimmingCharacters(in: .whitespacesAndNewlines),
                 modelCount: modelCount,
                 collectionId: selectedCollectionId,
@@ -70,6 +71,17 @@ struct NewProjectSheet: View {
                 in: pipeline,
                 context: modelContext
             )
+            // Seed initial StageHistoryEntry for each new ModelRecord
+            if let firstStage = sortedStages.first {
+                try StageHistoryService.recordCreation(
+                    records: project.modelRecords,
+                    initialStageId: firstStage.id,
+                    initialStageName: firstStage.name,
+                    projectId: project.id,
+                    collectionId: selectedCollectionId,
+                    context: modelContext
+                )
+            }
             dismiss()
         } catch {
             errorMessage = error.localizedDescription

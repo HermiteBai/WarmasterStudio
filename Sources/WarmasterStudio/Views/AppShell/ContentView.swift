@@ -20,6 +20,8 @@ struct ContentView: View {
                 PaintLibraryView()
             case .recipes:
                 RecipeLibraryView()
+            case .statistics:
+                StatisticsView()
             case .settings:
                 SettingsView()
             case nil:
@@ -47,12 +49,13 @@ struct ContentView: View {
 }
 
 enum SidebarItem: String, CaseIterable, Identifiable {
-    case kanban     = "Kanban"
-    case progress   = "Progress"
+    case kanban      = "Kanban"
+    case progress    = "Progress"
+    case statistics  = "Statistics"
     case collections = "Collections"
-    case paints     = "Paints"
-    case recipes    = "Recipes"
-    case settings   = "Settings"
+    case paints      = "Paints"
+    case recipes     = "Recipes"
+    case settings    = "Settings"
 
     var id: String { rawValue }
 
@@ -60,6 +63,7 @@ enum SidebarItem: String, CaseIterable, Identifiable {
         switch self {
         case .kanban:       return "rectangle.3.group"
         case .progress:     return "chart.bar.fill"
+        case .statistics:   return "chart.line.uptrend.xyaxis"
         case .collections:  return "folder.fill"
         case .paints:       return "paintpalette.fill"
         case .recipes:      return "list.bullet.clipboard.fill"

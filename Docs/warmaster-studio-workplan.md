@@ -16,7 +16,7 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 1. Work top-to-bottom within each phase. Dependencies are listed explicitly so you can parallelise where possible.
 2. Mark the **Status** column in the summary table as work progresses (`Todo` → `In Progress` → `Done`).
 3. Complete all Phase 1 tasks (and their tests) before beginning Phase 2.
-4. Phase 3 (CloudKit sync, iOS companion, statistics) is out of scope for this plan — no tasks are defined for it.
+4. Phase 3 tasks are defined below.
 
 **Category abbreviations used in this plan:**
 
@@ -123,7 +123,45 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 
 ---
 
-**Grand total: 64 tasks, ~130 estimated hours**
+---
+
+### Phase 3 — Platform Expansion
+
+#### Statistics (P3-STAT)
+
+| Task ID | Title | Category | Est. Hours | Status |
+|---|---|---|---|---|
+| P3-STAT-01 | `StageHistoryEntry` @Model — stageId, enteredAt, leftAt | Data Model | 2 | In Progress |
+| P3-STAT-02 | Record stage-entry/exit timestamps in ModelProgressService | Data Model | 2 | In Progress |
+| P3-STAT-03 | `VelocityService` — avg time per stage, completion rate, projected finish | Feature: Statistics | 3 | In Progress |
+| P3-STAT-04 | Statistics view — per-stage avg time, velocity chart, projected date | Feature: Statistics | 4 | In Progress |
+| P3-STAT-05 | Collection filter on statistics view | Feature: Statistics | 1 | In Progress |
+| P3-STAT-06 | Unit tests for VelocityService | Testing | 2 | In Progress |
+
+#### CloudKit Sync (P3-CK)
+
+| Task ID | Title | Category | Est. Hours | Status |
+|---|---|---|---|---|
+| P3-CK-01 | Audit @Model types for CloudKit constraints (optional rels, no cycles) | CloudKit Sync | 2 | Todo |
+| P3-CK-02 | Update ModelContainer configuration for CloudKit compatibility | CloudKit Sync | 2 | Todo |
+| P3-CK-03 | Add CloudKit entitlement and container ID | CloudKit Sync | 1 | Todo |
+| P3-CK-04 | Graceful sync-error handling in UI | CloudKit Sync | 2 | Todo |
+
+#### iOS Companion (P3-iOS)
+
+| Task ID | Title | Category | Est. Hours | Status |
+|---|---|---|---|---|
+| P3-iOS-01 | Add iOS target; shared WarmasterStudioKit compiles for iOS | iOS Companion | 3 | Todo |
+| P3-iOS-02 | iOS navigation shell (TabView: Kanban, Collections, Recipes, Paints) | iOS Companion | 3 | Todo |
+| P3-iOS-03 | Adaptive KanbanCard and board view for compact width | iOS Companion | 3 | Todo |
+| P3-iOS-04 | iOS project detail (read + stage navigation) | iOS Companion | 2 | Todo |
+| P3-iOS-05 | iOS paint library view (browse + filter) | iOS Companion | 2 | Todo |
+
+**Phase 3 total: 15 tasks, ~32 estimated hours**
+
+---
+
+**Grand total: 79 tasks, ~162 estimated hours**
 
 ---
 
