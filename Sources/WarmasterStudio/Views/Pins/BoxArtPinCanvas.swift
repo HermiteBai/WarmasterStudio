@@ -309,8 +309,11 @@ private struct PinView: View {
                 let steps = recipe.steps.sorted { $0.position < $1.position }
 
                 // Collapsible section header
+                // NOTE: No withAnimation here — animating a popover's content size
+                // triggers NSPopover._setContentView:size:canAnimate: with a nil
+                // target, causing a SIGSEGV in PopoverHostingView.updateAnimatedWindowSize.
                 Button {
-                    withAnimation(.easeInOut(duration: 0.2)) { stepsExpanded.toggle() }
+                    stepsExpanded.toggle()
                 } label: {
                     HStack(spacing: 6) {
                         Label("Steps", systemImage: "list.number")
