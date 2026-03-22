@@ -1,10 +1,23 @@
 import SwiftUI
 import AppKit
-import UniformTypeIdentifiers
 
-// MARK: - Top-level view
+// MARK: - Image Library View
 
+/// Full-window image library browser.
+/// Layout:
+///   ┌─────────────────────────────────────────────────────┐
+///   │  [System Tab] [System Tab] [System Tab] …           │  ← system strip
+///   │  [Faction chip] [Faction chip] …                    │  ← faction strip (context)
+///   ├─────────────────────────────────────────────────────┤
+///   │                                                     │
+///   │   □ □ □ □ □ □ □ □ □ □ □ □   ← adaptive grid       │
+///   │   □ □ □ □ □ □ □ □ □ □ □ □                          │
+///   │                                                     │
+///   └─────────────────────────────────────────────────────┘
 struct ImageLibraryView: View {
+
+    // MARK: State
+
     @State private var allImages: [LibraryImage] = []
     @State private var isLoading = true
     @State private var selectedSystem: String? = nil
@@ -14,189 +27,212 @@ struct ImageLibraryView: View {
     @State private var showNewFactionSheet = false
     @State private var showNewSystemSheet = false
     @State private var errorMessage: String? = nil
-    @State private var importDestination: ImportDestination? = nil
+    @State private var columnCount: Int = 6          // adapts to window width
 
-    struct ImportDestination {
-        let system: String
-        let faction: String
-    }
+    // MARK: Computed
 
-    // MARK: Tree data
+    private var gameSystems: [String] { ImageLibraryService.gameSystems(in: allImages) }
 
-    private var tree: [(system: String, factions: [(faction: String, count: Int)])] {
-        let systems = ImageLibraryService.gameSystems(in: allImages)
-        return systems.map { system in
-            let factions = ImageLibraryService.factions(in: allImages, system: system).map { faction in
-                let count = allImages.filter { $0.gameSystem == system && $0.faction == faction }.count
-                return (faction: faction, count: count)
-            }
-            return (system: system, factions: factions)
-        }
+    private var availableFactions: [String] {
+        ImageLibraryService.factions(in: allImages, system: selectedSystem)
     }
 
     private var gridImages: [LibraryImage] {
         allImages.filter { img in
-            let matchSystem  = selectedSystem  == nil || img.gameSystem == selectedSystem
-            let matchFaction = selectedFaction == nil || img.faction    == selectedFaction
-            let matchSearch  = searchText.isEmpty
+            let sys  = selectedSystem  == nil || img.gameSystem == selectedSystem
+            let fac  = selectedFaction == nil || img.faction    == selectedFaction
+            let srch = searchText.isEmpty
                 || img.name.localizedCaseInsensitiveContains(searchText)
                 || img.faction.localizedCaseInsensitiveContains(searchText)
-            return matchSystem && matchFaction && matchSearch
+                || img.gameSystem.localizedCaseInsensitiveContains(searchText)
+            return sys && fac && srch
         }
     }
 
-    var body: some View {
-        HSplitView {
-            // ── Left: system/faction tree ─────────────────────────────────
-            libraryTree
-                .frame(minWidth: 200, idealWidth: 220, maxWidth: 280)
+    private var importTarget: (system: String, faction: String) {
+        (system:  selectedSystem  ?? gameSystems.first ?? "Warhammer 40,000",
+         faction: selectedFaction ?? availableFactions.first ?? "Uncategorised")
+    }
 
-            // ── Right: image grid ─────────────────────────────────────────
-            imageGridPanel
-                .frame(minWidth: 400)
-        }
-        .toolbar { toolbarItems }
-        .searchable(text: $searchText, prompt: "Search images")
-        .task { await reload() }
-        .sheet(isPresented: $showNewFactionSheet) {
-            NewFolderSheet(
-                title: "New Faction",
-                placeholder: "e.g. Space Marines",
-                existingNames: tree.first(where: { $0.system == selectedSystem })?.factions.map(\.faction) ?? []
-            ) { name in
-                await createFolder(system: selectedSystem ?? "Warhammer 40,000", faction: name)
+    // MARK: Body
+
+    var body: some View {
+        GeometryReader { geo in
+            VStack(spacing: 0) {
+                // ── System tabs ───────────────────────────────────────────
+                systemStrip
+                Divider()
+
+                // ── Faction chips (only when a system is selected) ────────
+                if selectedSystem != nil && !availableFactions.isEmpty {
+                    factionStrip
+                    Divider()
+                }
+
+                // ── Breadcrumb + count ────────────────────────────────────
+                breadcrumbBar
+
+                // ── Main grid ─────────────────────────────────────────────
+                if isLoading {
+                    Spacer()
+                    ProgressView("Scanning image library…")
+                        .frame(maxWidth: .infinity)
+                    Spacer()
+                } else if !ImageLibraryService.libraryExists {
+                    libraryMissingView
+                } else if gridImages.isEmpty {
+                    Spacer()
+                    ContentUnavailableView.search(text: searchText.isEmpty
+                        ? (selectedFaction ?? selectedSystem ?? "")
+                        : searchText)
+                    Spacer()
+                } else {
+                    imageGrid(availableWidth: geo.size.width)
+                }
             }
         }
+        .background(Color.wmBackground)
+        .searchable(text: $searchText, prompt: "Search by unit, faction or system")
+        .toolbar { toolbarItems }
+        .task { await reload() }
+        // Sheets
         .sheet(isPresented: $showNewSystemSheet) {
             NewFolderSheet(
                 title: "New Game System",
-                placeholder: "e.g. Warhammer: The Old World",
-                existingNames: tree.map(\.system)
-            ) { name in
-                await createFolder(system: name, faction: nil)
-            }
+                prompt: "e.g. Warhammer: The Old World",
+                existingNames: gameSystems
+            ) { name in await createFolder(system: name, faction: nil) }
+        }
+        .sheet(isPresented: $showNewFactionSheet) {
+            NewFolderSheet(
+                title: "New Faction in \"\(selectedSystem ?? "")\"",
+                prompt: "e.g. Space Marines",
+                existingNames: availableFactions
+            ) { name in await createFolder(system: importTarget.system, faction: name) }
         }
         .fileImporter(
             isPresented: $showAddImages,
             allowedContentTypes: [.image],
             allowsMultipleSelection: true
         ) { result in
-            guard let dest = importDestination else { return }
-            Task { await handleImport(result: result, into: dest) }
+            let target = importTarget
+            Task { await handleImport(result: result, system: target.system, faction: target.faction) }
         }
         .alert("Error", isPresented: Binding(
-            get: { errorMessage != nil },
-            set: { if !$0 { errorMessage = nil } }
+            get:  { errorMessage != nil },
+            set:  { if !$0 { errorMessage = nil } }
         )) {
             Button("OK", role: .cancel) {}
         } message: { Text(errorMessage ?? "") }
     }
 
-    // MARK: - Sidebar tree
+    // MARK: - System strip
 
-    private var libraryTree: some View {
-        List(selection: $selectedFaction) {
-            if isLoading {
-                ProgressView().padding()
-            } else if !ImageLibraryService.libraryExists {
-                Text("Library not found")
-                    .foregroundStyle(.secondary)
-                    .font(.caption)
-                    .padding()
-            } else {
-                // "All" row
-                Label {
-                    HStack {
-                        Text("All Images")
-                        Spacer()
-                        Text("\(allImages.count)")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
-                    }
-                } icon: {
-                    Image(systemName: "photo.stack")
+    private var systemStrip: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 4) {
+                SystemTab(label: "All", icon: "photo.stack",
+                          count: allImages.count,
+                          isSelected: selectedSystem == nil) {
+                    selectedSystem = nil; selectedFaction = nil
                 }
-                .tag(Optional<String>.none)
-                .onTapGesture {
-                    selectedSystem = nil
-                    selectedFaction = nil
-                }
-
-                Divider()
-
-                ForEach(tree, id: \.system) { node in
-                    Section {
-                        ForEach(node.factions, id: \.faction) { factionNode in
-                            HStack {
-                                Label(factionNode.faction, systemImage: "folder")
-                                    .lineLimit(1)
-                                Spacer()
-                                Text("\(factionNode.count)")
-                                    .font(.caption)
-                                    .foregroundStyle(.tertiary)
-                            }
-                            .tag(Optional(factionNode.faction))
-                            .onTapGesture {
-                                selectedSystem = node.system
-                                selectedFaction = factionNode.faction
-                            }
-                            .contextMenu {
-                                Button {
-                                    importDestination = ImportDestination(
-                                        system: node.system,
-                                        faction: factionNode.faction
-                                    )
-                                    showAddImages = true
-                                } label: {
-                                    Label("Add Images Here…", systemImage: "plus")
-                                }
-                            }
-                        }
-                    } header: {
-                        HStack {
-                            Text(node.system)
-                                .font(.caption.weight(.semibold))
-                                .foregroundStyle(.secondary)
-                            Spacer()
-                            Text("\(node.factions.reduce(0) { $0 + $1.count })")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                        .onTapGesture {
-                            selectedSystem = node.system
-                            selectedFaction = nil
-                        }
+                ForEach(gameSystems, id: \.self) { system in
+                    let count = allImages.filter { $0.gameSystem == system }.count
+                    SystemTab(label: system, icon: systemIcon(system),
+                              count: count,
+                              isSelected: selectedSystem == system) {
+                        if selectedSystem == system { selectedSystem = nil; selectedFaction = nil }
+                        else { selectedSystem = system; selectedFaction = nil }
                     }
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
         }
-        .listStyle(.sidebar)
+        .background(Color.wmSurface)
     }
 
-    // MARK: - Image grid panel
+    // MARK: - Faction strip
 
-    @ViewBuilder
-    private var imageGridPanel: some View {
-        if isLoading {
-            ProgressView("Scanning library…")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else if !ImageLibraryService.libraryExists {
-            libraryMissingView
-        } else if gridImages.isEmpty {
-            ContentUnavailableView.search(text: searchText.isEmpty
-                ? (selectedFaction ?? selectedSystem ?? "")
-                : searchText)
-        } else {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 140, maximum: 180), spacing: 12)],
-                          spacing: 12) {
-                    ForEach(gridImages) { image in
-                        LibraryManageCell(image: image, onDelete: { deleteImage(image) })
+    private var factionStrip: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 6) {
+                FactionChip(label: "All factions",
+                            count: allImages.filter { $0.gameSystem == selectedSystem }.count,
+                            isSelected: selectedFaction == nil) {
+                    selectedFaction = nil
+                }
+                ForEach(availableFactions, id: \.self) { faction in
+                    let count = allImages.filter {
+                        $0.gameSystem == selectedSystem && $0.faction == faction
+                    }.count
+                    FactionChip(label: faction, count: count,
+                                isSelected: selectedFaction == faction) {
+                        selectedFaction = selectedFaction == faction ? nil : faction
                     }
                 }
-                .padding(16)
             }
-            .background(Color.wmBackground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+        }
+        .background(Color.wmBackground)
+    }
+
+    // MARK: - Breadcrumb
+
+    private var breadcrumbBar: some View {
+        HStack(spacing: 6) {
+            // Path
+            Group {
+                Text("Library").foregroundStyle(selectedSystem == nil ? .primary : .secondary)
+                if let sys = selectedSystem {
+                    Image(systemName: "chevron.right").imageScale(.small).foregroundStyle(.tertiary)
+                    Text(sys).foregroundStyle(selectedFaction == nil ? .primary : .secondary)
+                }
+                if let fac = selectedFaction {
+                    Image(systemName: "chevron.right").imageScale(.small).foregroundStyle(.tertiary)
+                    Text(fac).foregroundStyle(.primary)
+                }
+            }
+            .font(.subheadline)
+
+            Spacer()
+
+            // Count
+            if !isLoading {
+                Text("\(gridImages.count) image\(gridImages.count == 1 ? "" : "s")")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
+        .background(Color.wmBackground)
+    }
+
+    // MARK: - Image grid
+
+    private func imageGrid(availableWidth: CGFloat) -> some View {
+        let minCell: CGFloat = 160
+        let maxCell: CGFloat = 220
+        let spacing: CGFloat = 12
+        let padding: CGFloat = 20
+        let cols = max(2, Int((availableWidth - padding * 2 + spacing) / (minCell + spacing)))
+        let cellW = min(maxCell, (availableWidth - padding * 2 - CGFloat(cols - 1) * spacing) / CGFloat(cols))
+
+        return ScrollView {
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.fixed(cellW), spacing: spacing), count: cols),
+                spacing: spacing
+            ) {
+                ForEach(gridImages) { image in
+                    LibraryManageCell(image: image, cellWidth: cellW) {
+                        deleteImage(image)
+                    }
+                }
+            }
+            .padding(padding)
+            .animation(.easeInOut(duration: 0.2), value: gridImages.count)
         }
     }
 
@@ -207,13 +243,12 @@ struct ImageLibraryView: View {
             Label("Image Library Not Found", systemImage: "folder.badge.questionmark")
         } description: {
             VStack(spacing: 8) {
-                Text("Expected library at:")
+                Text("No image library found at:")
                 Text(ImageLibraryService.libraryURL.path)
                     .font(.caption.monospaced())
                     .foregroundStyle(.secondary)
-                Text("Update the path in Settings, or create the folder structure manually.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Text("Update the path in Settings or use the toolbar to create a game system folder.")
+                    .font(.caption).foregroundStyle(.secondary)
             }
         }
     }
@@ -228,50 +263,30 @@ struct ImageLibraryView: View {
             } label: {
                 Label("New Game System", systemImage: "plus.rectangle.on.folder")
             }
-            .help("Add a new game system folder")
+            .help("Create a new game system folder")
 
             Button {
-                guard selectedSystem != nil || !tree.isEmpty else {
-                    showNewSystemSheet = true
-                    return
-                }
+                guard selectedSystem != nil else { showNewSystemSheet = true; return }
                 showNewFactionSheet = true
             } label: {
                 Label("New Faction", systemImage: "folder.badge.plus")
             }
-            .help("Add a new faction folder in the selected game system")
-            .disabled(selectedSystem == nil && tree.isEmpty)
-
-            Divider()
+            .help(selectedSystem == nil
+                  ? "Select a game system first, then add a faction"
+                  : "Add a faction folder in \"\(selectedSystem!)\"")
 
             Button {
-                importDestination = ImportDestination(
-                    system: selectedSystem ?? tree.first?.system ?? "Warhammer 40,000",
-                    faction: selectedFaction
-                        ?? tree.first(where: { $0.system == selectedSystem })?.factions.first?.faction
-                        ?? "Uncategorised"
-                )
                 showAddImages = true
             } label: {
                 Label("Add Images…", systemImage: "photo.badge.plus")
             }
-            .help("Import image files into the selected faction")
-        }
-
-        ToolbarItem(placement: .status) {
-            if !isLoading {
-                Text("\(gridImages.count) image\(gridImages.count == 1 ? "" : "s")"
-                     + (selectedFaction != nil || selectedSystem != nil ? " shown" : " total"))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            .help("Import images into \"\(importTarget.system) › \(importTarget.faction)\"")
         }
     }
 
     // MARK: - Actions
 
-    @MainActor
-    private func reload() async {
+    @MainActor private func reload() async {
         isLoading = true
         let result = await Task.detached(priority: .userInitiated) {
             ImageLibraryService.scanLibrary()
@@ -282,106 +297,193 @@ struct ImageLibraryView: View {
 
     private func createFolder(system: String, faction: String?) async {
         let root = ImageLibraryService.libraryURL
-        let dir: URL = faction == nil
-            ? root.appendingPathComponent(system, isDirectory: true)
-            : root.appendingPathComponent(system, isDirectory: true)
-                   .appendingPathComponent(faction!, isDirectory: true)
+        var dir = root.appendingPathComponent(system, isDirectory: true)
+        if let f = faction { dir = dir.appendingPathComponent(f, isDirectory: true) }
         do {
             try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
             await reload()
             selectedSystem = system
             if let f = faction { selectedFaction = f }
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+        } catch { errorMessage = error.localizedDescription }
     }
 
     @MainActor
-    private func handleImport(result: Result<[URL], Error>, into dest: ImportDestination) async {
+    private func handleImport(result: Result<[URL], Error>, system: String, faction: String) async {
         switch result {
-        case .failure(let err):
-            errorMessage = err.localizedDescription
+        case .failure(let err): errorMessage = err.localizedDescription
         case .success(let urls):
-            let targetDir = ImageLibraryService.libraryURL
-                .appendingPathComponent(dest.system, isDirectory: true)
-                .appendingPathComponent(dest.faction, isDirectory: true)
+            let dir = ImageLibraryService.libraryURL
+                .appendingPathComponent(system, isDirectory: true)
+                .appendingPathComponent(faction, isDirectory: true)
             do {
-                try FileManager.default.createDirectory(at: targetDir,
-                                                        withIntermediateDirectories: true)
+                try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
                 for url in urls {
                     let accessing = url.startAccessingSecurityScopedResource()
                     defer { if accessing { url.stopAccessingSecurityScopedResource() } }
-                    let dest = targetDir.appendingPathComponent(url.lastPathComponent)
+                    let dest = dir.appendingPathComponent(url.lastPathComponent)
                     if !FileManager.default.fileExists(atPath: dest.path) {
                         try FileManager.default.copyItem(at: url, to: dest)
                     }
                 }
                 await reload()
-            } catch {
-                errorMessage = error.localizedDescription
-            }
+            } catch { errorMessage = error.localizedDescription }
         }
     }
 
     private func deleteImage(_ image: LibraryImage) {
-        do {
-            try FileManager.default.removeItem(at: image.url)
-            allImages.removeAll { $0.id == image.id }
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+        try? FileManager.default.removeItem(at: image.url)
+        allImages.removeAll { $0.id == image.id }
+    }
+
+    // MARK: - Helpers
+
+    private func systemIcon(_ system: String) -> String {
+        let s = system.lowercased()
+        if s.contains("40") || s.contains("warhammer 4") { return "shield.lefthalf.filled" }
+        if s.contains("age") || s.contains("sigmar")     { return "flame.fill" }
+        if s.contains("horus") || s.contains("heresy")   { return "bolt.shield.fill" }
+        if s.contains("old world") || s.contains("fantasy") { return "map.fill" }
+        if s.contains("middle") || s.contains("earth")   { return "mountain.2.fill" }
+        return "folder.fill"
     }
 }
 
-// MARK: - Grid cell with delete
+// MARK: - System tab button
+
+private struct SystemTab: View {
+    let label: String
+    let icon: String
+    let count: Int
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 3) {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? Color.wmPrimary : .secondary)
+                Text(label)
+                    .font(.caption.weight(isSelected ? .semibold : .regular))
+                    .foregroundStyle(isSelected ? Color.wmPrimary : .secondary)
+                    .lineLimit(1)
+                Text("\(count)")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(isSelected ? Color.wmPrimary.opacity(0.15) : Color.clear)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .strokeBorder(isSelected ? Color.wmPrimary.opacity(0.4) : Color.clear, lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(label), \(count) images")
+    }
+}
+
+// MARK: - Faction chip
+
+private struct FactionChip: View {
+    let label: String
+    let count: Int
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 5) {
+                Text(label)
+                    .font(.caption.weight(isSelected ? .semibold : .regular))
+                Text("\(count)")
+                    .font(.caption2)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 1)
+                    .background(
+                        Capsule().fill(isSelected
+                            ? Color.wmPrimary.opacity(0.25)
+                            : Color.wmBorder.opacity(0.5))
+                    )
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .foregroundStyle(isSelected ? Color.wmPrimary : .secondary)
+            .background(
+                Capsule().fill(isSelected ? Color.wmPrimary.opacity(0.12) : Color.wmSurface)
+            )
+            .overlay(
+                Capsule().strokeBorder(isSelected
+                    ? Color.wmPrimary.opacity(0.5) : Color.wmBorder, lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Thumbnail cell
 
 private struct LibraryManageCell: View {
     let image: LibraryImage
+    let cellWidth: CGFloat
     let onDelete: () -> Void
 
     @State private var nsImage: NSImage? = nil
     @State private var isHovered = false
     @State private var showDeleteConfirm = false
 
+    private var thumbHeight: CGFloat { cellWidth * 0.72 }
+
     var body: some View {
         VStack(spacing: 6) {
             ZStack(alignment: .topTrailing) {
+                // Thumbnail
                 Group {
                     if let img = nsImage {
                         Image(nsImage: img)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     } else {
-                        Color.wmSurface.overlay(ProgressView())
+                        Color.wmSurface
+                            .overlay(Image(systemName: "photo")
+                                .foregroundStyle(.tertiary).font(.title2))
                     }
                 }
-                .frame(height: 110)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .frame(width: cellWidth, height: thumbHeight)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .strokeBorder(Color.wmBorder, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 10)
+                        .strokeBorder(isHovered ? Color.wmPrimary.opacity(0.6) : Color.wmBorder,
+                                      lineWidth: isHovered ? 2 : 1)
                 )
+                .scaleEffect(isHovered ? 1.02 : 1.0)
 
+                // Delete button on hover
                 if isHovered {
-                    Button(role: .destructive) {
-                        showDeleteConfirm = true
-                    } label: {
+                    Button(role: .destructive) { showDeleteConfirm = true } label: {
                         Image(systemName: "xmark.circle.fill")
                             .symbolRenderingMode(.multicolor)
-                            .font(.title3)
-                            .padding(4)
+                            .font(.system(size: 20))
+                            .shadow(radius: 2)
                     }
                     .buttonStyle(.plain)
-                    .transition(.opacity)
+                    .padding(5)
+                    .transition(.opacity.combined(with: .scale))
                 }
             }
             .animation(.easeOut(duration: 0.15), value: isHovered)
 
+            // Labels
             VStack(spacing: 2) {
                 Text(image.name)
                     .font(.caption.weight(.medium))
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
+                    .frame(maxWidth: cellWidth)
                 Text(image.faction)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
@@ -404,9 +506,9 @@ private struct LibraryManageCell: View {
             Button("Delete", role: .destructive) { onDelete() }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This will permanently remove the image from the library.")
+            Text("This will permanently remove the image from the library folder.")
         }
-        .accessibilityLabel("\(image.name), \(image.faction)")
+        .accessibilityLabel("\(image.name), \(image.faction), \(image.gameSystem)")
     }
 }
 
@@ -414,35 +516,29 @@ private struct LibraryManageCell: View {
 
 private struct NewFolderSheet: View {
     @Environment(\.dismiss) private var dismiss
-
     let title: String
-    let placeholder: String
+    let prompt: String
     let existingNames: [String]
     let onCreate: (String) async -> Void
 
     @State private var name = ""
 
+    private var trimmed: String { name.trimmingCharacters(in: .whitespaces) }
     private var isDuplicate: Bool {
-        existingNames.contains(where: { $0.localizedCaseInsensitiveCompare(name.trimmingCharacters(in: .whitespaces)) == .orderedSame })
+        existingNames.contains { $0.localizedCaseInsensitiveCompare(trimmed) == .orderedSame }
     }
-    private var isValid: Bool {
-        !name.trimmingCharacters(in: .whitespaces).isEmpty && !isDuplicate
-    }
+    private var isValid: Bool { !trimmed.isEmpty && !isDuplicate }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(title).font(.headline)
-
-            TextField(placeholder, text: $name)
+            TextField(prompt, text: $name)
                 .textFieldStyle(.roundedBorder)
                 .onSubmit { if isValid { submit() } }
-
             if isDuplicate {
-                Text("A folder with this name already exists.")
-                    .font(.caption)
-                    .foregroundStyle(.red)
+                Label("A folder with this name already exists.", systemImage: "exclamationmark.triangle")
+                    .font(.caption).foregroundStyle(.orange)
             }
-
             HStack {
                 Spacer()
                 Button("Cancel", role: .cancel) { dismiss() }
@@ -451,13 +547,12 @@ private struct NewFolderSheet: View {
                     .keyboardShortcut(.defaultAction)
             }
         }
-        .padding(20)
-        .frame(width: 320)
+        .padding(24)
+        .frame(width: 340)
     }
 
     private func submit() {
-        let trimmed = name.trimmingCharacters(in: .whitespaces)
-        guard !trimmed.isEmpty else { return }
+        guard isValid else { return }
         dismiss()
         Task { await onCreate(trimmed) }
     }
