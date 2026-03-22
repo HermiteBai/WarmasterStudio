@@ -158,12 +158,27 @@ struct KanbanCardView: View {
             Logger.kanban.error("Project not found for card move")
             return
         }
+        // Capture the records that will move before moving them
+        let atSource = project.modelRecords.filter { $0.currentStageId == card.stageId }
+        let toMove = Array(atSource.prefix(1))
+        let fromStageName = stages.first(where: { $0.id == card.stageId })?.name ?? ""
+
         do {
             try ModelProgressService.moveModels(
                 count: 1,
                 fromStageId: card.stageId,
                 toStageId: targetStage.id,
                 inProject: project,
+                context: modelContext
+            )
+            try StageHistoryService.recordMove(
+                records: toMove,
+                fromStageId: card.stageId,
+                fromStageName: fromStageName,
+                toStageId: targetStage.id,
+                toStageName: targetStage.name,
+                projectId: project.id,
+                collectionId: project.collectionId,
                 context: modelContext
             )
         } catch {

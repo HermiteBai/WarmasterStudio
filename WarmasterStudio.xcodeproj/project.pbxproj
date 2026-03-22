@@ -61,6 +61,10 @@
 		CB01BB01CC01DD01 /* RecipeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01BB01CC01DD01 /* RecipeServiceTests.swift */; };
 		CB02BB02CC02DD02 /* PaintLibraryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */; };
 		CB03BB03CC03DD03 /* RecipePinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB03BB03CC03DD03 /* RecipePinTests.swift */; };
+		P3ST01AA11BB22CC /* StageHistoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST01AA11BB22CD /* StageHistoryEntry.swift */; };
+		P3ST02AA11BB22CC /* StageHistoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST02AA11BB22CD /* StageHistoryService.swift */; };
+		P3ST03AA11BB22CC /* VelocityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST03AA11BB22CD /* VelocityService.swift */; };
+		P3ST04AA11BB22CC /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST04AA11BB22CD /* StatisticsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +142,10 @@
 		BB01BB01CC01DD01 /* RecipeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeServiceTests.swift; sourceTree = "<group>"; };
 		BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintLibraryServiceTests.swift; sourceTree = "<group>"; };
 		BB03BB03CC03DD03 /* RecipePinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePinTests.swift; sourceTree = "<group>"; };
+		P3ST01AA11BB22CD /* StageHistoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageHistoryEntry.swift; sourceTree = "<group>"; };
+		P3ST02AA11BB22CD /* StageHistoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageHistoryService.swift; sourceTree = "<group>"; };
+		P3ST03AA11BB22CD /* VelocityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityService.swift; sourceTree = "<group>"; };
+		P3ST04AA11BB22CD /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -246,6 +254,7 @@
 				AA02AB02CD02EF02 /* PaintRecipe.swift */,
 				AA03AB03CD03EF03 /* RecipeStep.swift */,
 				AA0CAB0CCD0CEF0C /* RecipePin.swift */,
+				P3ST01AA11BB22CD /* StageHistoryEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -258,6 +267,14 @@
 			path = Collections;
 			sourceTree = "<group>";
 		};
+		P3ST05AA11BB22CD /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				P3ST04AA11BB22CD /* StatisticsView.swift */,
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
 		E71C5C24A5E8BEC761AF962A /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,6 +284,7 @@
 				ED27C4D7D488D29F33748CC6 /* Progress */,
 				288691F7F1C66F12331FD061 /* Projects */,
 				041B9DE2E6385C2A518D54E4 /* Settings */,
+				P3ST05AA11BB22CD /* Statistics */,
 				DD01DD01DD01DD01 /* Paints */,
 				DD02DD02DD02DD02 /* Recipes */,
 				DD04DD04DD04DD04 /* Pins */,
@@ -313,6 +331,8 @@
 				18FA743F2C074CB77FC994F3 /* StageService.swift */,
 				AA04AB04CD04EF04 /* PaintLibraryService.swift */,
 				AA05AB05CD05EF05 /* RecipeService.swift */,
+				P3ST02AA11BB22CD /* StageHistoryService.swift */,
+				P3ST03AA11BB22CD /* VelocityService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -528,6 +548,10 @@
 				BA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift in Sources */,
 				BA0CAB0CCD0CEF0C /* RecipePin.swift in Sources */,
 				BA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift in Sources */,
+				P3ST01AA11BB22CC /* StageHistoryEntry.swift in Sources */,
+				P3ST02AA11BB22CC /* StageHistoryService.swift in Sources */,
+				P3ST03AA11BB22CC /* VelocityService.swift in Sources */,
+				P3ST04AA11BB22CC /* StatisticsView.swift in Sources */,
 				A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
