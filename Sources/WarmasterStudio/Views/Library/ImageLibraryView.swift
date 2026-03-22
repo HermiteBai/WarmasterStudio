@@ -28,6 +28,7 @@ struct ImageLibraryView: View {
     @State private var showNewSystemSheet = false
     @State private var errorMessage: String? = nil
     @State private var columnCount: Int = 6          // adapts to window width
+    @State private var lightboxImage: LibraryImage? = nil
 
     // MARK: Computed
 
@@ -124,6 +125,9 @@ struct ImageLibraryView: View {
         )) {
             Button("OK", role: .cancel) {}
         } message: { Text(errorMessage ?? "") }
+        .sheet(item: $lightboxImage) { image in
+            ImageLightboxView(image: image, allImages: gridImages) { lightboxImage = nil }
+        }
     }
 
     // MARK: - System strip
@@ -226,9 +230,9 @@ struct ImageLibraryView: View {
                 spacing: spacing
             ) {
                 ForEach(gridImages) { image in
-                    LibraryManageCell(image: image, cellWidth: cellW) {
-                        deleteImage(image)
-                    }
+                    LibraryManageCell(image: image, cellWidth: cellW,
+                                      onOpen: { lightboxImage = image },
+                                      onDelete: { deleteImage(image) })
                 }
             }
             .padding(padding)
@@ -430,6 +434,7 @@ private struct FactionChip: View {
 private struct LibraryManageCell: View {
     let image: LibraryImage
     let cellWidth: CGFloat
+    let onOpen: () -> Void
     let onDelete: () -> Void
 
     @State private var nsImage: NSImage? = nil
@@ -441,26 +446,30 @@ private struct LibraryManageCell: View {
     var body: some View {
         VStack(spacing: 6) {
             ZStack(alignment: .topTrailing) {
-                // Thumbnail
-                Group {
-                    if let img = nsImage {
-                        Image(nsImage: img)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } else {
-                        Color.wmSurface
-                            .overlay(Image(systemName: "photo")
-                                .foregroundStyle(.tertiary).font(.title2))
+                // Thumbnail — tap to open lightbox
+                Button(action: onOpen) {
+                    Group {
+                        if let img = nsImage {
+                            Image(nsImage: img)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } else {
+                            Color.wmSurface
+                                .overlay(Image(systemName: "photo")
+                                    .foregroundStyle(.tertiary).font(.title2))
+                        }
                     }
+                    .frame(width: cellWidth, height: thumbHeight)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .strokeBorder(isHovered ? Color.wmPrimary.opacity(0.6) : Color.wmBorder,
+                                          lineWidth: isHovered ? 2 : 1)
+                    )
                 }
-                .frame(width: cellWidth, height: thumbHeight)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .strokeBorder(isHovered ? Color.wmPrimary.opacity(0.6) : Color.wmBorder,
-                                      lineWidth: isHovered ? 2 : 1)
-                )
+                .buttonStyle(.plain)
                 .scaleEffect(isHovered ? 1.02 : 1.0)
+                .help("Click to view full size")
 
                 // Delete button on hover
                 if isHovered {
@@ -509,6 +518,211 @@ private struct LibraryManageCell: View {
             Text("This will permanently remove the image from the library folder.")
         }
         .accessibilityLabel("\(image.name), \(image.faction), \(image.gameSystem)")
+    }
+}
+
+// MARK: - Lightbox / full-size viewer
+
+/// Full-size image viewer sheet with prev/next navigation and metadata overlay.
+struct ImageLightboxView: View {
+    let image: LibraryImage
+    let allImages: [LibraryImage]
+    let onClose: () -> Void
+
+    @State private var currentIndex: Int = 0
+    @State private var nsImage: NSImage? = nil
+    @State private var isLoadingImage = false
+    @State private var zoomScale: CGFloat = 1.0
+    @State private var dragOffset: CGSize = .zero
+    @GestureState private var magnifyBy: CGFloat = 1.0
+
+    private var currentImage: LibraryImage { allImages[currentIndex] }
+    private var hasPrev: Bool { currentIndex > 0 }
+    private var hasNext: Bool { currentIndex < allImages.count - 1 }
+
+    var body: some View {
+        ZStack {
+            // Background
+            Color.black.ignoresSafeArea()
+
+            // Image
+            if let img = nsImage {
+                Image(nsImage: img)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .scaleEffect(zoomScale * magnifyBy)
+                    .offset(dragOffset)
+                    .gesture(magnificationGesture)
+                    .gesture(dragGesture)
+                    .onTapGesture(count: 2) { resetZoom() }
+                    .animation(.interactiveSpring(), value: zoomScale)
+            } else {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.white)
+            }
+
+            // Navigation arrows
+            HStack {
+                navButton(systemImage: "chevron.left", enabled: hasPrev) { navigate(-1) }
+                Spacer()
+                navButton(systemImage: "chevron.right", enabled: hasNext) { navigate(1) }
+            }
+            .padding(.horizontal, 16)
+
+            // Top bar: close + zoom controls
+            VStack {
+                HStack(alignment: .center) {
+                    // Image counter
+                    Text("\(currentIndex + 1) / \(allImages.count)")
+                        .font(.caption)
+                        .foregroundStyle(.white.opacity(0.7))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(.ultraThinMaterial.opacity(0.6), in: Capsule())
+
+                    Spacer()
+
+                    // Zoom controls
+                    HStack(spacing: 4) {
+                        Button { adjustZoom(-0.25) } label: {
+                            Image(systemName: "minus.magnifyingglass")
+                        }
+                        .disabled(zoomScale <= 0.5)
+
+                        Text("\(Int(zoomScale * 100))%")
+                            .font(.caption.monospacedDigit())
+                            .frame(width: 40)
+
+                        Button { adjustZoom(0.25) } label: {
+                            Image(systemName: "plus.magnifyingglass")
+                        }
+                        .disabled(zoomScale >= 5.0)
+
+                        Button { resetZoom() } label: {
+                            Image(systemName: "arrow.up.left.and.down.right.magnifyingglass")
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(.ultraThinMaterial.opacity(0.6), in: RoundedRectangle(cornerRadius: 10))
+
+                    Spacer()
+
+                    // Close
+                    Button(action: onClose) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title2)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundStyle(.white)
+                    }
+                    .buttonStyle(.plain)
+                    .keyboardShortcut(.escape, modifiers: [])
+                    .padding(.horizontal, 10)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+
+                Spacer()
+
+                // Bottom metadata bar
+                VStack(spacing: 4) {
+                    Text(currentImage.name)
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                    HStack(spacing: 8) {
+                        Text(currentImage.gameSystem)
+                        Text("›")
+                        Text(currentImage.faction)
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.7))
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 14)
+                .frame(maxWidth: .infinity)
+                .background(.ultraThinMaterial.opacity(0.7))
+            }
+        }
+        .frame(minWidth: 640, minHeight: 480)
+        .onAppear {
+            currentIndex = allImages.firstIndex(where: { $0.id == image.id }) ?? 0
+            loadCurrentImage()
+        }
+        .onKeyPress(.leftArrow)  { navigate(-1); return .handled }
+        .onKeyPress(.rightArrow) { navigate(1);  return .handled }
+    }
+
+    // MARK: Gestures
+
+    private var magnificationGesture: some Gesture {
+        MagnificationGesture()
+            .updating($magnifyBy) { value, state, _ in state = value }
+            .onEnded { value in
+                zoomScale = min(5.0, max(0.5, zoomScale * value))
+                dragOffset = .zero
+            }
+    }
+
+    private var dragGesture: some Gesture {
+        DragGesture()
+            .onChanged { value in
+                guard zoomScale > 1 else { return }
+                dragOffset = value.translation
+            }
+            .onEnded { value in
+                guard zoomScale > 1 else { dragOffset = .zero; return }
+                dragOffset = value.translation
+            }
+    }
+
+    // MARK: Actions
+
+    private func navigate(_ delta: Int) {
+        let next = currentIndex + delta
+        guard next >= 0 && next < allImages.count else { return }
+        currentIndex = next
+        resetZoom()
+        loadCurrentImage()
+    }
+
+    private func adjustZoom(_ delta: CGFloat) {
+        zoomScale = min(5.0, max(0.5, zoomScale + delta))
+    }
+
+    private func resetZoom() {
+        zoomScale = 1.0
+        dragOffset = .zero
+    }
+
+    private func loadCurrentImage() {
+        nsImage = nil
+        isLoadingImage = true
+        let url = currentImage.url
+        Task.detached(priority: .userInitiated) {
+            let img = NSImage(contentsOf: url)
+            await MainActor.run {
+                nsImage = img
+                isLoadingImage = false
+            }
+        }
+    }
+
+    // MARK: Sub-views
+
+    @ViewBuilder
+    private func navButton(systemImage: String, enabled: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(enabled ? .white : .white.opacity(0.2))
+                .frame(width: 44, height: 44)
+                .background(.ultraThinMaterial.opacity(enabled ? 0.5 : 0.2), in: Circle())
+        }
+        .buttonStyle(.plain)
+        .disabled(!enabled)
     }
 }
 
