@@ -17,6 +17,7 @@ struct ProjectDetailView: View {
     @State private var showDeleteConfirm = false
     @State private var showLinkSheet = false
     @State private var showImagePicker = false
+    @State private var showLibraryPicker = false
     @State private var imageErrorMessage: String? = nil
     @State private var expandedRecipes: Set<UUID> = []
 
@@ -70,6 +71,11 @@ struct ProjectDetailView: View {
         .sheet(isPresented: $showLinkSheet) {
             LinkProjectSheet(project: project)
         }
+        .sheet(isPresented: $showLibraryPicker) {
+            LibraryImagePickerSheet { relativePath in
+                applyNewBoxArt(relativePath: relativePath)
+            }
+        }
         .fileImporter(
             isPresented: $showImagePicker,
             allowedContentTypes: [.image],
@@ -79,12 +85,8 @@ struct ProjectDetailView: View {
             case .success(let urls):
                 guard let url = urls.first else { return }
                 do {
-                    // Delete any previous images in the group (deduplicated by path)
-                    let oldPaths = Set(linkGroupMembers.compactMap(\.boxArtImagePath))
-                    oldPaths.forEach { ImageService.deleteImage(relativePath: $0) }
                     let newPath = try ImageService.importImage(from: url)
-                    for member in linkGroupMembers { member.boxArtImagePath = newPath }
-                    try modelContext.save()
+                    applyNewBoxArt(relativePath: newPath)
                 } catch {
                     imageErrorMessage = error.localizedDescription
                     Logger.image.error("Import failed: \(error.localizedDescription)")
@@ -335,6 +337,16 @@ extension ProjectDetailView {
         return allProjects.filter { $0.linkGroupId == groupId }
     }
 
+    /// Applies a new box-art relative path to all link-group members,
+    /// deleting the previous image first. Used by both the file importer
+    /// and the library picker.
+    private func applyNewBoxArt(relativePath: String) {
+        let oldPaths = Set(linkGroupMembers.compactMap(\.boxArtImagePath))
+        oldPaths.forEach { ImageService.deleteImage(relativePath: $0) }
+        for member in linkGroupMembers { member.boxArtImagePath = relativePath }
+        try? modelContext.save()
+    }
+
     @ViewBuilder
     var boxArtSection: some View {
         if let path = resolvedBoxArtPath, let url = ImageService.resolveImageURL(relativePath: path) {
@@ -343,8 +355,21 @@ extension ProjectDetailView {
                     BoxArtPinCanvas(image: nsImage, projectId: project.id)
                 }
                 HStack(spacing: 12) {
-                    Button("Change Image") { showImagePicker = true }
-                        .buttonStyle(.borderless)
+                    Menu("Change Image") {
+                        Button {
+                            showLibraryPicker = true
+                        } label: {
+                            Label("Browse Library…", systemImage: "books.vertical")
+                        }
+                        Button {
+                            showImagePicker = true
+                        } label: {
+                            Label("Import from Files…", systemImage: "folder")
+                        }
+                    }
+                    .menuStyle(.borderlessButton)
+                    .fixedSize()
+
                     Button("Remove Image") {
                         for member in linkGroupMembers where member.boxArtImagePath == path {
                             member.boxArtImagePath = nil
@@ -357,8 +382,17 @@ extension ProjectDetailView {
                 }
             }
         } else {
-            Button {
-                showImagePicker = true
+            Menu {
+                Button {
+                    showLibraryPicker = true
+                } label: {
+                    Label("Browse Library…", systemImage: "books.vertical")
+                }
+                Button {
+                    showImagePicker = true
+                } label: {
+                    Label("Import from Files…", systemImage: "folder")
+                }
             } label: {
                 Label("Attach Box Art", systemImage: "photo.badge.plus")
                     .frame(maxWidth: .infinity)
@@ -370,7 +404,7 @@ extension ProjectDetailView {
                             .strokeBorder(Color.wmBorder, style: StrokeStyle(lineWidth: 1, dash: [6]))
                     )
             }
-            .buttonStyle(.plain)
+            .menuStyle(.borderlessButton)
         }
     }
 }
