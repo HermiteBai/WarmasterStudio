@@ -95,11 +95,11 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 | P2-IMG-03 | Image display view inside Project detail | Feature: Box Art Images | 2 | Done |
 | P2-IMG-04 | Relative path persistence and bookmark resolution on relaunch | Feature: Box Art Images | 2 | Done |
 | P2-IMG-05 | Shared box art across linked projects (link-group sync) | Feature: Box Art Images | 1 | Done |
-| P2-PIN-01 | `RecipePin` @Model — normalised coordinates & recipe reference | Feature: Recipe Pins | 2 | Todo |
-| P2-PIN-02 | Pin placement UI — click/tap on image to place pin | Feature: Recipe Pins | 3 | Todo |
-| P2-PIN-03 | Pin popover — display linked recipe name and first step | Feature: Recipe Pins | 2 | Todo |
-| P2-PIN-04 | Pin drag to reposition on image | Feature: Recipe Pins | 2 | Todo |
-| P2-PIN-05 | Pin delete | Feature: Recipe Pins | 1 | Todo |
+| P2-PIN-01 | `RecipePin` @Model — normalised coordinates & recipe reference | Feature: Recipe Pins | 2 | Done |
+| P2-PIN-02 | Pin placement UI — click/tap on image to place pin | Feature: Recipe Pins | 3 | Done |
+| P2-PIN-03 | Pin popover — display linked recipe name and first step | Feature: Recipe Pins | 2 | Done |
+| P2-PIN-04 | Pin drag to reposition on image | Feature: Recipe Pins | 2 | Done |
+| P2-PIN-05 | Pin delete | Feature: Recipe Pins | 1 | Done |
 | P2-REC-01 | `PaintRecipe` @Model — name, ordered steps, project relationship | Feature: Paint Recipes | 2 | Done |
 | P2-REC-02 | `RecipeStep` @Model & `Technique` enum | Feature: Paint Recipes | 2 | Done |
 | P2-REC-03 | Recipe library list view | Feature: Paint Recipes | 2 | Done |
@@ -112,12 +112,12 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 | P2-PLT-03 | My Paints CRUD (add, edit, delete user-defined paints) | Feature: Paint Library | 2 | Done |
 | P2-PLT-04 | Colour swatch rendering from hex string (`Color(hex:)` extension) | Feature: Paint Library | 1 | Done |
 | P2-PLT-05 | Unified paint search view (catalogue + My Paints, filterable by brand) | Feature: Paint Library | 3 | Done |
-| P2-TEST-01 | Unit tests — recipe step ordering and technique enum coverage | Testing | 2 | Todo |
-| P2-TEST-02 | Unit tests — paint catalogue seeding (no duplicates, correct count) | Testing | 2 | Todo |
-| P2-TEST-03 | Unit tests — pin coordinate clamping and normalisation | Testing | 2 | Todo |
-| P2-TEST-04 | UI tests — image attach, place pin, link recipe end-to-end | Testing | 3 | Todo |
-| P2-POL-01 | Empty states for Recipe library and Paint library | Polish | 1 | Todo |
-| P2-POL-02 | Accessibility labels for image canvas, pins, and swatches | Polish | 2 | Todo |
+| P2-TEST-01 | Unit tests — recipe step ordering and technique enum coverage | Testing | 2 | Done |
+| P2-TEST-02 | Unit tests — paint catalogue seeding (no duplicates, correct count) | Testing | 2 | Done |
+| P2-TEST-03 | Unit tests — pin coordinate clamping and normalisation | Testing | 2 | Done |
+| P2-TEST-04 | UI tests — image attach, place pin, link recipe end-to-end | Testing | 3 | Done |
+| P2-POL-01 | Empty states for Recipe library and Paint library | Polish | 1 | Done |
+| P2-POL-02 | Accessibility labels for image canvas, pins, and swatches | Polish | 2 | Done |
 
 **Phase 2 total: 27 tasks, ~57 estimated hours**
 

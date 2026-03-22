@@ -24,6 +24,7 @@
 		827C486665C3B990538C82B3 /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */; };
 		832920E6B0D9C996A14A75F0 /* KanbanColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */; };
 		8B48FF80F1849098F70A658C /* KanbanBoardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */; };
+		F1A2B3C4D5E6F7A8B9C0D1E2 /* PinFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* PinFlowUITests.swift */; };
 		8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */; };
 		8C616FFEF783155E36D41AEA /* StageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA743F2C074CB77FC994F3 /* StageService.swift */; };
 		8E269AEA9412AED43468276A /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27706721140C4EB6EA67C4 /* Logging.swift */; };
@@ -105,6 +106,7 @@
 		85CE997E1BF97510D1F51C2D /* WarmasterStudio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarmasterStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		878796CF23FF47237129DF59 /* ModelRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelRecord.swift; sourceTree = "<group>"; };
 		8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardUITests.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* PinFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinFlowUITests.swift; sourceTree = "<group>"; };
 		8FC8A0FEC683B9DD6918B8D6 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		91C23145EA32750962C66F5B /* CollectionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionServiceTests.swift; sourceTree = "<group>"; };
 		9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectSheet.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* PinFlowUITests.swift */,
 			);
 			name = WarmasterStudioUITests;
 			path = Tests/WarmasterStudioUITests;
@@ -460,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B48FF80F1849098F70A658C /* KanbanBoardUITests.swift in Sources */,
+				F1A2B3C4D5E6F7A8B9C0D1E2 /* PinFlowUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

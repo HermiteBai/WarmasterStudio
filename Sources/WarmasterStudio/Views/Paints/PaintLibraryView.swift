@@ -227,6 +227,7 @@ struct PaintLibraryView: View {
                     .menuStyle(.borderlessButton)
                     .fixedSize()
                     .help("Sort paints")
+                    .accessibilityLabel("Sort paints, current: \(sortOrder.rawValue)")
 
                     Button {
                         showingAddSheet = true
@@ -290,6 +291,7 @@ struct PaintLibraryView: View {
                     }
                     .menuStyle(.borderlessButton)
                     .fixedSize()
+                    .accessibilityLabel("Filter by brand: \(brandFilter.rawValue)")
                     Spacer()
                 }
                 .padding(.horizontal, 12)
@@ -307,11 +309,13 @@ struct PaintLibraryView: View {
                                         Image(systemName: "circle.grid.2x2.fill")
                                             .foregroundStyle(Color.wmPrimary)
                                             .font(.system(size: 12))
+                                            .accessibilityHidden(true)
                                     } else {
                                         Circle()
                                             .fill(family.displayColor)
                                             .frame(width: 12, height: 12)
                                             .overlay(Circle().strokeBorder(Color.white.opacity(0.2), lineWidth: 0.5))
+                                            .accessibilityHidden(true)
                                     }
                                     Text(family.rawValue)
                                         .font(.caption)
@@ -326,7 +330,7 @@ struct PaintLibraryView: View {
                                 )
                             }
                             .buttonStyle(.plain)
-                            .accessibilityLabel("\(family.rawValue) paints filter")
+                            .accessibilityLabel("\(family.rawValue) colour filter\(colorFilter == family ? ", selected" : "")")
                         }
                     }
                     .padding(.horizontal, 10)
@@ -390,6 +394,8 @@ private struct PaintRowView: View {
                 .fill(Color(hex: paint.hex))
                 .frame(width: 22, height: 22)
                 .overlay(Circle().strokeBorder(Color.wmBorder, lineWidth: 1))
+                .accessibilityLabel("\(paint.name) colour swatch, \(paint.brand)")
+                .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(paint.name)
                     .font(.body)
@@ -404,9 +410,13 @@ private struct PaintRowView: View {
                     .font(.caption2)
                     .foregroundStyle(Color.wmAccent)
                     .help("Custom paint")
+                    .accessibilityHidden(true)
             }
         }
         .padding(.vertical, 2)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(paint.name), \(paint.brand), \(paint.isUserAdded ? "user paint" : "catalogue paint")")
+        .accessibilityHint("Double-click to edit")
     }
 }
 

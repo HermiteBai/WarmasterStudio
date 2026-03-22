@@ -80,12 +80,14 @@ struct BoxArtPinCanvas: View {
                 .buttonStyle(.borderless)
                 .disabled(zoomScale <= minZoom)
                 .help("Zoom out")
+                .accessibilityLabel("Zoom out, currently at \(Int(zoomScale * 100))%")
 
                 // Zoom percentage
                 Text("\(Int(zoomScale * 100))%")
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
                     .frame(minWidth: 36, alignment: .center)
+                    .accessibilityHidden(true)
 
                 // Zoom in
                 Button { stepZoom(by: zoomStep) } label: {
@@ -94,6 +96,7 @@ struct BoxArtPinCanvas: View {
                 .buttonStyle(.borderless)
                 .disabled(zoomScale >= maxZoom)
                 .help("Zoom in")
+                .accessibilityLabel("Zoom in, currently at \(Int(zoomScale * 100))%")
 
                 // Reset
                 Button { resetZoom() } label: {
@@ -103,6 +106,7 @@ struct BoxArtPinCanvas: View {
                 .buttonStyle(.borderless)
                 .disabled(zoomScale == minZoom)
                 .help("Reset zoom")
+                .accessibilityLabel("Reset zoom to 100%")
 
                 Divider().frame(height: 16).padding(.horizontal, 4)
 
@@ -155,6 +159,9 @@ struct BoxArtPinCanvas: View {
             Color.clear
                 .contentShape(Rectangle())
                 .gesture(addPinMode ? placementGesture(in: displaySize) : nil)
+                .accessibilityLabel(addPinMode ? "Box art image, tap to place pin" : "")
+                .accessibilityHint(addPinMode ? "Tap to place a pin at that location" : "")
+                .accessibilityHidden(!addPinMode)
 
             ForEach(projectPins) { pin in
                 PinView(

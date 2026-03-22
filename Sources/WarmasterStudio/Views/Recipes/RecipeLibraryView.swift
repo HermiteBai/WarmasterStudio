@@ -121,8 +121,11 @@ private struct RecipeRowView: View {
                 .padding(.horizontal, 7)
                 .padding(.vertical, 3)
                 .background(Capsule().fill(Color.wmPrimary))
+                .accessibilityHidden(true)
         }
         .padding(.vertical, 2)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(recipe.name), \(recipe.steps.count) step\(recipe.steps.count == 1 ? "" : "s")")
     }
 }
 
@@ -160,6 +163,7 @@ struct RecipeDetailView: View {
                         showingDeleteAlert = true
                     }
                     .foregroundStyle(.red)
+                    .accessibilityLabel("Delete recipe \(recipe.name)")
                 }
             }
             .padding(20)
@@ -214,12 +218,14 @@ struct RecipeStepRowView: View {
                 .foregroundStyle(Color.wmBackground)
                 .frame(width: 24, height: 24)
                 .background(Circle().fill(Color.wmPrimary))
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
                     Image(systemName: step.technique.systemImage)
                         .font(.caption)
                         .foregroundStyle(Color.wmAccent)
+                        .accessibilityHidden(true)
                     Text(step.technique.rawValue)
                         .font(.caption.bold())
                         .foregroundStyle(Color.wmAccent)
@@ -238,5 +244,7 @@ struct RecipeStepRowView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(step.technique.rawValue): \(step.paintName)\(step.notes.isEmpty ? "" : " — \(step.notes)")")
     }
 }
