@@ -248,6 +248,7 @@ private struct PinView: View {
     let onDragEnd: (CGPoint) -> Void
 
     @State private var showPopover = false
+    @State private var stepsExpanded = true
     @State private var dragOffset: CGSize = .zero
 
     private var base: CGPoint {
@@ -276,50 +277,104 @@ private struct PinView: View {
 
     @ViewBuilder
     private var pinPopover: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Label(pin.recipeName, systemImage: "list.bullet.clipboard.fill")
+        VStack(alignment: .leading, spacing: 0) {
+
+            // ── Header ───────────────────────────────────────────────────
+            HStack(spacing: 8) {
+                Image(systemName: "pin.circle.fill")
+                    .foregroundStyle(Color.wmPrimary)
+                    .font(.title3)
+                Text(pin.recipeName)
                     .font(.headline)
+                    .lineLimit(2)
                 Spacer()
                 Button(role: .destructive) {
                     showPopover = false
                     onDelete()
                 } label: {
-                    Image(systemName: "trash").foregroundStyle(.red)
+                    Image(systemName: "trash")
+                        .foregroundStyle(.red)
                 }
                 .buttonStyle(.borderless)
+                .help("Remove this pin")
             }
+            .padding(.horizontal, 14)
+            .padding(.top, 14)
+            .padding(.bottom, 10)
 
             Divider()
 
+            // ── Steps section ─────────────────────────────────────────────
             if let recipe = linkedRecipe {
                 let steps = recipe.steps.sorted { $0.position < $1.position }
-                if steps.isEmpty {
-                    Text("No steps yet.")
-                        .font(.subheadline).foregroundStyle(.secondary)
-                } else {
-                    let first = steps[0]
-                    VStack(alignment: .leading, spacing: 4) {
-                        Label("Step 1 — \(first.technique.rawValue)",
-                              systemImage: first.technique.systemImage)
-                            .font(.subheadline).foregroundStyle(.secondary)
-                        Text(first.paintName).font(.subheadline.bold())
-                        if !first.notes.isEmpty {
-                            Text(first.notes).font(.caption).foregroundStyle(.secondary)
+
+                // Collapsible section header
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) { stepsExpanded.toggle() }
+                } label: {
+                    HStack(spacing: 6) {
+                        Label("Steps", systemImage: "list.number")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        if !steps.isEmpty {
+                            Text("\(steps.count)")
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(Color.wmPrimary)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.wmPrimary.opacity(0.12), in: Capsule())
                         }
+                        Image(systemName: stepsExpanded ? "chevron.up" : "chevron.down")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.secondary)
                     }
-                    if steps.count > 1 {
-                        Text("+ \(steps.count - 1) more step\(steps.count - 1 == 1 ? "" : "s")")
-                            .font(.caption).foregroundStyle(.tertiary)
+                    .contentShape(Rectangle())
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 9)
+                }
+                .buttonStyle(.plain)
+
+                if stepsExpanded {
+                    Divider()
+
+                    if steps.isEmpty {
+                        HStack {
+                            Image(systemName: "tray")
+                                .foregroundStyle(.tertiary)
+                            Text("No steps added yet.")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 12)
+                    } else {
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(alignment: .leading, spacing: 0) {
+                                ForEach(Array(steps.enumerated()), id: \.element.id) { idx, step in
+                                    PinStepRow(index: idx + 1, step: step,
+                                               isLast: idx == steps.count - 1)
+                                }
+                            }
+                        }
+                        .frame(maxHeight: 300)
                     }
                 }
+
             } else {
-                Text("Recipe no longer exists.")
-                    .font(.subheadline).foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .foregroundStyle(.orange)
+                    Text("Recipe no longer exists.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
             }
         }
-        .padding(14)
-        .frame(minWidth: 220, maxWidth: 300)
+        .frame(minWidth: 260, maxWidth: 340)
+        .background(Color.wmBackground)
     }
 
     private var dragGesture: some Gesture {
@@ -332,6 +387,61 @@ private struct PinView: View {
                     y: (base.y + v.translation.height) / max(1, canvasSize.height)
                 ))
             }
+    }
+}
+
+// MARK: - Pin step row
+
+/// A single step row inside the pin popover's collapsible steps list.
+private struct PinStepRow: View {
+    let index: Int
+    let step: RecipeStep
+    let isLast: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .top, spacing: 10) {
+                // Step number badge
+                Text("\(index)")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(.white)
+                    .frame(width: 20, height: 20)
+                    .background(Circle().fill(Color.wmPrimary))
+                    .padding(.top, 1)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    // Technique label
+                    HStack(spacing: 4) {
+                        Image(systemName: step.technique.systemImage)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                        Text(step.technique.rawValue)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    // Paint name
+                    Text(step.paintName)
+                        .font(.subheadline.weight(.medium))
+
+                    // Notes (optional)
+                    if !step.notes.isEmpty {
+                        Text(step.notes)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+
+            if !isLast {
+                Divider().padding(.leading, 44)
+            }
+        }
     }
 }
 
