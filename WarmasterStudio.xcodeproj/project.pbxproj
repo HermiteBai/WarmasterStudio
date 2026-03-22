@@ -68,6 +68,7 @@
 		P3ST02AA11BB22CC /* StageHistoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST02AA11BB22CD /* StageHistoryService.swift */; };
 		P3ST03AA11BB22CC /* VelocityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST03AA11BB22CD /* VelocityService.swift */; };
 		P3ST04AA11BB22CC /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST04AA11BB22CD /* StatisticsView.swift */; };
+		IL02AB02CD02EF04 /* ImageLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = IL02AB02CD02EF03 /* ImageLibraryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +153,7 @@
 		P3ST02AA11BB22CD /* StageHistoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageHistoryService.swift; sourceTree = "<group>"; };
 		P3ST03AA11BB22CD /* VelocityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityService.swift; sourceTree = "<group>"; };
 		P3ST04AA11BB22CD /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		IL02AB02CD02EF03 /* ImageLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -295,6 +297,7 @@
 				DD01DD01DD01DD01 /* Paints */,
 				DD02DD02DD02DD02 /* Recipes */,
 				DD04DD04DD04DD04 /* Pins */,
+				IL02AB02CD02EF05 /* Library */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -369,6 +372,14 @@
 				AA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift */,
 			);
 			path = Pins;
+			sourceTree = "<group>";
+		};
+		IL02AB02CD02EF05 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				IL02AB02CD02EF03 /* ImageLibraryView.swift */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 		DD03DD03DD03DD03 /* Resources */ = {
@@ -564,6 +575,7 @@
 				P3ST02AA11BB22CC /* StageHistoryService.swift in Sources */,
 				P3ST03AA11BB22CC /* VelocityService.swift in Sources */,
 				P3ST04AA11BB22CC /* StatisticsView.swift in Sources */,
+				IL02AB02CD02EF04 /* ImageLibraryView.swift in Sources */,
 				A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

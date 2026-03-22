@@ -22,6 +22,8 @@ struct ContentView: View {
                 RecipeLibraryView()
             case .statistics:
                 StatisticsView()
+            case .imageLibrary:
+                ImageLibraryView()
             case .settings:
                 SettingsView()
             case nil:
@@ -53,9 +55,10 @@ enum SidebarItem: String, CaseIterable, Identifiable {
     case progress    = "Progress"
     case statistics  = "Statistics"
     case collections = "Collections"
-    case paints      = "Paints"
-    case recipes     = "Recipes"
-    case settings    = "Settings"
+    case paints        = "Paints"
+    case recipes       = "Recipes"
+    case imageLibrary  = "Image Library"
+    case settings      = "Settings"
 
     var id: String { rawValue }
 
@@ -65,9 +68,10 @@ enum SidebarItem: String, CaseIterable, Identifiable {
         case .progress:     return "chart.bar.fill"
         case .statistics:   return "chart.line.uptrend.xyaxis"
         case .collections:  return "folder.fill"
-        case .paints:       return "paintpalette.fill"
-        case .recipes:      return "list.bullet.clipboard.fill"
-        case .settings:     return "gear"
+        case .paints:        return "paintpalette.fill"
+        case .recipes:       return "list.bullet.clipboard.fill"
+        case .imageLibrary:  return "photo.stack.fill"
+        case .settings:      return "gear"
         }
     }
 }
