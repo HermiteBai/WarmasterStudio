@@ -308,39 +308,12 @@ private struct PinView: View {
             if let recipe = linkedRecipe {
                 let steps = recipe.steps.sorted { $0.position < $1.position }
 
-                // Collapsible section header
-                // NOTE: No withAnimation here — animating a popover's content size
-                // triggers NSPopover._setContentView:size:canAnimate: with a nil
-                // target, causing a SIGSEGV in PopoverHostingView.updateAnimatedWindowSize.
-                Button {
-                    stepsExpanded.toggle()
-                } label: {
-                    HStack(spacing: 6) {
-                        Label("Steps", systemImage: "list.number")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        if !steps.isEmpty {
-                            Text("\(steps.count)")
-                                .font(.caption2.weight(.semibold))
-                                .foregroundStyle(Color.wmPrimary)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.wmPrimary.opacity(0.12), in: Capsule())
-                        }
-                        Image(systemName: stepsExpanded ? "chevron.up" : "chevron.down")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                    }
-                    .contentShape(Rectangle())
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 9)
-                }
-                .buttonStyle(.plain)
-
-                if stepsExpanded {
-                    Divider()
-
+                // DisclosureGroup is used intentionally instead of a manual Button toggle.
+                // On macOS, a plain Button inside a popover loses hit-testing after the
+                // popover window shrinks (NSPopover doesn't update its click-through region),
+                // making it impossible to re-expand. DisclosureGroup drives the toggle
+                // through AppKit's own mechanism and avoids this entirely.
+                DisclosureGroup(isExpanded: $stepsExpanded) {
                     if steps.isEmpty {
                         HStack {
                             Image(systemName: "tray")
@@ -349,20 +322,32 @@ private struct PinView: View {
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                         }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 12)
+                        .padding(.vertical, 8)
                     } else {
-                        ScrollView(.vertical, showsIndicators: false) {
-                            VStack(alignment: .leading, spacing: 0) {
-                                ForEach(Array(steps.enumerated()), id: \.element.id) { idx, step in
-                                    PinStepRow(index: idx + 1, step: step,
-                                               isLast: idx == steps.count - 1)
-                                }
+                        VStack(alignment: .leading, spacing: 0) {
+                            ForEach(Array(steps.enumerated()), id: \.element.id) { idx, step in
+                                PinStepRow(index: idx + 1, step: step,
+                                           isLast: idx == steps.count - 1)
                             }
                         }
-                        .frame(maxHeight: 300)
+                    }
+                } label: {
+                    HStack(spacing: 6) {
+                        Label("Steps", systemImage: "list.number")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.primary)
+                        if !steps.isEmpty {
+                            Text("\(steps.count)")
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(Color.wmPrimary)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color.wmPrimary.opacity(0.12), in: Capsule())
+                        }
                     }
                 }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 9)
 
             } else {
                 HStack(spacing: 6) {
