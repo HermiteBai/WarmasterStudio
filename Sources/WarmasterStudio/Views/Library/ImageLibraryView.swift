@@ -180,41 +180,24 @@ struct ImageLibraryView: View {
     // MARK: - Faction strip
 
     private var factionStrip: some View {
-        // Wrapping flow: chips reflow into multiple rows as the window narrows.
-        GeometryReader { geo in
-            let chips: [(label: String, count: Int, selected: Bool)] = {
-                var list: [(String, Int, Bool)] = [
-                    ("All factions",
-                     allImages.filter { $0.gameSystem == selectedSystem }.count,
-                     selectedFaction == nil)
-                ]
-                for faction in availableFactions {
-                    let count = allImages.filter {
-                        $0.gameSystem == selectedSystem && $0.faction == faction
-                    }.count
-                    list.append((faction, count, selectedFaction == faction))
-                }
-                return list
-            }()
-
-            WrapLayout(spacing: 6) {
-                ForEach(chips.indices, id: \.self) { i in
-                    let chip = chips[i]
-                    FactionChip(label: chip.label, count: chip.count,
-                                isSelected: chip.selected) {
-                        if i == 0 {
-                            selectedFaction = nil
-                        } else {
-                            let faction = availableFactions[i - 1]
-                            selectedFaction = selectedFaction == faction ? nil : faction
-                        }
-                    }
+        WrapLayout(spacing: 6) {
+            FactionChip(label: "All factions",
+                        count: allImages.filter { $0.gameSystem == selectedSystem }.count,
+                        isSelected: selectedFaction == nil) {
+                selectedFaction = nil
+            }
+            ForEach(availableFactions, id: \.self) { faction in
+                let count = allImages.filter {
+                    $0.gameSystem == selectedSystem && $0.faction == faction
+                }.count
+                FactionChip(label: faction, count: count,
+                            isSelected: selectedFaction == faction) {
+                    selectedFaction = selectedFaction == faction ? nil : faction
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
         }
-        .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
         .background(Color.wmBackground)
     }
 
