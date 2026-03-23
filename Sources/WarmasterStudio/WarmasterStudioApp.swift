@@ -39,8 +39,5 @@ struct WarmasterStudioApp: App {
         }
         .modelContainer(container)
 
-        Settings {
-            SettingsView()
-        }
     }
 }

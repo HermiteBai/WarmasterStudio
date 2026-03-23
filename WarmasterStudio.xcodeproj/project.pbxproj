@@ -31,9 +31,9 @@
 		9E1871D55268BFDB8D2D4D04 /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173AC488951BE2F170228FB7 /* Color+Theme.swift */; };
 		A163402862E389A11D3A9E94 /* LinkGroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FED2327755F51C727F93CD /* LinkGroupService.swift */; };
 		A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */; };
-		A62675B34F4392F76EAA79A7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19366E65285094A56C8D68 /* SettingsView.swift */; };
 		AB167293FE8F635C87D21A1A /* KanbanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */; };
 		AC6943E67567EF069028B860 /* KanbanBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */; };
+		MS01AB01CD01EF01 /* ManageStagesSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = MS01AB01CD01EF02 /* ManageStagesSheet.swift */; };
 		B537A66C6EF6FCB65C66BF92 /* ProjectServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */; };
 		BD560CF2452D462D28DF90EC /* LinkGroupServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CEACA85CE0E6A73D184D6A /* LinkGroupServiceTests.swift */; };
 		C2BF6F8C5CC733B9F5DEC69D /* ModelProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAFFE932C3DF12E915004CC /* ModelProgressService.swift */; };
@@ -95,7 +95,6 @@
 		173AC488951BE2F170228FB7 /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
 		18FA743F2C074CB77FC994F3 /* StageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageService.swift; sourceTree = "<group>"; };
 		192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineServiceTests.swift; sourceTree = "<group>"; };
-		1C19366E65285094A56C8D68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1D00D27D61A31C645388F527 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		21F3585567367FCB2B393822 /* PipelineSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineSettingsView.swift; sourceTree = "<group>"; };
 		2A5270BB2BD5D3F99E83EB61 /* ProgressDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDashboardView.swift; sourceTree = "<group>"; };
@@ -131,6 +130,7 @@
 		D3A79133BA1249C6A524D092 /* StageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageServiceTests.swift; sourceTree = "<group>"; };
 		DBEEA108930CB729B089D651 /* WarmasterStudioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarmasterStudioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardView.swift; sourceTree = "<group>"; };
+		MS01AB01CD01EF02 /* ManageStagesSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageStagesSheet.swift; sourceTree = "<group>"; };
 		E1B49AAE86CBC50F0FD1C22B /* EditProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectSheet.swift; sourceTree = "<group>"; };
 		AA01AB01CD01EF01 /* Paint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paint.swift; sourceTree = "<group>"; };
 		AA02AB02CD02EF02 /* PaintRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintRecipe.swift; sourceTree = "<group>"; };
@@ -161,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				21F3585567367FCB2B393822 /* PipelineSettingsView.swift */,
-				1C19366E65285094A56C8D68 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -182,6 +181,7 @@
 				BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */,
 				850F60552F04842D6EB883D4 /* KanbanCardView.swift */,
 				6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */,
+				MS01AB01CD01EF02 /* ManageStagesSheet.swift */,
 			);
 			path = Kanban;
 			sourceTree = "<group>";
@@ -542,6 +542,7 @@
 				AB167293FE8F635C87D21A1A /* KanbanCard.swift in Sources */,
 				C68F37457C10ECD0F0634FAE /* KanbanCardView.swift in Sources */,
 				832920E6B0D9C996A14A75F0 /* KanbanColumnView.swift in Sources */,
+				MS01AB01CD01EF01 /* ManageStagesSheet.swift in Sources */,
 				A163402862E389A11D3A9E94 /* LinkGroupService.swift in Sources */,
 				8E269AEA9412AED43468276A /* Logging.swift in Sources */,
 				C2BF6F8C5CC733B9F5DEC69D /* ModelProgressService.swift in Sources */,
@@ -555,7 +556,6 @@
 				2C901A8263A915C4B46330A4 /* ProjectDetailView.swift in Sources */,
 				LI01AB01CD01EF01 /* LibraryImagePickerSheet.swift in Sources */,
 				F220B79081789AEE782EB910 /* ProjectService.swift in Sources */,
-				A62675B34F4392F76EAA79A7 /* SettingsView.swift in Sources */,
 				CBEC28FDC01281E92491E437 /* SidebarView.swift in Sources */,
 				755EEAF2901B2284DCEF087D /* Stage.swift in Sources */,
 				8C616FFEF783155E36D41AEA /* StageService.swift in Sources */,

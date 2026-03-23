@@ -125,8 +125,25 @@ struct ImageLibraryView: View {
         )) {
             Button("OK", role: .cancel) {}
         } message: { Text(errorMessage ?? "") }
-        .sheet(item: $lightboxImage) { image in
-            ImageLightboxView(image: image, allImages: gridImages) { lightboxImage = nil }
+        .overlay {
+            if let image = lightboxImage {
+                ZStack {
+                    // Dim backdrop — tap outside the panel to dismiss
+                    Color.black.opacity(0.75)
+                        .ignoresSafeArea()
+                        .contentShape(Rectangle())
+                        .onTapGesture { lightboxImage = nil }
+
+                    // Lightbox panel — taps here stay inside
+                    ImageLightboxView(image: image, allImages: gridImages) { lightboxImage = nil }
+                        .frame(maxWidth: 960, maxHeight: 720)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .shadow(radius: 32)
+                        .onTapGesture { } // absorb taps so they don't reach the backdrop
+                }
+                .transition(.opacity)
+                .animation(.easeInOut(duration: 0.2), value: lightboxImage?.id)
+            }
         }
     }
 
@@ -542,7 +559,6 @@ struct ImageLightboxView: View {
 
     var body: some View {
         ZStack {
-            // Background
             Color.black.ignoresSafeArea()
 
             // Image

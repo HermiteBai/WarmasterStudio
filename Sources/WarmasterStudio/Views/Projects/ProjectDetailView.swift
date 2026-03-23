@@ -18,7 +18,7 @@ struct ProjectDetailView: View {
     @State private var showLinkSheet = false
     @State private var showImagePicker = false
     @State private var showLibraryPicker = false
-    @State private var showBoxArtLightbox = false
+    @State private var lightboxNSImage: IdentifiableImage? = nil
     @State private var imageErrorMessage: String? = nil
     @State private var expandedRecipes: Set<UUID> = []
 
@@ -75,13 +75,6 @@ struct ProjectDetailView: View {
         .sheet(isPresented: $showLibraryPicker) {
             LibraryImagePickerSheet { relativePath in
                 applyNewBoxArt(relativePath: relativePath)
-            }
-        }
-        .sheet(isPresented: $showBoxArtLightbox) {
-            if let path = resolvedBoxArtPath,
-               let url = ImageService.resolveImageURL(relativePath: path),
-               let nsImage = NSImage(contentsOf: url) {
-                BoxArtLightboxView(image: nsImage, title: project.name)
             }
         }
         .fileImporter(
@@ -314,7 +307,7 @@ extension ProjectDetailView {
                         }
                     }
                 }
-                HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
                     Button("Add to Group…") { showLinkSheet = true }.buttonStyle(.borderless)
                     Button("Unlink from Group") {
                         do { try LinkGroupService.unlinkProject(project, context: modelContext) }
@@ -361,16 +354,30 @@ extension ProjectDetailView {
             VStack(alignment: .leading, spacing: 8) {
                 if let nsImage = NSImage(contentsOf: url) {
                     BoxArtPinCanvas(image: nsImage, projectId: project.id)
+                        .onTapGesture(count: 2) {
+                            if let img = NSImage(contentsOf: url) {
+                                lightboxNSImage = IdentifiableImage(image: img, title: project.name)
+                            }
+                        }
                 }
-                HStack(spacing: 12) {
+                HStack(spacing: 4) {
+                    // View full size
                     Button {
-                        showBoxArtLightbox = true
+                        if let img = NSImage(contentsOf: url) {
+                            lightboxNSImage = IdentifiableImage(image: img, title: project.name)
+                        }
                     } label: {
-                        Label("View Full Size", systemImage: "arrow.up.left.and.arrow.down.right")
+                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+                            .frame(width: 28, height: 28)
                     }
                     .buttonStyle(.borderless)
+                    .help("View Full Size")
+                    .sheet(item: $lightboxNSImage) { item in
+                        BoxArtLightboxView(image: item.image, title: item.title)
+                    }
 
-                    Menu("Change Image") {
+                    // Change image
+                    Menu {
                         Button {
                             showLibraryPicker = true
                         } label: {
@@ -381,19 +388,29 @@ extension ProjectDetailView {
                         } label: {
                             Label("Import from Files…", systemImage: "folder")
                         }
+                    } label: {
+                        Image(systemName: "photo.badge.arrow.down")
+                            .frame(width: 28, height: 28)
                     }
                     .menuStyle(.borderlessButton)
-                    .fixedSize()
+                    .help("Change Image")
 
-                    Button("Remove Image") {
+                    Spacer()
+
+                    // Remove image
+                    Button {
                         for member in linkGroupMembers where member.boxArtImagePath == path {
                             member.boxArtImagePath = nil
                         }
                         ImageService.deleteImage(relativePath: path)
                         try? modelContext.save()
+                    } label: {
+                        Image(systemName: "trash")
+                            .frame(width: 28, height: 28)
                     }
                     .buttonStyle(.borderless)
                     .foregroundStyle(.red)
+                    .help("Remove Image")
                 }
             }
         } else {
@@ -499,6 +516,12 @@ struct LinkProjectSheet: View {
 
 // MARK: - Box Art Full-Size Lightbox
 
+private struct IdentifiableImage: Identifiable {
+    let id = UUID()
+    let image: NSImage
+    let title: String
+}
+
 private struct BoxArtLightboxView: View {
     let image: NSImage
     let title: String
@@ -544,6 +567,8 @@ private struct BoxArtLightboxView: View {
                     )
                     .onTapGesture(count: 2) { resetZoom() }
             }
+            .contentShape(Rectangle())
+            .onTapGesture { dismiss() }
 
             // Top bar
             VStack {

@@ -24,8 +24,6 @@ struct ContentView: View {
                 StatisticsView()
             case .imageLibrary:
                 ImageLibraryView()
-            case .settings:
-                SettingsView()
             case nil:
                 EmptyStateView(
                     title: "Select a Section",
@@ -58,7 +56,6 @@ enum SidebarItem: String, CaseIterable, Identifiable {
     case paints        = "Paints"
     case recipes       = "Recipes"
     case imageLibrary  = "Image Library"
-    case settings      = "Settings"
 
     var id: String { rawValue }
 
@@ -71,7 +68,6 @@ enum SidebarItem: String, CaseIterable, Identifiable {
         case .paints:        return "paintpalette.fill"
         case .recipes:       return "list.bullet.clipboard.fill"
         case .imageLibrary:  return "photo.stack.fill"
-        case .settings:      return "gear"
         }
     }
 }

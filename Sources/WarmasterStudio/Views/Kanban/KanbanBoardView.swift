@@ -9,6 +9,7 @@ struct KanbanBoardView: View {
     @Query(sort: \WMCollection.name) private var collections: [WMCollection]
 
     @State private var showNewProjectSheet = false
+    @State private var showManageStages = false
     @State private var selectedProject: Project? = nil
     @State private var showDetailPanel = false
     @State private var searchText = ""
@@ -29,6 +30,9 @@ struct KanbanBoardView: View {
         .sheet(isPresented: $showNewProjectSheet) {
             NewProjectSheet()
         }
+        .sheet(isPresented: $showManageStages) {
+            ManageStagesSheet()
+        }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -37,6 +41,13 @@ struct KanbanBoardView: View {
                     Label("New Project", systemImage: "plus")
                 }
                 .keyboardShortcut("n", modifiers: .command)
+            }
+            ToolbarItem(placement: .secondaryAction) {
+                Button {
+                    showManageStages = true
+                } label: {
+                    Label("Manage Stages", systemImage: "list.bullet.indent")
+                }
             }
         }
         .background(Color.wmBackground)
@@ -47,7 +58,7 @@ struct KanbanBoardView: View {
         if stages.isEmpty {
             EmptyStateView(
                 title: "No Pipeline Stages",
-                subtitle: "Configure your pipeline stages in Settings.",
+                subtitle: "Use \"Manage Stages\" in the toolbar to add your first stage.",
                 systemImage: "square.3.layers.3d"
             )
             .background(Color.wmBackground)
