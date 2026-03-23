@@ -180,26 +180,41 @@ struct ImageLibraryView: View {
     // MARK: - Faction strip
 
     private var factionStrip: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 6) {
-                FactionChip(label: "All factions",
-                            count: allImages.filter { $0.gameSystem == selectedSystem }.count,
-                            isSelected: selectedFaction == nil) {
-                    selectedFaction = nil
-                }
-                ForEach(availableFactions, id: \.self) { faction in
+        // Wrapping flow: chips reflow into multiple rows as the window narrows.
+        GeometryReader { geo in
+            let chips: [(label: String, count: Int, selected: Bool)] = {
+                var list: [(String, Int, Bool)] = [
+                    ("All factions",
+                     allImages.filter { $0.gameSystem == selectedSystem }.count,
+                     selectedFaction == nil)
+                ]
+                for faction in availableFactions {
                     let count = allImages.filter {
                         $0.gameSystem == selectedSystem && $0.faction == faction
                     }.count
-                    FactionChip(label: faction, count: count,
-                                isSelected: selectedFaction == faction) {
-                        selectedFaction = selectedFaction == faction ? nil : faction
+                    list.append((faction, count, selectedFaction == faction))
+                }
+                return list
+            }()
+
+            WrapLayout(spacing: 6) {
+                ForEach(chips.indices, id: \.self) { i in
+                    let chip = chips[i]
+                    FactionChip(label: chip.label, count: chip.count,
+                                isSelected: chip.selected) {
+                        if i == 0 {
+                            selectedFaction = nil
+                        } else {
+                            let faction = availableFactions[i - 1]
+                            selectedFaction = selectedFaction == faction ? nil : faction
+                        }
                     }
                 }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
         }
+        .fixedSize(horizontal: false, vertical: true)
         .background(Color.wmBackground)
     }
 
@@ -807,5 +822,61 @@ private struct NewFolderSheet: View {
         guard isValid else { return }
         dismiss()
         Task { await onCreate(trimmed) }
+    }
+}
+
+// MARK: - WrapLayout
+
+/// A simple flow layout that wraps child views into multiple rows.
+private struct WrapLayout: Layout {
+    var spacing: CGFloat = 8
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let width = proposal.width ?? 0
+        var rows: [[LayoutSubview]] = [[]]
+        var rowWidth: CGFloat = 0
+
+        for view in subviews {
+            let size = view.sizeThatFits(.unspecified)
+            if rowWidth + size.width > width, !rows[rows.count - 1].isEmpty {
+                rows.append([])
+                rowWidth = 0
+            }
+            rows[rows.count - 1].append(view)
+            rowWidth += size.width + spacing
+        }
+
+        let totalHeight = rows.reduce(0.0) { h, row in
+            h + (row.map { $0.sizeThatFits(.unspecified).height }.max() ?? 0) + spacing
+        }
+        return CGSize(width: width, height: max(0, totalHeight - spacing))
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        var rows: [[LayoutSubview]] = [[]]
+        var rowWidth: CGFloat = 0
+        let maxW = bounds.width
+
+        for view in subviews {
+            let w = view.sizeThatFits(.unspecified).width
+            if rowWidth + w > maxW, !rows[rows.count - 1].isEmpty {
+                rows.append([])
+                rowWidth = 0
+            }
+            rows[rows.count - 1].append(view)
+            rowWidth += w + spacing
+        }
+
+        var y = bounds.minY
+        for row in rows {
+            let rowH = row.map { $0.sizeThatFits(.unspecified).height }.max() ?? 0
+            var x = bounds.minX
+            for view in row {
+                let size = view.sizeThatFits(.unspecified)
+                view.place(at: CGPoint(x: x, y: y), proposal: ProposedViewSize(size))
+                x += size.width + spacing
+            }
+            y += rowH + spacing
+        }
     }
 }
