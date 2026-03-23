@@ -80,8 +80,12 @@ struct CreateProjectFromImageSheet: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Number of Models")
                             .font(.subheadline.weight(.medium))
-                        HStack {
-                            Stepper("\(modelCount) model\(modelCount == 1 ? "" : "s")", value: $modelCount, in: 1...999)
+                        HStack(spacing: 10) {
+                            TextField("", value: $modelCount, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 70)
+                            Stepper("", value: $modelCount, in: 1...999)
+                                .labelsHidden()
                         }
                     }
 

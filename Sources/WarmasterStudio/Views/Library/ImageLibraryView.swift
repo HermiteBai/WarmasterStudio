@@ -250,8 +250,10 @@ struct ImageLibraryView: View {
             ) {
                 ForEach(gridImages) { image in
                     LibraryManageCell(image: image, cellWidth: cellW,
+                                      allImages: allImages,
                                       onOpen: { lightboxImage = image },
                                       onCreateProject: { createProjectImage = image },
+                                      onMove: { system, faction in moveImage(image, toSystem: system, toFaction: faction) },
                                       onDelete: { deleteImage(image) })
                 }
             }
@@ -359,6 +361,27 @@ struct ImageLibraryView: View {
         allImages.removeAll { $0.id == image.id }
     }
 
+    private func moveImage(_ image: LibraryImage, toSystem: String, toFaction: String) {
+        guard !(image.gameSystem == toSystem && image.faction == toFaction) else { return }
+        let destDir = ImageLibraryService.libraryURL
+            .appendingPathComponent(toSystem, isDirectory: true)
+            .appendingPathComponent(toFaction, isDirectory: true)
+        var dest = destDir.appendingPathComponent(image.url.lastPathComponent)
+        do {
+            try FileManager.default.createDirectory(at: destDir, withIntermediateDirectories: true)
+            // Avoid overwriting an existing file with the same name
+            if FileManager.default.fileExists(atPath: dest.path) {
+                let stem = image.url.deletingPathExtension().lastPathComponent
+                let ext  = image.url.pathExtension
+                dest = destDir.appendingPathComponent("\(stem)_moved.\(ext)")
+            }
+            try FileManager.default.moveItem(at: image.url, to: dest)
+            Task { await reload() }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
     // MARK: - Helpers
 
     private func systemIcon(_ system: String) -> String {
@@ -454,9 +477,20 @@ private struct FactionChip: View {
 private struct LibraryManageCell: View {
     let image: LibraryImage
     let cellWidth: CGFloat
+    let allImages: [LibraryImage]
     let onOpen: () -> Void
     let onCreateProject: () -> Void
+    let onMove: (String, String) -> Void
     let onDelete: () -> Void
+
+    // Grouped factions for the "Move to" context menu
+    private var systemsWithFactions: [(system: String, factions: [String])] {
+        let systems = Array(Set(allImages.map(\.gameSystem))).sorted()
+        return systems.map { sys in
+            let factions = Array(Set(allImages.filter { $0.gameSystem == sys }.map(\.faction))).sorted()
+            return (system: sys, factions: factions)
+        }
+    }
 
     @State private var nsImage: NSImage? = nil
     @State private var isHovered = false
@@ -534,6 +568,41 @@ private struct LibraryManageCell: View {
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+            }
+        }
+        .contextMenu {
+            Button { onOpen() } label: {
+                Label("Open Full Size", systemImage: "arrow.up.left.and.arrow.down.right")
+            }
+            Button { onCreateProject() } label: {
+                Label("Create Project from Image", systemImage: "plus.circle")
+            }
+            Divider()
+            // Move to faction submenu — nested by game system
+            Menu {
+                ForEach(systemsWithFactions, id: \.system) { entry in
+                    if systemsWithFactions.count > 1 {
+                        // Multiple game systems: show system as a sub-menu label
+                        Section(entry.system) {
+                            ForEach(entry.factions, id: \.self) { faction in
+                                Button(faction) { onMove(entry.system, faction) }
+                                    .disabled(entry.system == image.gameSystem && faction == image.faction)
+                            }
+                        }
+                    } else {
+                        // Single game system: flat list of factions
+                        ForEach(entry.factions, id: \.self) { faction in
+                            Button(faction) { onMove(entry.system, faction) }
+                                .disabled(entry.system == image.gameSystem && faction == image.faction)
+                        }
+                    }
+                }
+            } label: {
+                Label("Move to Faction", systemImage: "folder.badge.arrow.right")
+            }
+            Divider()
+            Button(role: .destructive) { showDeleteConfirm = true } label: {
+                Label("Delete from Library", systemImage: "trash")
             }
         }
         .onHover { isHovered = $0 }
