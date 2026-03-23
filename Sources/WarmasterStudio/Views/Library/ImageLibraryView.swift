@@ -30,6 +30,7 @@ struct ImageLibraryView: View {
     @State private var columnCount: Int = 6          // adapts to window width
     @State private var lightboxImage: LibraryImage? = nil
     @State private var createProjectImage: LibraryImage? = nil
+    @StateObject private var downloader = ImageDownloadService()
 
     // MARK: Computed
 
@@ -126,6 +127,18 @@ struct ImageLibraryView: View {
         )) {
             Button("OK", role: .cancel) {}
         } message: { Text(errorMessage ?? "") }
+        .sheet(isPresented: Binding(
+            get: { downloader.isDownloading || {
+                if case .finished = downloader.state { return true }
+                return false
+            }() },
+            set: { if !$0 { downloader.reset() } }
+        )) {
+            DownloadProgressSheet(downloader: downloader)
+        }
+        .onChange(of: downloader.state) { _, new in
+            if case .finished = new { Task { await reload() } }
+        }
         .overlay {
             if let image = lightboxImage {
                 ZStack {
@@ -266,15 +279,19 @@ struct ImageLibraryView: View {
 
     private var libraryMissingView: some View {
         ContentUnavailableView {
-            Label("Image Library Not Found", systemImage: "folder.badge.questionmark")
+            Label("Image Library Empty", systemImage: "photo.stack")
         } description: {
-            VStack(spacing: 8) {
-                Text("No image library found at:")
-                Text(ImageLibraryService.libraryURL.path)
-                    .font(.caption.monospaced())
-                    .foregroundStyle(.secondary)
-                Text("Update the path in Settings or use the toolbar to create a game system folder.")
-                    .font(.caption).foregroundStyle(.secondary)
+            VStack(spacing: 12) {
+                Text("No images found. Download the default library or add your own images using the toolbar.")
+                    .multilineTextAlignment(.center)
+                Button {
+                    downloader.downloadAll()
+                } label: {
+                    Label("Download Default Library", systemImage: "arrow.down.circle.fill")
+                        .font(.body.weight(.medium))
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(downloader.isDownloading)
             }
         }
     }
@@ -284,6 +301,14 @@ struct ImageLibraryView: View {
     @ToolbarContentBuilder
     private var toolbarItems: some ToolbarContent {
         ToolbarItemGroup(placement: .primaryAction) {
+            Button {
+                downloader.downloadAll()
+            } label: {
+                Label("Download Default Library", systemImage: "arrow.down.circle")
+            }
+            .help("Download all default images from Games Workshop CDN")
+            .disabled(downloader.isDownloading)
+
             Button {
                 showNewSystemSheet = true
             } label: {
@@ -874,6 +899,56 @@ private struct NewFolderSheet: View {
         guard isValid else { return }
         dismiss()
         Task { await onCreate(trimmed) }
+    }
+}
+
+// MARK: - Download progress sheet
+
+private struct DownloadProgressSheet: View {
+    @ObservedObject var downloader: ImageDownloadService
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(spacing: 20) {
+            switch downloader.state {
+            case .downloading(let completed, let total, let currentName):
+                VStack(spacing: 12) {
+                    Text("Downloading Image Library")
+                        .font(.headline)
+                    ProgressView(value: Double(completed), total: Double(max(total, 1)))
+                        .progressViewStyle(.linear)
+                        .frame(maxWidth: 360)
+                    Text("\(completed) / \(total)")
+                        .font(.subheadline.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                    Text(currentName)
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .frame(maxWidth: 360)
+                }
+
+            case .finished(let downloaded, let skipped):
+                VStack(spacing: 12) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 48))
+                        .foregroundStyle(.green)
+                    Text("Download Complete")
+                        .font(.headline)
+                    Text("\(downloaded) image\(downloaded == 1 ? "" : "s") downloaded, \(skipped) skipped.")
+                        .foregroundStyle(.secondary)
+                    Button("Done") { dismiss() }
+                        .buttonStyle(.borderedProminent)
+                        .keyboardShortcut(.defaultAction)
+                }
+
+            default:
+                EmptyView()
+            }
+        }
+        .padding(32)
+        .frame(minWidth: 420)
     }
 }
 
