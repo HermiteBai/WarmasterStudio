@@ -24,16 +24,15 @@
 		827C486665C3B990538C82B3 /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */; };
 		832920E6B0D9C996A14A75F0 /* KanbanColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */; };
 		8B48FF80F1849098F70A658C /* KanbanBoardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */; };
-		F1A2B3C4D5E6F7A8B9C0D1E2 /* PinFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* PinFlowUITests.swift */; };
 		8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */; };
 		8C616FFEF783155E36D41AEA /* StageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA743F2C074CB77FC994F3 /* StageService.swift */; };
 		8E269AEA9412AED43468276A /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27706721140C4EB6EA67C4 /* Logging.swift */; };
 		9E1871D55268BFDB8D2D4D04 /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 173AC488951BE2F170228FB7 /* Color+Theme.swift */; };
 		A163402862E389A11D3A9E94 /* LinkGroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FED2327755F51C727F93CD /* LinkGroupService.swift */; };
 		A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B26AF4692513E8BDD6526C /* WarmasterStudioApp.swift */; };
+		A62675B34F4392F76EAA79A7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C19366E65285094A56C8D68 /* SettingsView.swift */; };
 		AB167293FE8F635C87D21A1A /* KanbanCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */; };
 		AC6943E67567EF069028B860 /* KanbanBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */; };
-		MS01AB01CD01EF01 /* ManageStagesSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = MS01AB01CD01EF02 /* ManageStagesSheet.swift */; };
 		B537A66C6EF6FCB65C66BF92 /* ProjectServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */; };
 		BD560CF2452D462D28DF90EC /* LinkGroupServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03CEACA85CE0E6A73D184D6A /* LinkGroupServiceTests.swift */; };
 		C2BF6F8C5CC733B9F5DEC69D /* ModelProgressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BAFFE932C3DF12E915004CC /* ModelProgressService.swift */; };
@@ -44,31 +43,10 @@
 		E59337A8BDB669891AF9E05C /* CollectionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C23145EA32750962C66F5B /* CollectionServiceTests.swift */; };
 		F1BCB3BC29874E8B11A74A78 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FEC6C4DA0F6C67B659A557 /* Errors.swift */; };
 		F220B79081789AEE782EB910 /* ProjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */; };
-		F98CC49E12C4C4AA99C3C788 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC8B9901F03546805992CC59 /* ImageService.swift */; };
-		IL01AB01CD01EF01 /* ImageLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IL01AB01CD01EF02 /* ImageLibraryService.swift */; };
-		LI01AB01CD01EF01 /* LibraryImagePickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = LI01AB01CD01EF02 /* LibraryImagePickerSheet.swift */; };
-		BA01AB01CD01EF01 /* Paint.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA01AB01CD01EF01 /* Paint.swift */; };
-		BA02AB02CD02EF02 /* PaintRecipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA02AB02CD02EF02 /* PaintRecipe.swift */; };
-		BA03AB03CD03EF03 /* RecipeStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA03AB03CD03EF03 /* RecipeStep.swift */; };
-		BA04AB04CD04EF04 /* PaintLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA04AB04CD04EF04 /* PaintLibraryService.swift */; };
-		BA05AB05CD05EF05 /* RecipeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA05AB05CD05EF05 /* RecipeService.swift */; };
-		BA06AB06CD06EF06 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA06AB06CD06EF06 /* Color+Hex.swift */; };
-		BA07AB07CD07EF07 /* PaintLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA07AB07CD07EF07 /* PaintLibraryView.swift */; };
-		BA08AB08CD08EF08 /* RecipeLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08AB08CD08EF08 /* RecipeLibraryView.swift */; };
-		BA09AB09CD09EF09 /* NewRecipeSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA09AB09CD09EF09 /* NewRecipeSheet.swift */; };
-		BA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift */; };
-		BA0BAB0BCD0BEF0B /* paint_catalogue.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0BAB0BCD0BEF0B /* paint_catalogue.json */; };
-		BC2BC2BC2BC2BC2BC2BC2BC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC1AC1AC1AC1AC1AC1AC1AC1 /* Assets.xcassets */; };
-		BA0CAB0CCD0CEF0C /* RecipePin.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0CAB0CCD0CEF0C /* RecipePin.swift */; };
-		BA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift */; };
-		CB01BB01CC01DD01 /* RecipeServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01BB01CC01DD01 /* RecipeServiceTests.swift */; };
-		CB02BB02CC02DD02 /* PaintLibraryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */; };
-		CB03BB03CC03DD03 /* RecipePinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB03BB03CC03DD03 /* RecipePinTests.swift */; };
-		P3ST01AA11BB22CC /* StageHistoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST01AA11BB22CD /* StageHistoryEntry.swift */; };
-		P3ST02AA11BB22CC /* StageHistoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST02AA11BB22CD /* StageHistoryService.swift */; };
-		P3ST03AA11BB22CC /* VelocityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST03AA11BB22CD /* VelocityService.swift */; };
-		P3ST04AA11BB22CC /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = P3ST04AA11BB22CD /* StatisticsView.swift */; };
+		CF01AB01CD01EF02 /* CreateProjectFromImageSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF01AB01CD01EF01 /* CreateProjectFromImageSheet.swift */; };
 		IL02AB02CD02EF04 /* ImageLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = IL02AB02CD02EF03 /* ImageLibraryView.swift */; };
+		IL01AB01CD01EF01 /* ImageLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IL01AB01CD01EF02 /* ImageLibraryService.swift */; };
+		IS01AB01CD01EF01 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IS01AB01CD01EF02 /* ImageService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +73,7 @@
 		173AC488951BE2F170228FB7 /* Color+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Theme.swift"; sourceTree = "<group>"; };
 		18FA743F2C074CB77FC994F3 /* StageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageService.swift; sourceTree = "<group>"; };
 		192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineServiceTests.swift; sourceTree = "<group>"; };
+		1C19366E65285094A56C8D68 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1D00D27D61A31C645388F527 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
 		21F3585567367FCB2B393822 /* PipelineSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineSettingsView.swift; sourceTree = "<group>"; };
 		2A5270BB2BD5D3F99E83EB61 /* ProgressDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDashboardView.swift; sourceTree = "<group>"; };
@@ -113,15 +92,11 @@
 		85CE997E1BF97510D1F51C2D /* WarmasterStudio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WarmasterStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		878796CF23FF47237129DF59 /* ModelRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelRecord.swift; sourceTree = "<group>"; };
 		8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardUITests.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F6A7B8C9D0E1F2 /* PinFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinFlowUITests.swift; sourceTree = "<group>"; };
 		8FC8A0FEC683B9DD6918B8D6 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		91C23145EA32750962C66F5B /* CollectionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionServiceTests.swift; sourceTree = "<group>"; };
 		9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProjectSheet.swift; sourceTree = "<group>"; };
 		AA94D729AE12863605B56EE1 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectServiceTests.swift; sourceTree = "<group>"; };
-		BC8B9901F03546805992CC59 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
-		IL01AB01CD01EF02 /* ImageLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryService.swift; sourceTree = "<group>"; };
-		LI01AB01CD01EF02 /* LibraryImagePickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryImagePickerSheet.swift; sourceTree = "<group>"; };
 		BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanCard.swift; sourceTree = "<group>"; };
 		C56CFC9B438A0542B97A0885 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionService.swift; sourceTree = "<group>"; };
@@ -130,30 +105,11 @@
 		D3A79133BA1249C6A524D092 /* StageServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageServiceTests.swift; sourceTree = "<group>"; };
 		DBEEA108930CB729B089D651 /* WarmasterStudioUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WarmasterStudioUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE7EB59FF2A149D8BE39D182 /* KanbanBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KanbanBoardView.swift; sourceTree = "<group>"; };
-		MS01AB01CD01EF02 /* ManageStagesSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageStagesSheet.swift; sourceTree = "<group>"; };
 		E1B49AAE86CBC50F0FD1C22B /* EditProjectSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectSheet.swift; sourceTree = "<group>"; };
-		AA01AB01CD01EF01 /* Paint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paint.swift; sourceTree = "<group>"; };
-		AA02AB02CD02EF02 /* PaintRecipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintRecipe.swift; sourceTree = "<group>"; };
-		AA03AB03CD03EF03 /* RecipeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeStep.swift; sourceTree = "<group>"; };
-		AA04AB04CD04EF04 /* PaintLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintLibraryService.swift; sourceTree = "<group>"; };
-		AA05AB05CD05EF05 /* RecipeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeService.swift; sourceTree = "<group>"; };
-		AA06AB06CD06EF06 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
-		AA07AB07CD07EF07 /* PaintLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintLibraryView.swift; sourceTree = "<group>"; };
-		AA08AB08CD08EF08 /* RecipeLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeLibraryView.swift; sourceTree = "<group>"; };
-		AA09AB09CD09EF09 /* NewRecipeSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRecipeSheet.swift; sourceTree = "<group>"; };
-		AA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeStepEditorView.swift; sourceTree = "<group>"; };
-		AA0BAB0BCD0BEF0B /* paint_catalogue.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = paint_catalogue.json; sourceTree = "<group>"; };
-		AC1AC1AC1AC1AC1AC1AC1AC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AA0CAB0CCD0CEF0C /* RecipePin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePin.swift; sourceTree = "<group>"; };
-		AA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxArtPinCanvas.swift; sourceTree = "<group>"; };
-		BB01BB01CC01DD01 /* RecipeServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeServiceTests.swift; sourceTree = "<group>"; };
-		BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintLibraryServiceTests.swift; sourceTree = "<group>"; };
-		BB03BB03CC03DD03 /* RecipePinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePinTests.swift; sourceTree = "<group>"; };
-		P3ST01AA11BB22CD /* StageHistoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageHistoryEntry.swift; sourceTree = "<group>"; };
-		P3ST02AA11BB22CD /* StageHistoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageHistoryService.swift; sourceTree = "<group>"; };
-		P3ST03AA11BB22CD /* VelocityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityService.swift; sourceTree = "<group>"; };
-		P3ST04AA11BB22CD /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		CF01AB01CD01EF01 /* CreateProjectFromImageSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProjectFromImageSheet.swift; sourceTree = "<group>"; };
 		IL02AB02CD02EF03 /* ImageLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryView.swift; sourceTree = "<group>"; };
+		IL01AB01CD01EF02 /* ImageLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLibraryService.swift; sourceTree = "<group>"; };
+		IS01AB01CD01EF02 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -161,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				21F3585567367FCB2B393822 /* PipelineSettingsView.swift */,
+				1C19366E65285094A56C8D68 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -181,7 +138,6 @@
 				BDD3DD3427806DA3DD22F20A /* KanbanCard.swift */,
 				850F60552F04842D6EB883D4 /* KanbanCardView.swift */,
 				6E5B415455544DF9D9CB06FD /* KanbanColumnView.swift */,
-				MS01AB01CD01EF02 /* ManageStagesSheet.swift */,
 			);
 			path = Kanban;
 			sourceTree = "<group>";
@@ -193,7 +149,6 @@
 				4A5AC2BCF49B8F3F17823BBB /* EmptyStateView.swift */,
 				9847808A27C98CAC27FA2350 /* NewProjectSheet.swift */,
 				30DD57A8385A335B74C8F4B8 /* ProjectDetailView.swift */,
-				LI01AB01CD01EF02 /* LibraryImagePickerSheet.swift */,
 			);
 			path = Projects;
 			sourceTree = "<group>";
@@ -212,7 +167,6 @@
 			isa = PBXGroup;
 			children = (
 				173AC488951BE2F170228FB7 /* Color+Theme.swift */,
-				AA06AB06CD06EF06 /* Color+Hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -221,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				8BDF2204F21C670348DBCA08 /* KanbanBoardUITests.swift */,
-				A1B2C3D4E5F6A7B8C9D0E1F2 /* PinFlowUITests.swift */,
 			);
 			name = WarmasterStudioUITests;
 			path = Tests/WarmasterStudioUITests;
@@ -235,7 +188,6 @@
 				C1335C7433F45F86D74F560D /* Models */,
 				F6E78C4C7C6DA025D32ED2EF /* Services */,
 				E71C5C24A5E8BEC761AF962A /* Views */,
-				DD03DD03DD03DD03 /* Resources */,
 			);
 			name = WarmasterStudio;
 			path = Sources/WarmasterStudio;
@@ -259,11 +211,6 @@
 				000A53ADDAC42D66995DA471 /* Pipeline.swift */,
 				AA94D729AE12863605B56EE1 /* Project.swift */,
 				4BA6FB1F1D98587A10958D04 /* Stage.swift */,
-				AA01AB01CD01EF01 /* Paint.swift */,
-				AA02AB02CD02EF02 /* PaintRecipe.swift */,
-				AA03AB03CD03EF03 /* RecipeStep.swift */,
-				AA0CAB0CCD0CEF0C /* RecipePin.swift */,
-				P3ST01AA11BB22CD /* StageHistoryEntry.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -276,12 +223,13 @@
 			path = Collections;
 			sourceTree = "<group>";
 		};
-		P3ST05AA11BB22CD /* Statistics */ = {
+		IL02AB02CD02EF05 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				P3ST04AA11BB22CD /* StatisticsView.swift */,
+				CF01AB01CD01EF01 /* CreateProjectFromImageSheet.swift */,
+				IL02AB02CD02EF03 /* ImageLibraryView.swift */,
 			);
-			path = Statistics;
+			path = Library;
 			sourceTree = "<group>";
 		};
 		E71C5C24A5E8BEC761AF962A /* Views */ = {
@@ -290,14 +238,10 @@
 				04BFAFFF7952B41A24F7AC2B /* AppShell */,
 				CC0C3F617A9C47F9559C434C /* Collections */,
 				09387D49642F3A9F2F63DF84 /* Kanban */,
+				IL02AB02CD02EF05 /* Library */,
 				ED27C4D7D488D29F33748CC6 /* Progress */,
 				288691F7F1C66F12331FD061 /* Projects */,
 				041B9DE2E6385C2A518D54E4 /* Settings */,
-				P3ST05AA11BB22CD /* Statistics */,
-				DD01DD01DD01DD01 /* Paints */,
-				DD02DD02DD02DD02 /* Recipes */,
-				DD04DD04DD04DD04 /* Pins */,
-				IL02AB02CD02EF05 /* Library */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -318,9 +262,6 @@
 				3FC0B2FD9032A37E435F88A2 /* ModelProgressServiceTests.swift */,
 				192A1D0EF6642544A3908B82 /* PipelineServiceTests.swift */,
 				AC57120FAD7DC89C63E2FD02 /* ProjectServiceTests.swift */,
-				BB01BB01CC01DD01 /* RecipeServiceTests.swift */,
-				BB02BB02CC02DD02 /* PaintLibraryServiceTests.swift */,
-				BB03BB03CC03DD03 /* RecipePinTests.swift */,
 				D3A79133BA1249C6A524D092 /* StageServiceTests.swift */,
 			);
 			name = WarmasterStudioTests;
@@ -332,63 +273,16 @@
 			children = (
 				C5A8F1B49D0C98B47AB57F37 /* CollectionService.swift */,
 				48FEC6C4DA0F6C67B659A557 /* Errors.swift */,
-				BC8B9901F03546805992CC59 /* ImageService.swift */,
 				IL01AB01CD01EF02 /* ImageLibraryService.swift */,
+				IS01AB01CD01EF02 /* ImageService.swift */,
 				40FED2327755F51C727F93CD /* LinkGroupService.swift */,
 				5C27706721140C4EB6EA67C4 /* Logging.swift */,
 				5BAFFE932C3DF12E915004CC /* ModelProgressService.swift */,
 				CD9BE6641DAEFBB3393D5274 /* PipelineService.swift */,
 				144A7C0DBA7B5A2C795FB9B1 /* ProjectService.swift */,
 				18FA743F2C074CB77FC994F3 /* StageService.swift */,
-				AA04AB04CD04EF04 /* PaintLibraryService.swift */,
-				AA05AB05CD05EF05 /* RecipeService.swift */,
-				P3ST02AA11BB22CD /* StageHistoryService.swift */,
-				P3ST03AA11BB22CD /* VelocityService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		DD01DD01DD01DD01 /* Paints */ = {
-			isa = PBXGroup;
-			children = (
-				AA07AB07CD07EF07 /* PaintLibraryView.swift */,
-			);
-			path = Paints;
-			sourceTree = "<group>";
-		};
-		DD02DD02DD02DD02 /* Recipes */ = {
-			isa = PBXGroup;
-			children = (
-				AA08AB08CD08EF08 /* RecipeLibraryView.swift */,
-				AA09AB09CD09EF09 /* NewRecipeSheet.swift */,
-				AA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift */,
-			);
-			path = Recipes;
-			sourceTree = "<group>";
-		};
-		DD04DD04DD04DD04 /* Pins */ = {
-			isa = PBXGroup;
-			children = (
-				AA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift */,
-			);
-			path = Pins;
-			sourceTree = "<group>";
-		};
-		IL02AB02CD02EF05 /* Library */ = {
-			isa = PBXGroup;
-			children = (
-				IL02AB02CD02EF03 /* ImageLibraryView.swift */,
-			);
-			path = Library;
-			sourceTree = "<group>";
-		};
-		DD03DD03DD03DD03 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				AA0BAB0BCD0BEF0B /* paint_catalogue.json */,
-				AC1AC1AC1AC1AC1AC1AC1AC1 /* Assets.xcassets */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -434,7 +328,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A5950215F1FCB09564664AE /* Build configuration list for PBXNativeTarget "WarmasterStudio" */;
 			buildPhases = (
-				CCCCCCCCCCCCCCCC /* Resources */,
 				DBBC6BD8AC0F661E1439505A /* Sources */,
 			);
 			buildRules = (
@@ -486,25 +379,12 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		CCCCCCCCCCCCCCCC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BA0BAB0BCD0BEF0B /* paint_catalogue.json in Resources */,
-				BC2BC2BC2BC2BC2BC2BC2BC2 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		0204F1EEA3A619B9FC9806C4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8B48FF80F1849098F70A658C /* KanbanBoardUITests.swift in Sources */,
-				F1A2B3C4D5E6F7A8B9C0D1E2 /* PinFlowUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,9 +397,6 @@
 				4739B12A909903A94A186A4C /* ModelProgressServiceTests.swift in Sources */,
 				23745739DA52EB37FA5921E8 /* PipelineServiceTests.swift in Sources */,
 				B537A66C6EF6FCB65C66BF92 /* ProjectServiceTests.swift in Sources */,
-				CB01BB01CC01DD01 /* RecipeServiceTests.swift in Sources */,
-				CB02BB02CC02DD02 /* PaintLibraryServiceTests.swift in Sources */,
-				CB03BB03CC03DD03 /* RecipePinTests.swift in Sources */,
 				4D5AF80AF1AE6E6665483544 /* StageServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -536,13 +413,10 @@
 				461149116ADC82D3F4DCAB22 /* EditProjectSheet.swift in Sources */,
 				8B54621BE70CB73DDBC9105F /* EmptyStateView.swift in Sources */,
 				F1BCB3BC29874E8B11A74A78 /* Errors.swift in Sources */,
-				F98CC49E12C4C4AA99C3C788 /* ImageService.swift in Sources */,
-				IL01AB01CD01EF01 /* ImageLibraryService.swift in Sources */,
 				AC6943E67567EF069028B860 /* KanbanBoardView.swift in Sources */,
 				AB167293FE8F635C87D21A1A /* KanbanCard.swift in Sources */,
 				C68F37457C10ECD0F0634FAE /* KanbanCardView.swift in Sources */,
 				832920E6B0D9C996A14A75F0 /* KanbanColumnView.swift in Sources */,
-				MS01AB01CD01EF01 /* ManageStagesSheet.swift in Sources */,
 				A163402862E389A11D3A9E94 /* LinkGroupService.swift in Sources */,
 				8E269AEA9412AED43468276A /* Logging.swift in Sources */,
 				C2BF6F8C5CC733B9F5DEC69D /* ModelProgressService.swift in Sources */,
@@ -554,28 +428,15 @@
 				6590FDFB8DE0EC0A9DD80A67 /* ProgressDashboardView.swift in Sources */,
 				3CE0DE8D4632614D791FC4C9 /* Project.swift in Sources */,
 				2C901A8263A915C4B46330A4 /* ProjectDetailView.swift in Sources */,
-				LI01AB01CD01EF01 /* LibraryImagePickerSheet.swift in Sources */,
+				CF01AB01CD01EF02 /* CreateProjectFromImageSheet.swift in Sources */,
+				IL01AB01CD01EF01 /* ImageLibraryService.swift in Sources */,
+				IL02AB02CD02EF04 /* ImageLibraryView.swift in Sources */,
+				IS01AB01CD01EF01 /* ImageService.swift in Sources */,
 				F220B79081789AEE782EB910 /* ProjectService.swift in Sources */,
+				A62675B34F4392F76EAA79A7 /* SettingsView.swift in Sources */,
 				CBEC28FDC01281E92491E437 /* SidebarView.swift in Sources */,
 				755EEAF2901B2284DCEF087D /* Stage.swift in Sources */,
 				8C616FFEF783155E36D41AEA /* StageService.swift in Sources */,
-				BA01AB01CD01EF01 /* Paint.swift in Sources */,
-				BA02AB02CD02EF02 /* PaintRecipe.swift in Sources */,
-				BA03AB03CD03EF03 /* RecipeStep.swift in Sources */,
-				BA04AB04CD04EF04 /* PaintLibraryService.swift in Sources */,
-				BA05AB05CD05EF05 /* RecipeService.swift in Sources */,
-				BA06AB06CD06EF06 /* Color+Hex.swift in Sources */,
-				BA07AB07CD07EF07 /* PaintLibraryView.swift in Sources */,
-				BA08AB08CD08EF08 /* RecipeLibraryView.swift in Sources */,
-				BA09AB09CD09EF09 /* NewRecipeSheet.swift in Sources */,
-				BA0AAB0ACD0AEF0A /* RecipeStepEditorView.swift in Sources */,
-				BA0CAB0CCD0CEF0C /* RecipePin.swift in Sources */,
-				BA0DAB0DCD0DEF0D /* BoxArtPinCanvas.swift in Sources */,
-				P3ST01AA11BB22CC /* StageHistoryEntry.swift in Sources */,
-				P3ST02AA11BB22CC /* StageHistoryService.swift in Sources */,
-				P3ST03AA11BB22CC /* VelocityService.swift in Sources */,
-				P3ST04AA11BB22CC /* StatisticsView.swift in Sources */,
-				IL02AB02CD02EF04 /* ImageLibraryView.swift in Sources */,
 				A5E1D28890CC37F738BD71A4 /* WarmasterStudioApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

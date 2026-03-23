@@ -29,6 +29,7 @@ struct ImageLibraryView: View {
     @State private var errorMessage: String? = nil
     @State private var columnCount: Int = 6          // adapts to window width
     @State private var lightboxImage: LibraryImage? = nil
+    @State private var createProjectImage: LibraryImage? = nil
 
     // MARK: Computed
 
@@ -145,6 +146,9 @@ struct ImageLibraryView: View {
                 .animation(.easeInOut(duration: 0.2), value: lightboxImage?.id)
             }
         }
+        .sheet(item: $createProjectImage) { image in
+            CreateProjectFromImageSheet(image: image)
+        }
     }
 
     // MARK: - System strip
@@ -249,6 +253,7 @@ struct ImageLibraryView: View {
                 ForEach(gridImages) { image in
                     LibraryManageCell(image: image, cellWidth: cellW,
                                       onOpen: { lightboxImage = image },
+                                      onCreateProject: { createProjectImage = image },
                                       onDelete: { deleteImage(image) })
                 }
             }
@@ -452,6 +457,7 @@ private struct LibraryManageCell: View {
     let image: LibraryImage
     let cellWidth: CGFloat
     let onOpen: () -> Void
+    let onCreateProject: () -> Void
     let onDelete: () -> Void
 
     @State private var nsImage: NSImage? = nil
@@ -462,7 +468,7 @@ private struct LibraryManageCell: View {
 
     var body: some View {
         VStack(spacing: 6) {
-            ZStack(alignment: .topTrailing) {
+            ZStack(alignment: .top) {
                 // Thumbnail — tap to open lightbox
                 Button(action: onOpen) {
                     Group {
@@ -488,15 +494,31 @@ private struct LibraryManageCell: View {
                 .scaleEffect(isHovered ? 1.02 : 1.0)
                 .help("Click to view full size")
 
-                // Delete button on hover
+                // Action buttons on hover
                 if isHovered {
-                    Button(role: .destructive) { showDeleteConfirm = true } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .symbolRenderingMode(.multicolor)
-                            .font(.system(size: 20))
-                            .shadow(radius: 2)
+                    HStack(spacing: 4) {
+                        // Create project button (top-left)
+                        Button(action: onCreateProject) {
+                            Image(systemName: "plus.circle.fill")
+                                .symbolRenderingMode(.multicolor)
+                                .font(.system(size: 20))
+                                .shadow(radius: 2)
+                        }
+                        .buttonStyle(.plain)
+                        .help("Create Project from Image")
+
+                        Spacer()
+
+                        // Delete button (top-right)
+                        Button(role: .destructive) { showDeleteConfirm = true } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .symbolRenderingMode(.multicolor)
+                                .font(.system(size: 20))
+                                .shadow(radius: 2)
+                        }
+                        .buttonStyle(.plain)
+                        .help("Delete from Library")
                     }
-                    .buttonStyle(.plain)
                     .padding(5)
                     .transition(.opacity.combined(with: .scale))
                 }
