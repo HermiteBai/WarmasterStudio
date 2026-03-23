@@ -44,7 +44,27 @@ struct ContentView: View {
             } catch {
                 print("Failed to seed paint catalogue: \(error)")
             }
+            // Purge history entries orphaned by previously deleted projects.
+            purgeOrphanedHistoryEntries()
         }
+    }
+}
+
+// MARK: - Helpers
+
+extension ContentView {
+    /// Removes StageHistoryEntry rows whose projectId no longer corresponds to
+    /// any existing Project. These are left behind when projects are deleted
+    /// without the cascade fix (pre-1.1 data).
+    private func purgeOrphanedHistoryEntries() {
+        guard let existingIds = try? modelContext.fetch(FetchDescriptor<Project>()).map(\.id) else { return }
+        let liveIds = Set(existingIds)
+        guard let allEntries = try? modelContext.fetch(FetchDescriptor<StageHistoryEntry>()) else { return }
+        let orphans = allEntries.filter { !liveIds.contains($0.projectId) }
+        guard !orphans.isEmpty else { return }
+        orphans.forEach { modelContext.delete($0) }
+        try? modelContext.save()
+        print("Purged \(orphans.count) orphaned StageHistoryEntry record(s).")
     }
 }
 
