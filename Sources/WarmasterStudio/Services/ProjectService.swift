@@ -53,9 +53,21 @@ struct ProjectService {
         Logger.project.info("Updated project '\(name)'.")
     }
 
-    /// Deletes a project and all its ModelRecords (cascade).
+    /// Deletes a project, its ModelRecords, and all associated StageHistoryEntries.
     static func deleteProject(_ project: Project, context: ModelContext) throws {
+        let projectId = project.id
         Logger.project.info("Deleting project '\(project.name)' with \(project.modelRecords.count) model record(s).")
+
+        // Delete orphaned history entries — StageHistoryEntry uses a denormalised
+        // projectId so there is no cascade relationship; we must clean them up manually.
+        let descriptor = FetchDescriptor<StageHistoryEntry>(
+            predicate: #Predicate { $0.projectId == projectId }
+        )
+        if let entries = try? context.fetch(descriptor) {
+            entries.forEach { context.delete($0) }
+            Logger.project.info("Deleted \(entries.count) history entry/entries for project '\(project.name)'.")
+        }
+
         context.delete(project)
         try context.save()
     }
