@@ -42,7 +42,7 @@ struct KanbanBoardView: View {
                 }
                 .keyboardShortcut("n", modifiers: .command)
             }
-            ToolbarItem(placement: .secondaryAction) {
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     showManageStages = true
                 } label: {
