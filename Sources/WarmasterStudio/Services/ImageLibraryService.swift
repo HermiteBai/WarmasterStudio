@@ -17,13 +17,24 @@ struct ImageLibraryService {
     // MARK: - Library path
 
     static let libraryPathKey = "imageLibraryPath"
-    static let defaultLibraryPath = "~/Projects/WarmasterStudio/Resources/warhammer_images"
+
+    /// The default library location inside Application Support — travels with user data.
+    static var defaultLibraryURL: URL {
+        let appSupport = FileManager.default
+            .urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        return appSupport
+            .appendingPathComponent("com.warmasterstudio.app", isDirectory: true)
+            .appendingPathComponent("ImageLibrary", isDirectory: true)
+    }
 
     /// The resolved URL of the image library root directory.
+    /// Uses an override from UserDefaults when set, otherwise the Application Support default.
     static var libraryURL: URL {
-        let raw = UserDefaults.standard.string(forKey: libraryPathKey) ?? defaultLibraryPath
-        let expanded = (raw as NSString).expandingTildeInPath
-        return URL(fileURLWithPath: expanded)
+        if let custom = UserDefaults.standard.string(forKey: libraryPathKey), !custom.isEmpty {
+            let expanded = (custom as NSString).expandingTildeInPath
+            return URL(fileURLWithPath: expanded)
+        }
+        return defaultLibraryURL
     }
 
     static var libraryExists: Bool {
