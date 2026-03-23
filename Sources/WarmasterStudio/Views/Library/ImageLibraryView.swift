@@ -34,10 +34,16 @@ struct ImageLibraryView: View {
 
     // MARK: Computed
 
-    private var gameSystems: [String] { ImageLibraryService.gameSystems(in: allImages) }
+    private var gameSystems: [String] {
+        let fromImages  = ImageLibraryService.gameSystems(in: allImages)
+        let fromFolders = ImageLibraryService.gameSystemFolders()
+        return Array(Set(fromImages + fromFolders)).sorted()
+    }
 
     private var availableFactions: [String] {
-        ImageLibraryService.factions(in: allImages, system: selectedSystem)
+        let fromImages  = ImageLibraryService.factions(in: allImages, system: selectedSystem)
+        let fromFolders = selectedSystem.map { ImageLibraryService.factionFolders(inSystem: $0) } ?? []
+        return Array(Set(fromImages + fromFolders)).sorted()
     }
 
     private var gridImages: [LibraryImage] {
@@ -508,11 +514,15 @@ private struct LibraryManageCell: View {
     let onMove: (String, String) -> Void
     let onDelete: () -> Void
 
-    // Grouped factions for the "Move to" context menu
+    // Grouped factions for the "Move to" context menu — includes empty folders
     private var systemsWithFactions: [(system: String, factions: [String])] {
-        let systems = Array(Set(allImages.map(\.gameSystem))).sorted()
+        let fromImages  = Set(allImages.map(\.gameSystem))
+        let fromFolders = Set(ImageLibraryService.gameSystemFolders())
+        let systems = Array(fromImages.union(fromFolders)).sorted()
         return systems.map { sys in
-            let factions = Array(Set(allImages.filter { $0.gameSystem == sys }.map(\.faction))).sorted()
+            let imageFs  = Set(allImages.filter { $0.gameSystem == sys }.map(\.faction))
+            let folderFs = Set(ImageLibraryService.factionFolders(inSystem: sys))
+            let factions = Array(imageFs.union(folderFs)).sorted()
             return (system: sys, factions: factions)
         }
     }

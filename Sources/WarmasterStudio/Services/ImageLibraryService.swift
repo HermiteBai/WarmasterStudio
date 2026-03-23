@@ -107,4 +107,27 @@ struct ImageLibraryService {
         let filtered = system.map { s in images.filter { $0.gameSystem == s } } ?? images
         return Array(Set(filtered.map(\.faction))).sorted()
     }
+
+    // MARK: - Folder-level scanners (includes empty directories)
+
+    /// All game-system folders that exist on disk, including empty ones.
+    static func gameSystemFolders() -> [String] {
+        guard let urls = try? FileManager.default.contentsOfDirectory(
+            at: libraryURL,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        ) else { return [] }
+        return urls.filter { isDirectory($0) }.map(\.lastPathComponent).sorted()
+    }
+
+    /// All faction folders under a game system that exist on disk, including empty ones.
+    static func factionFolders(inSystem system: String) -> [String] {
+        let systemURL = libraryURL.appendingPathComponent(system, isDirectory: true)
+        guard let urls = try? FileManager.default.contentsOfDirectory(
+            at: systemURL,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        ) else { return [] }
+        return urls.filter { isDirectory($0) }.map(\.lastPathComponent).sorted()
+    }
 }
