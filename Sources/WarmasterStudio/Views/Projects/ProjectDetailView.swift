@@ -18,6 +18,7 @@ struct ProjectDetailView: View {
     @State private var showLinkSheet = false
     @State private var showImagePicker = false
     @State private var showLibraryPicker = false
+    @State private var showBoxArtLightbox = false
     @State private var imageErrorMessage: String? = nil
     @State private var expandedRecipes: Set<UUID> = []
 
@@ -74,6 +75,13 @@ struct ProjectDetailView: View {
         .sheet(isPresented: $showLibraryPicker) {
             LibraryImagePickerSheet { relativePath in
                 applyNewBoxArt(relativePath: relativePath)
+            }
+        }
+        .sheet(isPresented: $showBoxArtLightbox) {
+            if let path = resolvedBoxArtPath,
+               let url = ImageService.resolveImageURL(relativePath: path),
+               let nsImage = NSImage(contentsOf: url) {
+                BoxArtLightboxView(image: nsImage, title: project.name)
             }
         }
         .fileImporter(
@@ -355,6 +363,13 @@ extension ProjectDetailView {
                     BoxArtPinCanvas(image: nsImage, projectId: project.id)
                 }
                 HStack(spacing: 12) {
+                    Button {
+                        showBoxArtLightbox = true
+                    } label: {
+                        Label("View Full Size", systemImage: "arrow.up.left.and.arrow.down.right")
+                    }
+                    .buttonStyle(.borderless)
+
                     Menu("Change Image") {
                         Button {
                             showLibraryPicker = true
@@ -479,5 +494,134 @@ struct LinkProjectSheet: View {
             }
         }
         .frame(minWidth: 340, minHeight: 400)
+    }
+}
+
+// MARK: - Box Art Full-Size Lightbox
+
+private struct BoxArtLightboxView: View {
+    let image: NSImage
+    let title: String
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var zoomScale: CGFloat = 1.0
+    @State private var offset: CGSize = .zero
+    @State private var lastOffset: CGSize = .zero
+    @State private var gestureBaseZoom: CGFloat = 1.0
+
+    private let minZoom: CGFloat = 0.5
+    private let maxZoom: CGFloat = 5.0
+
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+
+            // Image with pan + zoom
+            GeometryReader { geo in
+                Image(nsImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .scaleEffect(zoomScale)
+                    .offset(offset)
+                    .gesture(
+                        MagnificationGesture()
+                            .onChanged { v in
+                                zoomScale = (gestureBaseZoom * v).clamped(to: minZoom...maxZoom)
+                            }
+                            .onEnded { _ in gestureBaseZoom = zoomScale }
+                    )
+                    .simultaneousGesture(
+                        DragGesture()
+                            .onChanged { v in
+                                guard zoomScale > 1 else { return }
+                                offset = CGSize(
+                                    width: lastOffset.width + v.translation.width,
+                                    height: lastOffset.height + v.translation.height
+                                )
+                            }
+                            .onEnded { _ in lastOffset = offset }
+                    )
+                    .onTapGesture(count: 2) { resetZoom() }
+            }
+
+            // Top bar
+            VStack {
+                HStack {
+                    Text(title)
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                    Spacer()
+                    Button { dismiss() } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title2)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundStyle(.white)
+                    }
+                    .buttonStyle(.plain)
+                    .keyboardShortcut(.escape, modifiers: [])
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(.ultraThinMaterial.opacity(0.6))
+                Spacer()
+            }
+
+            // Bottom zoom controls
+            VStack {
+                Spacer()
+                HStack(spacing: 16) {
+                    Button { adjustZoom(-0.25) } label: {
+                        Image(systemName: "minus.magnifyingglass")
+                    }
+                    .disabled(zoomScale <= minZoom)
+
+                    Text("\(Int(zoomScale * 100))%")
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(.white)
+                        .frame(minWidth: 48)
+
+                    Button { adjustZoom(0.25) } label: {
+                        Image(systemName: "plus.magnifyingglass")
+                    }
+                    .disabled(zoomScale >= maxZoom)
+
+                    Divider().frame(height: 18).background(.white.opacity(0.3))
+
+                    Button { resetZoom() } label: {
+                        Image(systemName: "arrow.counterclockwise")
+                    }
+                    .disabled(zoomScale == 1 && offset == .zero)
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(.ultraThinMaterial.opacity(0.6))
+                .clipShape(Capsule())
+                .padding(.bottom, 20)
+            }
+        }
+        .frame(minWidth: 600, minHeight: 500)
+    }
+
+    private func adjustZoom(_ delta: CGFloat) {
+        zoomScale = (zoomScale + delta).clamped(to: minZoom...maxZoom)
+        gestureBaseZoom = zoomScale
+    }
+
+    private func resetZoom() {
+        withAnimation(.spring(duration: 0.3)) {
+            zoomScale = 1.0
+            offset = .zero
+            lastOffset = .zero
+            gestureBaseZoom = 1.0
+        }
+    }
+}
+
+private extension Comparable {
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        min(max(self, range.lowerBound), range.upperBound)
     }
 }
