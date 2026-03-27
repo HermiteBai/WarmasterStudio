@@ -1,9 +1,9 @@
 # Warmaster Studio — Product Requirements Document
 
-**Version:** 1.3
+**Version:** 1.4
 **Date:** March 2026
 **Platform:** macOS (native SwiftUI)
-**Status:** Pre-development reference
+**Status:** Active development
 
 ---
 
@@ -15,6 +15,8 @@
 4. [Interaction Design](#4-interaction-design)
 5. [Tech Stack](#5-tech-stack)
 6. [Roadmap & Phasing](#6-roadmap--phasing)
+
+> **v1.4 changes:** Added §3.8 Image Library (browse, lightbox, move-to-faction, create-project-from-image). Pipeline configuration moved from Settings window to Kanban toolbar (§3.1). Image Library storage documented in §5.4. Navigation updated in §4.1.
 
 ---
 
@@ -262,9 +264,9 @@ User paint entries are fully editable and deletable at all times.
 
 ### 3.1 Pipeline Configuration
 
-**Location:** Settings panel (accessible from the toolbar or ⌘,)
+**Location:** Kanban board toolbar — "Manage Stages" button (list.bullet.indent icon). The Settings window (⌘,) has been removed; pipeline configuration is accessed directly from the board.
 
-Users can configure the global pipeline from Settings:
+Users can configure the global pipeline from the Manage Stages sheet:
 
 - **Add a stage** — appended at the end by default; user can reorder immediately.
 - **Rename a stage** — inline edit on the stage name.
@@ -427,9 +429,55 @@ The Paint Library is a unified, searchable database of miniature paints backed b
 
 ### 3.7 Collection Management
 
-- Collections are managed from a dedicated sidebar section or Settings.
+- Collections are managed from a dedicated sidebar section.
 - Users can: create, rename, and delete collections.
 - Deleting a collection does **not** delete its projects; it unlinks them (`collectionId` set to `nil`).
+
+---
+
+### 3.8 Image Library
+
+The Image Library is a built-in browser for Games Workshop product images, stored locally in Application Support. It is accessible from the sidebar and is distinct from project-level box art.
+
+#### 3.8.1 Image Storage
+
+- Images are stored in `~/Library/Application Support/com.warmasterstudio.app/ImageLibrary/`.
+- The folder structure is `{Game System}/{Faction}/{filename.jpg}`.
+- The library root is never bundled in the app binary — it is populated by the user (or an onboarding download flow) and persists across app reinstalls.
+- Reinstalling the app does **not** wipe image data; Application Support is independent of the app bundle.
+
+#### 3.8.2 Browsing
+
+- The sidebar lists all game systems found in the library root.
+- Selecting a game system shows a faction filter strip at the top and an image grid below.
+- **Faction filter strip:** Horizontal chip group using a wrap layout (multiple rows) so all factions are visible regardless of window width. An "All" chip is always first.
+- The image grid shows all images for the selected system (filtered by active faction chip).
+- Each image cell shows the image thumbnail and its filename as the label.
+
+#### 3.8.3 Lightbox Viewer
+
+- Clicking any image thumbnail opens a full-size lightbox overlay.
+- The lightbox dims the background with a semi-transparent overlay.
+- Clicking the dimmed background dismisses the lightbox.
+- The lightbox supports previous/next navigation across all images in the current filtered view.
+
+#### 3.8.4 Move to Faction
+
+- Right-clicking an image thumbnail shows a context menu with a **"Move to Faction"** submenu.
+- The submenu lists all factions within the same game system.
+- Selecting a faction moves the image file to the corresponding folder on disk and refreshes the grid immediately.
+- This is the primary mechanism for correcting miscategorised images.
+
+#### 3.8.5 Create Project from Image
+
+- Each image thumbnail has a **"+"** hover button (top-left corner).
+- Tapping it opens a **Create Project from Image** sheet pre-filled with:
+  - **Name:** derived from the image filename (extension stripped).
+  - **Collection:** the image's faction name. If a collection with that name already exists it is pre-selected; if not, a new collection is created on submit.
+  - **Box art:** the selected image is automatically imported as the project's box art.
+  - **Model count:** editable via a `TextField + Stepper` combo (minimum 1).
+- The sheet allows the user to adjust any field before creating.
+- On creation, the image is imported via `ImageService` into the `BoxArt/` sandbox directory and attached to the new project.
 
 ---
 
@@ -440,13 +488,17 @@ The Paint Library is a unified, searchable database of miniature paints backed b
 ```
 Warmaster Studio
 ├── Kanban Board (Home — default view)
+│   └── Toolbar: "Manage Stages" → ManageStagesSheet (pipeline config)
 ├── Progress Dashboard
 ├── Collections (sidebar list for filtering)
+├── Image Library (sidebar section)
+│   ├── Game System selector
+│   ├── Faction chip filter (wrap layout)
+│   ├── Image grid with lightbox
+│   ├── Move to Faction (context menu)
+│   └── Create Project from Image (hover button → sheet)
 ├── Recipe Library (Phase 2)
-├── Paint Library (Phase 2)
-└── Settings
-    ├── Pipeline Configuration
-    └── General (appearance, etc.)
+└── Paint Library (Phase 2)
 ```
 
 The app uses a standard macOS three-panel layout where appropriate:
@@ -522,11 +574,21 @@ Key modelling notes:
 
 ### 5.4 Image Handling
 
-- Box art images are stored as files in the app's sandboxed Application Support directory.
-- On attachment, the source image is copied into a dedicated `BoxArt/` subdirectory within the sandbox; the original is not modified.
+**Box art (project-level):**
+- Stored as files in `~/Library/Application Support/com.warmasterstudio.app/BoxArt/`.
+- On attachment, the source image is copied into `BoxArt/`; the original is not modified.
 - `Project.boxArtImagePath` stores the relative path from the sandbox root to the copied file.
-- Images are loaded on demand using `NSImage(contentsOfFile:)` / SwiftUI `AsyncImage` or equivalent; they are not held in memory permanently.
-- Images are displayed using SwiftUI `Image` with `.resizable()` and `.aspectRatio(contentMode: .fit)`.
+- Full-size lightbox is available from the project detail view (overlay-based, not a separate window).
+
+**Image Library:**
+- Stored in `~/Library/Application Support/com.warmasterstudio.app/ImageLibrary/{System}/{Faction}/`.
+- Scanned at runtime by `ImageLibraryService` which walks the directory tree two levels deep (system → faction → files).
+- Images are never bundled in the app binary; the library folder persists independently of the app.
+- Moving an image to a different faction renames/moves the file on disk; no database entry is maintained — the folder structure *is* the index.
+
+**General:**
+- Images are loaded on demand using `NSImage(contentsOfFile:)` and are not held in memory permanently.
+- Displayed using SwiftUI `Image` with `.resizable()` and `.aspectRatio(contentMode: .fit)`.
 
 ### 5.5 No Third-Party Dependencies (MVP)
 
@@ -565,22 +627,29 @@ The MVP should have zero third-party dependencies. All functionality is achievab
 - Box art images and recipe pins
 - Paint recipe library
 - Paint library (catalogue and My Paints)
+- Image Library
 - CloudKit sync
 - iOS app
 
 ---
 
-### Phase 2 — Recipes & Enrichment
+### Phase 2 — Recipes, Enrichment & Image Library
 
-**Goal:** Add paint recipe documentation and richer project detail.
+**Goal:** Add paint recipe documentation, richer project detail, and the Image Library.
 
 **In scope:**
 
 - Box art image attachment per project (stored as local file; path in SwiftData)
+- Full-size lightbox viewer for box art in project detail
 - Recipe pin placement on box art image with popover UI
 - Paint recipe library (create, edit, reuse recipes)
 - Paint library: pre-seeded catalogue + My Paints (searchable autocomplete for recipe steps)
 - Richer progress dashboard (charts, percentage breakdowns)
+- **Image Library** — browse GW product images by game system and faction
+  - Faction chip filter with wrap layout (multiple rows for narrow windows)
+  - Lightbox viewer with previous/next navigation
+  - Move to Faction via right-click context menu
+  - Create Project from Image (auto-fills name, collection, box art)
 
 ---
 
@@ -610,12 +679,14 @@ The MVP should have zero third-party dependencies. All functionality is achievab
 | **PaintRecipe** | An ordered list of paint steps for a named surface area |
 | **RecipePin** | A pin placed on a box art image linking a surface area label to a PaintRecipe |
 | **Paint** | An entry in the paint database — either from the seeded catalogue or from My Paints |
+| **Image Library** | A local folder of Games Workshop product images organised by game system and faction, stored in Application Support |
+| **Move to Faction** | Recategorising a library image by moving its file to a different faction subfolder on disk |
 
 ---
 
 ## Appendix B — Open Questions
 
-All design questions have been resolved as of v1.3. No open questions remain.
+All design questions have been resolved as of v1.4. No open questions remain.
 
 | # | Question | Resolution | Version |
 |---|---|---|---|
@@ -626,3 +697,6 @@ All design questions have been resolved as of v1.3. No open questions remain.
 | 5 | Recipe pin UI | Popover anchored to pin, showing ordered paint steps with swatch, name, brand, type, and technique | v1.3 |
 | 6 | Battlescribe import | Removed from roadmap — out of scope | v1.3 |
 | 7 | Pre-seeded paint library — read-only vs. editable | Seeded catalogue is read-only; "My Paints" is a separate fully editable section | v1.2 |
+| 8 | Pipeline config location | Moved from Settings window (removed) to Manage Stages sheet in Kanban toolbar | v1.4 |
+| 9 | Image Library storage — bundled vs. Application Support | Images stored in Application Support; not bundled in app binary. Persists across reinstalls. | v1.4 |
+| 10 | Image Library index — database vs. filesystem | Filesystem is the index. Folder structure (System/Faction/file) is authoritative; no SwiftData model needed. | v1.4 |

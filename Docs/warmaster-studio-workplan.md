@@ -1,6 +1,6 @@
-# Warmaster Studio — Development Work Plan (v1.0)
+# Warmaster Studio — Development Work Plan (v1.1)
 
-> Based on Product Requirements Document v1.3
+> Based on Product Requirements Document v1.4
 > Platform: macOS 14 Sonoma+, SwiftUI, SwiftData, zero third-party dependencies
 
 ---
@@ -33,6 +33,7 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 | PIN | Feature: Recipe Pins |
 | REC | Feature: Paint Recipes |
 | PLT | Feature: Paint Library |
+| LIB | Feature: Image Library |
 | TEST | Testing |
 | POL | Polish |
 
@@ -119,7 +120,15 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 | P2-POL-01 | Empty states for Recipe library and Paint library | Polish | 1 | Done |
 | P2-POL-02 | Accessibility labels for image canvas, pins, and swatches | Polish | 2 | Done |
 
-**Phase 2 total: 27 tasks, ~57 estimated hours**
+| P2-LIB-01 | `ImageLibraryService` — scan Application Support folder, emit `LibraryImage` list | Feature: Image Library | 2 | Done |
+| P2-LIB-02 | Image Library sidebar entry and game system selector | Feature: Image Library | 1 | Done |
+| P2-LIB-03 | Faction chip filter strip with `WrapLayout` (multi-row, narrow-window safe) | Feature: Image Library | 2 | Done |
+| P2-LIB-04 | Image grid view with `LazyVGrid` thumbnails | Feature: Image Library | 2 | Done |
+| P2-LIB-05 | Lightbox overlay viewer with prev/next navigation (click-outside to dismiss) | Feature: Image Library | 2 | Done |
+| P2-LIB-06 | Move to Faction — right-click context menu, file move, grid refresh | Feature: Image Library | 2 | Done |
+| P2-LIB-07 | Create Project from Image sheet (auto-fill name, collection, box art; editable model count) | Feature: Image Library | 3 | Done |
+
+**Phase 2 total: 34 tasks, ~71 estimated hours**
 
 ---
 
@@ -161,7 +170,7 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 
 ---
 
-**Grand total: 79 tasks, ~162 estimated hours**
+**Grand total: 86 tasks, ~176 estimated hours**
 
 ---
 
@@ -719,7 +728,7 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 
 ---
 
-### Phase 2 — Box Art, Recipes & Paint Library
+### Phase 2 — Box Art, Recipes, Paint Library & Image Library
 
 ---
 
@@ -1119,6 +1128,105 @@ For example, `P1-DM-03` is Phase 1, Data Model, task 03.
 **Dependencies:** P2-PIN-03, P2-PLT-05
 
 **Estimated hours:** 2
+
+---
+
+#### Feature: Image Library
+
+---
+
+##### P2-LIB-01 · `ImageLibraryService` — Folder Scanner
+
+**Description:** Implement `ImageLibraryService` as a non-SwiftData service that scans `~/Library/Application Support/com.warmasterstudio.app/ImageLibrary/` at runtime. Walk two levels deep: `{System}/{Faction}/{file}`. Emit an array of `LibraryImage` structs (id: UUID, name: String derived from filename, system: String, faction: String, url: URL). Expose a `scanLibrary() -> [LibraryImage]` method called on view appear. No database; the filesystem is the index. Support image extensions: jpg, jpeg, png, webp, heic.
+
+**Key files/types to create or modify:**
+- `Services/ImageLibraryService.swift`
+- `Models/LibraryImage.swift` (value type)
+
+**Dependencies:** P2-IMG-01
+
+**Estimated hours:** 2
+
+---
+
+##### P2-LIB-02 · Image Library Sidebar Entry and Game System Selector
+
+**Description:** Add an "Image Library" entry to the sidebar (`SidebarItem` enum). The `ImageLibraryView` root shows a top-level picker or segmented control for game systems derived from the scanned library. Selecting a system filters the displayed content. Systems are sorted alphabetically. If the ImageLibrary folder does not exist or is empty, show a clear empty state: "No images found. Add images to ~/Library/Application Support/com.warmasterstudio.app/ImageLibrary/."
+
+**Key files/types to create or modify:**
+- `Views/Library/ImageLibraryView.swift`
+- `Views/AppShell/ContentView.swift` (sidebar entry)
+
+**Dependencies:** P2-LIB-01, P1-AS-03
+
+**Estimated hours:** 1
+
+---
+
+##### P2-LIB-03 · Faction Chip Filter Strip with `WrapLayout`
+
+**Description:** Build the faction filter strip at the top of `ImageLibraryView`. Display faction chips using a custom `WrapLayout: Layout` conformance so chips reflow into multiple rows on narrow windows — do not use `ScrollView` + `HStack` (which clips chips) or `GeometryReader` (which breaks intrinsic height). An "All" chip is always first. Selecting a chip filters the grid; selecting "All" clears the filter. The strip has a fixed background colour and sits above the image grid without overlapping it.
+
+**Key files/types to create or modify:**
+- `Views/Library/ImageLibraryView.swift` (WrapLayout + factionStrip)
+
+**Dependencies:** P2-LIB-02
+
+**Estimated hours:** 2
+
+---
+
+##### P2-LIB-04 · Image Grid with `LazyVGrid` Thumbnails
+
+**Description:** Implement the image grid inside `ImageLibraryView` using `LazyVGrid` with adaptive columns (minimum 160pt). Each cell shows the image thumbnail (loaded on demand with `NSImage`) and the filename label below. Cells respond to hover (dim overlay) to reveal action buttons. The grid is filtered by the active faction chip. Images are sorted by filename within each faction.
+
+**Key files/types to create or modify:**
+- `Views/Library/ImageLibraryView.swift` (grid + `LibraryManageCell`)
+
+**Dependencies:** P2-LIB-03
+
+**Estimated hours:** 2
+
+---
+
+##### P2-LIB-05 · Lightbox Overlay Viewer with Prev/Next Navigation
+
+**Description:** Tapping any grid cell opens a full-size lightbox. Implement as an `.overlay` on `ImageLibraryView` body (not `.sheet`) so the dimmed backdrop is tappable to dismiss — macOS sheets are modal windows that cannot be clicked outside. The overlay contains: a semi-transparent black backdrop (tappable to dismiss), the image fitted to a max of 960×720, and prev/next buttons to navigate within the current filtered image list. The overlay uses `.transition(.opacity)` with a 0.2s animation.
+
+**Key files/types to create or modify:**
+- `Views/Library/ImageLibraryView.swift` (overlay + `ImageLightboxView`)
+
+**Dependencies:** P2-LIB-04
+
+**Estimated hours:** 2
+
+---
+
+##### P2-LIB-06 · Move to Faction — Context Menu, File Move, Grid Refresh
+
+**Description:** Add a right-click context menu to each image cell with a "Move to Faction" submenu. The submenu lists all factions in the same game system (excluding the current faction). Selecting a faction moves the file on disk using `FileManager.moveItem(at:to:)`, creating the target faction folder if needed. After a successful move, rescan the library and refresh the grid. Show an alert on move failure (e.g. name collision).
+
+**Key files/types to create or modify:**
+- `Views/Library/ImageLibraryView.swift` (context menu)
+- `Services/ImageLibraryService.swift` (moveImage helper)
+
+**Dependencies:** P2-LIB-04
+
+**Estimated hours:** 2
+
+---
+
+##### P2-LIB-07 · Create Project from Image Sheet
+
+**Description:** Each image cell has a "+" hover button (top-left, revealed on hover). Tapping it opens `CreateProjectFromImageSheet` pre-filled with: name from filename (extension stripped), collection from faction name (auto-create if absent), model count = 1 (editable via `TextField + Stepper`), box art = the selected image (imported via `ImageService`). On submit, create the project, import box art, dismiss the sheet. Validate name is non-empty and model count ≥ 1.
+
+**Key files/types to create or modify:**
+- `Views/Library/CreateProjectFromImageSheet.swift`
+- `Services/ImageService.swift` (image import)
+
+**Dependencies:** P2-LIB-04, P2-IMG-02, P1-PRJ-01
+
+**Estimated hours:** 3
 
 ---
 
